@@ -4,26 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PlayerExchange.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PlayerExchange.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="main" />
-      </map>
-    </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="21IM7qyypehEvxaoSLo43oCNK25" />
   <component name="ProjectViewState">
@@ -31,12 +16,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -62,15 +45,43 @@
     </task>
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="WindowStateProjectService">
+    <state x="533" y="151" key="#com.intellij.ide.util.MemberChooser" timestamp="1637630247779">
+      <screen x="0" y="25" width="1440" height="814" />
+    </state>
+    <state x="533" y="151" key="#com.intellij.ide.util.MemberChooser/0.25.1440.814@0.25.1440.814" timestamp="1637630247778" />
+    <state width="1398" height="162" key="GridCell.Tab.0.bottom" timestamp="1644272084912">
+      <screen x="0" y="25" width="1440" height="818" />
+    </state>
+    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.813@0.25.1440.813" timestamp="1644136042982" />
+    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.814@0.25.1440.814" timestamp="1637680754176" />
+    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.815@0.25.1440.815" timestamp="1644265785757" />
+    <state width="1398" height="162" key="GridCell.Tab.0.bottom/0.25.1440.818@0.25.1440.818" timestamp="1644272084912" />
+    <state width="1398" height="162" key="GridCell.Tab.0.center" timestamp="1644272084910">
+      <screen x="0" y="25" width="1440" height="818" />
+    </state>
+    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.813@0.25.1440.813" timestamp="1644136042981" />
+    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.814@0.25.1440.814" timestamp="1637680754175" />
+    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.815@0.25.1440.815" timestamp="1644265785756" />
+    <state width="1398" height="162" key="GridCell.Tab.0.center/0.25.1440.818@0.25.1440.818" timestamp="1644272084910" />
+    <state width="1398" height="162" key="GridCell.Tab.0.left" timestamp="1644272084909">
+      <screen x="0" y="25" width="1440" height="818" />
+    </state>
+    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.813@0.25.1440.813" timestamp="1644136042980" />
+    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.814@0.25.1440.814" timestamp="1637680754175" />
+    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.815@0.25.1440.815" timestamp="1644265785755" />
+    <state width="1398" height="162" key="GridCell.Tab.0.left/0.25.1440.818@0.25.1440.818" timestamp="1644272084909" />
+    <state width="1398" height="162" key="GridCell.Tab.0.right" timestamp="1644272084912">
+      <screen x="0" y="25" width="1440" height="818" />
+    </state>
+    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.813@0.25.1440.813" timestamp="1644136042981" />
+    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.814@0.25.1440.814" timestamp="1637680754176" />
+    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.815@0.25.1440.815" timestamp="1644265785756" />
+    <state width="1398" height="162" key="GridCell.Tab.0.right/0.25.1440.818@0.25.1440.818" timestamp="1644272084912" />
+    <state x="376" y="186" width="1064" height="550" key="find.popup" timestamp="1637680006462">
+      <screen x="0" y="25" width="1440" height="814" />
+    </state>
+    <state x="376" y="186" width="1064" height="550" key="find.popup/0.25.1440.814@0.25.1440.814" timestamp="1637680006462" />
+    <state x="421" y="186" width="979" height="551" key="find.popup/0.25.1440.815@0.25.1440.815" timestamp="1637633572149" />
   </component>
 </project>
