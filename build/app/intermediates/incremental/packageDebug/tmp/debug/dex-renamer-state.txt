@@ -1,4 +1,0 @@
-#Sun Feb 06 13:28:54 PKT 2022
-base.0=/Users/user/Documents/flutter/PlayerExchange/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
