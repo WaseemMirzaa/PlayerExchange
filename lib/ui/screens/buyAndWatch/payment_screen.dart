@@ -15,32 +15,32 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context,leadingIcon: AssetsString().BackArrowIcon),
+      appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
           children: [
             SizedBox(
-              width: 200,
-                child: Text("Transfer to Player eXchange",
+                width: 200,
+                child: Text(
+                  "Transfer to Player eXchange",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),)),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )),
             SizedBox(
               height: 80,
             ),
             SizedBox(
               width: 200,
               child: TextField(
-                style: TextStyle(
-                  fontSize: 25,
-                ),
+                style: TextStyle(fontSize: 25, color: Colors.black),
                 cursorColor: ColorManager.greenColor,
               ),
             ),
@@ -48,11 +48,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Card(
                   child: Padding(
-                    padding: EdgeInsets.all(5),
-                    child: SvgPicture.asset(AssetsString().card),
-                  )),
+                padding: EdgeInsets.all(5),
+                child: SvgPicture.asset(AssetsString().card),
+              )),
             ),
-            Text("Change Account",style: TextStyle(color: ColorManager.greenColor,fontSize: 16),),
+            Text(
+              "Change Account",
+              style: TextStyle(color: ColorManager.greenColor, fontSize: 16),
+            ),
           ],
         ),
       ),

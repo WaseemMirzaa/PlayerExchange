@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height * .33,
-                  width: MediaQuery.of(context).size.width* .50,
+                  width: MediaQuery.of(context).size.width * .50,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: ScreenUtil().setHeight(20),
                       ),
-                      Image.asset(AssetsString().AppLogo,
+                      Image.asset(
+                        AssetsString().AppLogo,
                         height: ScreenUtil().setHeight(
                             MediaQuery.of(context).size.height * .20),
                       ),
@@ -76,11 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           // controller: signUpController.emailEditingController,
                           style: TextStyle(
                               color: ColorManager.greenColor,
-                              fontSize:StyleManager().mediumFontSize ),
+                              fontSize: StyleManager().mediumFontSize),
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -128,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -157,36 +158,38 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    /*SizedBox(height: ScreenUtil().setHeight(10)),
+                    SizedBox(height: ScreenUtil().setHeight(10)),
                     Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(20)),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(20)),
                         child: TextButton(
                           child: Text(
                             'Forget password',
                             style: TextStyle(
-                                fontSize:StyleManager().smallFontSize ,
-                                color:ColorManager.greenColor
-                            ),
+                                fontSize: StyleManager().smallFontSize,
+                                color: ColorManager.greenColor),
                           ),
                           onPressed: () {
                             // Get.to(ForgetPassword());
-                            *//*Get.to(ForgotPassword(),
-                              transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*//*
+                            // *//*Get.to(ForgotPassword(),
+                            // transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*//*
                           },
                         ),
                       ),
-                    ),*/
+                    ),
                     SizedBox(height: ScreenUtil().setHeight(20)),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(25)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(25)),
                       child: FilledButton(
                           text: "Sign In",
-                          onTap:(){
+                          onTap: () {
                             TabsScreen.currentIndex = 0;
-                            Get.offAll(() => TabsScreen(selectedIndex: 0,));
-
+                            Get.offAll(() => TabsScreen(
+                                  selectedIndex: 0,
+                                ));
                           }),
                     )
                   ],

@@ -16,31 +16,49 @@ class BuyScreen extends StatefulWidget {
 }
 
 class _BuyScreenState extends State<BuyScreen> {
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context,leadingIcon: AssetsString().BackArrowIcon),
+      appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
           children: [
-            Text("Buy Fields Stock",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+            Text(
+              "Buy Fields Stock",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),
+            ),
             SizedBox(
               height: 10,
             ),
-            Text("1500 available shares",style: TextStyle(color: ColorManager.greenColor,fontSize: 16),),
+            Text(
+              "1500 available shares",
+              style: TextStyle(color: ColorManager.greenColor, fontSize: 16),
+            ),
             SizedBox(
               height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Purchase Amount",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold),),
-                Text("\$97.50",style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.bold),),
+                Text(
+                  "Purchase Amount",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "\$97.50",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             SizedBox(
@@ -49,8 +67,20 @@ class _BuyScreenState extends State<BuyScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Est. Price per share",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold),),
-                Text("\$3.50",style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.bold),),
+                Text(
+                  "Est. Price per share",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "\$3.50",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             SizedBox(
@@ -59,33 +89,48 @@ class _BuyScreenState extends State<BuyScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Est. Shares",style: TextStyle(color: Colors.black,fontSize: 14,fontWeight: FontWeight.bold),),
-                Text("\$26",style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.bold),),
+                Text(
+                  "Est. Shares",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "\$26",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             SizedBox(
               height: 20,
             ),
-
           ],
         ),
       ),
       bottomNavigationBar: GestureDetector(
-        onTap: (){
-          Get.to(()=>const PaymentScreen());
+        onTap: () {
+          Get.to(() => const PaymentScreen());
         },
-        child: Container(
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,vertical: 10
-          ),
-          width: double.infinity,
-          height: 50,
-          decoration: BoxDecoration(
-            color: ColorManager.greenColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-            child: Text("Review",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600),),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            width: double.infinity,
+            height: 50,
+            decoration: BoxDecoration(
+              color: ColorManager.greenColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Text(
+                "Review",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ),
           ),
         ),
       ),

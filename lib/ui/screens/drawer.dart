@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/instance_manager.dart';
+
+import 'home_tabs/tabs_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -22,7 +26,22 @@ class AppDrawer extends StatelessWidget {
             ),
             text: 'User Account',
             onTap: () {
+              // Navigator.popUntil(
+              //   context,
+              //   ModalRoute.withName('/'),
+              // );
               Navigator.of(context).pop();
+              TabsScreen.currentIndex = 4;
+              Get.offAll(() => TabsScreen(
+                    selectedIndex: 4,
+                  ));
+              //  ` Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => TabsScreen(
+              //               selectedIndex: 4,
+              //             )),
+              //   );
             },
           ),
           _createDrawerItem(

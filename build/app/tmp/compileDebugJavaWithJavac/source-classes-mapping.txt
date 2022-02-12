@@ -1,0 +1,4 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+com/app/player_exchange/player_exchange/BuildConfig.java
+ com.app.player_exchange.player_exchange.BuildConfig

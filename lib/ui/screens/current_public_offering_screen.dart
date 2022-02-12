@@ -60,7 +60,8 @@ class _CurrentPublicOfferingScreenState
                                 child: OfferHeading(
                                   title: "QB",
                                   isEnable: activeIndex == 0 ? true : false,
-                                ))), GestureDetector(
+                                ))),
+                        GestureDetector(
                             onTap: () {
                               setState(() {
                                 activeIndex = 1;
@@ -72,7 +73,8 @@ class _CurrentPublicOfferingScreenState
                                 child: OfferHeading(
                                   title: "RB",
                                   isEnable: activeIndex == 1 ? true : false,
-                                ))), GestureDetector(
+                                ))),
+                        GestureDetector(
                             onTap: () {
                               setState(() {
                                 activeIndex = 2;
@@ -84,7 +86,8 @@ class _CurrentPublicOfferingScreenState
                                 child: OfferHeading(
                                   title: "WR",
                                   isEnable: activeIndex == 2 ? true : false,
-                                ))), GestureDetector(
+                                ))),
+                        GestureDetector(
                             onTap: () {
                               setState(() {
                                 activeIndex = 3;
@@ -150,8 +153,13 @@ class _CurrentPublicOfferingScreenState
               ])),
               SliverList(
                   delegate: SliverChildBuilderDelegate((_, index) {
-                return ShareSingleItem(
-                  index: index,
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(RosterDetailFromDiscovery());
+                  },
+                  child: ShareSingleItem(
+                    index: index,
+                  ),
                 );
               }, childCount: 5)),
               SliverList(

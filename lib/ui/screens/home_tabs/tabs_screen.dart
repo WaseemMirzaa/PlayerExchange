@@ -28,7 +28,6 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   DateTime? currentBackPressTime;
 
-
   double bottomNavIconSize(int index) => TabsScreen.currentIndex == index
       ? ScreenUtil().setHeight(25)
       : ScreenUtil().setHeight(23);
@@ -197,12 +196,12 @@ class _TabsScreenState extends State<TabsScreen> {
                 ),
               ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AssetsString().ProfileTabIcon,
-                  width: bottomNavIconSize(4),
-                  color: TabsScreen.currentIndex == 4
-                      ? ColorManager.greenColor
-                      : ColorManager.buttonBorderGreyColor,
+                icon: new SizedBox(
+                  child: Image(
+                    image: AssetImage('assets/pic.png'),
+                  ),
+                  width: 38,
+                  height: 38,
                 ),
                 // ignore: deprecated_member_use
                 title: FittedBox(

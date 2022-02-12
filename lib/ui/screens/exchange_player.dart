@@ -283,7 +283,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           ),
                           TextField(
                             style: TextStyle(color: Colors.green),
-                            controller: shareController,
+                            controller: offerAmountController,
                             decoration: const InputDecoration(
                               hintText: "0",
                               fillColor: Colors.black,
