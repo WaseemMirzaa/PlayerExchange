@@ -4,13 +4,75 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="" />
+    <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/models/auth/ErrorResponse.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/auth/UserResponse.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/auth/requests/SignUpRequest.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils/SessionManager.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PlayerExchange.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PlayerExchange.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Flutter.podspec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Pods/Manifest.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/generated_plugin_registrant.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../PlayerExchange\exportToHTML" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectId" id="21IM7qyypehEvxaoSLo43oCNK25" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -18,8 +80,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -43,45 +106,57 @@
       <option name="presentableId" value="Default" />
       <updated>1637623983418</updated>
     </task>
+    <task id="LOCAL-00001" summary="gitignore add">
+      <created>1644668461136</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1644668461136</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="533" y="151" key="#com.intellij.ide.util.MemberChooser" timestamp="1637630247779">
-      <screen x="0" y="25" width="1440" height="814" />
-    </state>
-    <state x="533" y="151" key="#com.intellij.ide.util.MemberChooser/0.25.1440.814@0.25.1440.814" timestamp="1637630247778" />
-    <state width="1398" height="162" key="GridCell.Tab.0.bottom" timestamp="1644272084912">
-      <screen x="0" y="25" width="1440" height="818" />
-    </state>
-    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.813@0.25.1440.813" timestamp="1644136042982" />
-    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.814@0.25.1440.814" timestamp="1637680754176" />
-    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.815@0.25.1440.815" timestamp="1644265785757" />
-    <state width="1398" height="162" key="GridCell.Tab.0.bottom/0.25.1440.818@0.25.1440.818" timestamp="1644272084912" />
-    <state width="1398" height="162" key="GridCell.Tab.0.center" timestamp="1644272084910">
-      <screen x="0" y="25" width="1440" height="818" />
-    </state>
-    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.813@0.25.1440.813" timestamp="1644136042981" />
-    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.814@0.25.1440.814" timestamp="1637680754175" />
-    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.815@0.25.1440.815" timestamp="1644265785756" />
-    <state width="1398" height="162" key="GridCell.Tab.0.center/0.25.1440.818@0.25.1440.818" timestamp="1644272084910" />
-    <state width="1398" height="162" key="GridCell.Tab.0.left" timestamp="1644272084909">
-      <screen x="0" y="25" width="1440" height="818" />
-    </state>
-    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.813@0.25.1440.813" timestamp="1644136042980" />
-    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.814@0.25.1440.814" timestamp="1637680754175" />
-    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.815@0.25.1440.815" timestamp="1644265785755" />
-    <state width="1398" height="162" key="GridCell.Tab.0.left/0.25.1440.818@0.25.1440.818" timestamp="1644272084909" />
-    <state width="1398" height="162" key="GridCell.Tab.0.right" timestamp="1644272084912">
-      <screen x="0" y="25" width="1440" height="818" />
-    </state>
-    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.813@0.25.1440.813" timestamp="1644136042981" />
-    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.814@0.25.1440.814" timestamp="1637680754176" />
-    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.815@0.25.1440.815" timestamp="1644265785756" />
-    <state width="1398" height="162" key="GridCell.Tab.0.right/0.25.1440.818@0.25.1440.818" timestamp="1644272084912" />
-    <state x="376" y="186" width="1064" height="550" key="find.popup" timestamp="1637680006462">
-      <screen x="0" y="25" width="1440" height="814" />
-    </state>
-    <state x="376" y="186" width="1064" height="550" key="find.popup/0.25.1440.814@0.25.1440.814" timestamp="1637680006462" />
-    <state x="421" y="186" width="979" height="551" key="find.popup/0.25.1440.815@0.25.1440.815" timestamp="1637633572149" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="gitignore add" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore add" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart</url>
+          <line>520</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart</url>
+          <line>524</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart</url>
+          <line>528</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart</url>
+          <line>532</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
