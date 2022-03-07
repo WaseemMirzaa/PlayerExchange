@@ -1,4 +1,13 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:player_exchange/Networking/API.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/Responses/CPOModel.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPOController.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/requests/CPORequest.dart';
+import 'package:player_exchange/models/auth/ErrorResponse.dart';
 import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
@@ -7,6 +16,7 @@ import 'package:player_exchange/ui/widgets/share_single_item.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class CurrentPublicOfferingScreen extends StatefulWidget {
   const CurrentPublicOfferingScreen({Key? key}) : super(key: key);
@@ -18,6 +28,7 @@ class CurrentPublicOfferingScreen extends StatefulWidget {
 
 class _CurrentPublicOfferingScreenState
     extends State<CurrentPublicOfferingScreen> {
+  final CpoController homeController = Get.put(CpoController());
   int activeIndex = 0;
 
   @override
@@ -116,88 +127,88 @@ class _CurrentPublicOfferingScreenState
                   ),*/
                     ),
               ),
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  'price_per_share'.tr,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: StyleManager().smallFontSize,
-                      fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
+              Obx(() => SliverList(
+                      delegate: SliverChildListDelegate([
+                    SizedBox(
+                      height: 15,
+                    ),
                     Text(
-                      'tier_1'.tr,
+                      'price_per_share'.tr,
                       style: TextStyle(
-                          color: ColorManager.greenColor,
+                          color: Colors.black,
                           fontSize: StyleManager().smallFontSize,
                           fontWeight: FontWeight.w500),
                     ),
-                    Text(
-                      'shares_available'.tr,
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: StyleManager().smallFontSize),
+                    SizedBox(
+                      height: 15,
                     ),
-                  ],
-                ),
-              ])),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate((_, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(RosterDetailFromDiscovery());
-                  },
-                  child: ShareSingleItem(
-                    index: index,
-                  ),
-                );
-              }, childCount: 5)),
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Text(
-                      'tier_2'.tr,
-                      style: TextStyle(
-                          color: ColorManager.greenColor,
-                          fontSize: StyleManager().smallFontSize,
-                          fontWeight: FontWeight.w500),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'tier_1'.tr,
+                          style: TextStyle(
+                              color: ColorManager.greenColor,
+                              fontSize: StyleManager().smallFontSize,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          'shares_available'.tr,
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: StyleManager().smallFontSize),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'shares_available'.tr,
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: StyleManager().smallFontSize),
+                  ]))),
+              Obx(() => SliverList(
+                      delegate: SliverChildBuilderDelegate((_, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(RosterDetailFromDiscovery());
+                      },
+                      child: ShareSingleItem(
+                        index: index,
+                      ),
+                    );
+                  }, childCount: 5))),
+              Obx(() => SliverList(
+                      delegate: SliverChildListDelegate([
+                    SizedBox(
+                      height: 20,
                     ),
-                  ],
-                ),
-              ])),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate((_, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(RosterDetailFromDiscovery());
-                  },
-                  child: ShareSingleItem(
-                    index: index,
-                  ),
-                );
-              }, childCount: 10)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Text(
+                          'tier_2'.tr,
+                          style: TextStyle(
+                              color: ColorManager.greenColor,
+                              fontSize: StyleManager().smallFontSize,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          'shares_available'.tr,
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: StyleManager().smallFontSize),
+                        ),
+                      ],
+                    ),
+                  ]))),
+              Obx(() => SliverList(
+                      delegate: SliverChildBuilderDelegate((_, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(RosterDetailFromDiscovery());
+                      },
+                      child: ShareSingleItem(
+                        index: index,
+                      ),
+                    );
+                  }, childCount: 10))),
             ],
           ),
         ));

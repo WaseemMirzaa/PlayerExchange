@@ -7,8 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/Networking/API.dart';
 import 'package:player_exchange/models/auth/ErrorResponse.dart';
-import 'package:player_exchange/models/auth/UserResponse.dart';
+import 'package:player_exchange/models/auth/UserModel.dart';
 import 'package:player_exchange/models/auth/requests/SignUpRequest.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
@@ -22,9 +23,11 @@ import 'package:sn_progress_dialog/progress_dialog.dart';
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
+
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
@@ -34,8 +37,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordController = new TextEditingController();
   TextEditingController confirmPasswordController = new TextEditingController();
 
-  bool checBox = true;
-// Controller
+  bool checBox = false;
+
+  @override
+  void initState() {
+    
+  } // Controller
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -398,6 +405,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
                       child: FilledButton(
+                        color: checBox == true ? ColorManager.greenColor : ColorManager.colorTextGray,
                           isFullWidth: true,
                           text: "Sign Up",
                           onTap: () {
@@ -472,6 +480,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
 
 
+    if(!checBox) {
+
+      Fluttertoast.showToast(msg: 'Please agree to terms and condition first');
+
+      return false;
+
+    }
+
     return true;
   }
 
@@ -490,7 +506,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       var dio = Dio();
       try {
         final response = await dio.post(
-            'http://137.184.157.131:3000/user/create-user',
+            Api.baseURL+'user/create-user',
             data: signUpRequest.toJson(),  options: Options(headers: {
           HttpHeaders.contentTypeHeader: "application/json",
         }));
@@ -499,7 +515,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
         if(response.data != null) {
 
-          UserResponse userResponse = UserResponse.fromJson(response.data);
+          UserModel userResponse = UserModel.fromJson(response.data);
 
           if(userResponse.user != null && userResponse.user?.id != null) {
 
