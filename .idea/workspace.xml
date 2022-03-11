@@ -4,24 +4,25 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="gitignore add">
-      <change afterPath="$PROJECT_DIR$/.run/main.dart.run.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/Networking/API.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/Responses/CPOModel.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/requests/CPORequest.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/models/auth/requests/SignInRequest.dart" afterDir="false" />
+    <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/Networking/APIRequests.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/auth/UserResponse.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/auth/UserModel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Current Public Offerings/Responses/CPOModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/Responses/CPOModel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/models/Current Public Offerings/requests/CPORequest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/requests/CPORequest.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/current_public_offering_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/current_public_offering_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/home_tabs/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/home_tabs/home_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils/SessionManager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/SessionManager.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/screens/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/splash_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/share_single_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/share_single_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,13 +65,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Sample Projects/getx_impl-main" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Sample Projects/shopx-master" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Flutter Projects\GIT Projects\PlayerExchange\lib\Networking" />
       <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$/lib/ui/screens" />
     </key>
@@ -107,6 +109,16 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.dart" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -128,86 +140,39 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>228</line>
-          <option name="timeStamp" value="6" />
+          <url>file://$PROJECT_DIR$/lib/ui/screens/current_public_offering_screen.dart</url>
+          <line>173</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>225</line>
-          <option name="timeStamp" value="7" />
+          <url>file://$PROJECT_DIR$/lib/ui/widgets/share_single_item.dart</url>
+          <line>24</line>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>231</line>
-          <option name="timeStamp" value="8" />
+          <url>file://$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart</url>
+          <line>26</line>
+          <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>234</line>
-          <option name="timeStamp" value="10" />
+          <url>file://$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart</url>
+          <line>24</line>
+          <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>282</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/lib/Networking/APIRequests.dart</url>
+          <line>12</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>280</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>276</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>267</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>292</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>291</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>287</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>286</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>307</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>248</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>273</line>
-          <option name="timeStamp" value="26" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/ui/screens/login_screen.dart</url>
-          <line>270</line>
-          <option name="timeStamp" value="27" />
+          <url>file://$PROJECT_DIR$/lib/Networking/APIRequests.dart</url>
+          <line>11</line>
+          <option name="timeStamp" value="48" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint suspend="THREAD" type="dart-exception" />
+      </default-breakpoints>
     </breakpoint-manager>
   </component>
 </project>

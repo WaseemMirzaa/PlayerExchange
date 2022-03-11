@@ -20,6 +20,8 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+import 'login_screen.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -393,7 +395,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorManager.greenColor),
                           ),
                           onPressed: () {
-                            Get.back();
+                            Get.to(LoginScreen());
                             /*Get.to(ForgotPassword(),
                               transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*/
                           },

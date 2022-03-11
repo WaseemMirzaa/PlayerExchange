@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
             TabsScreen.currentIndex = 0;
 
-            Get.off(() => TabsScreen(selectedIndex: 0,));
+            Get.off(() => TabsScreen(selectedIndex: TabsScreen.currentIndex,));
 
 
           }

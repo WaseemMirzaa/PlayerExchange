@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/Responses/CPOModel.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPOController.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
 class ShareSingleItem extends StatelessWidget {
   int index=0;
+  final CPOController cpoController = Get.put(CPOController());
 
    ShareSingleItem({Key? key,this.index=0}) : super(key: key);
 
@@ -18,7 +22,7 @@ class ShareSingleItem extends StatelessWidget {
           Flexible(
               flex: 1,
               child: Text(
-                index.toString()+'-Patric Mahomes',
+                cpoController.userList[index].obs.value.playerName.toString(),
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: StyleManager().smallFontSize,
@@ -33,7 +37,7 @@ class ShareSingleItem extends StatelessWidget {
                   Flexible(
                       flex: 1,
                       child: Text(
-                        '\$ 25',
+                        '\$'+cpoController.userList[index].obs.value.currentPricePerShare.toString(),
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: StyleManager().smallFontSize,

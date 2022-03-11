@@ -26,11 +26,12 @@ dependencies:
   dio: ^4.0.4
   shared_preferences: ^2.0.13
   sn_progress_dialog: ^1.0.3
-
   fluttertoast:
   fl_chart: ^0.40.2
   auto_size_text: ^3.0.0
   youtube_player_flutter: ^8.0.0
+  http: ^0.13.3
+
 
 dev_dependencies:
   flutter_test:

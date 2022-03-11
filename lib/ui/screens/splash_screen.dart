@@ -35,7 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
     //     Duration(seconds: 3),
     //         () => Get.offAll(AuthScreen()));
 
-    Timer(Duration(seconds: 3), () => Get.offAll(AuthScreen()));
+    //Timer(Duration(seconds: 3), () => Get.offAll(AuthScreen()));
+    Timer(Duration(seconds: 3), () => Get.offAll(TabsScreen(selectedIndex: TabsScreen.currentIndex,)));
 
     // Timer(
     //     Duration(seconds: 3),
