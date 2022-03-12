@@ -29,90 +29,90 @@ class _CurrentPublicOfferingScreenState
   Widget build(BuildContext context) {
     return Scaffold(
         appBar:
-        customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
+            customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
         body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
-          child: CustomScrollView(
-            slivers: [
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                    Text(
-                      'current_public_offering'.tr,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: StyleManager().largeFontSize,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    )
-                  ])),
-              SliverToBoxAdapter(
-                child: Container(
-                    height: 30.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                activeIndex = 0;
-                                cpoController.getCpoAthletes("QB");
-                              });
-                            },
-                            child: Container(
-                                height: 30,
-                                width: 50,
-                                child: OfferHeading(
-                                  title: "QB",
-                                  isEnable: activeIndex == 0 ? true : false,
-                                ))),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                activeIndex = 1;
-                                cpoController.getCpoAthletes("RB");
-                              });
-                            },
-                            child: Container(
-                                height: 30,
-                                width: 50,
-                                child: OfferHeading(
-                                  title: "RB",
-                                  isEnable: activeIndex == 1 ? true : false,
-                                ))),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                activeIndex = 2;
-                                cpoController.getCpoAthletes("WR");
-                              });
-                            },
-                            child: Container(
-                                height: 30,
-                                width: 50,
-                                child: OfferHeading(
-                                  title: "WR",
-                                  isEnable: activeIndex == 2 ? true : false,
-                                ))),
-                        GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                activeIndex = 3;
-                                cpoController.getCpoAthletes("TE");
-                              });
-                            },
-                            child: Container(
-                                height: 30,
-                                width: 50,
-                                child: OfferHeading(
-                                  title: "TE",
-                                  isEnable: activeIndex == 3 ? true : false,
-                                ))),
-                      ],
-                    )
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: CustomScrollView(
+              slivers: [
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  Text(
+                    'current_public_offering'.tr,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: StyleManager().largeFontSize,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  )
+                ])),
+                SliverToBoxAdapter(
+                  child: Container(
+                      height: 30.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  activeIndex = 0;
+                                  cpoController.getCpoAthletes("QB");
+                                });
+                              },
+                              child: Container(
+                                  height: 30,
+                                  width: 50,
+                                  child: OfferHeading(
+                                    title: "QB",
+                                    isEnable: activeIndex == 0 ? true : false,
+                                  ))),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  activeIndex = 1;
+                                  cpoController.getCpoAthletes("RB");
+                                });
+                              },
+                              child: Container(
+                                  height: 30,
+                                  width: 50,
+                                  child: OfferHeading(
+                                    title: "RB",
+                                    isEnable: activeIndex == 1 ? true : false,
+                                  ))),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  activeIndex = 2;
+                                  cpoController.getCpoAthletes("WR");
+                                });
+                              },
+                              child: Container(
+                                  height: 30,
+                                  width: 50,
+                                  child: OfferHeading(
+                                    title: "WR",
+                                    isEnable: activeIndex == 2 ? true : false,
+                                  ))),
+                          GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  activeIndex = 3;
+                                  cpoController.getCpoAthletes("TE");
+                                });
+                              },
+                              child: Container(
+                                  height: 30,
+                                  width: 50,
+                                  child: OfferHeading(
+                                    title: "TE",
+                                    isEnable: activeIndex == 3 ? true : false,
+                                  ))),
+                        ],
+                      )
 
-                  /*     ListView.builder(
+                      /*     ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: 4,
                     itemBuilder: (context, index) {
@@ -123,59 +123,113 @@ class _CurrentPublicOfferingScreenState
                       }, child: Container(height: 30,width: 50, child: OfferHeading(title: "QB",isEnable: activeIndex==index?true:false,)));
                     },
                   ),*/
+                      ),
                 ),
-              ),
-              SliverList(
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'price_per_share'.tr,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: StyleManager().smallFontSize,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Text(
+                        'tier_1'.tr,
+                        style: TextStyle(
+                            color: ColorManager.greenColor,
+                            fontSize: StyleManager().smallFontSize,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        'shares_available'.tr,
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: StyleManager().smallFontSize),
+                      ),
+                    ],
+                  ),
+                ])),
+                Obx(() {
+                  return SliverList(
+                      delegate: SliverChildBuilderDelegate((_, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(RosterDetailFromDiscovery());
+                      },
+                      child: ShareSingleItem(
+                        index: index,
+                      ),
+                    );
+                  }, childCount: cpoController.userList.length));
+                }),
+                SliverList(
                   delegate: SliverChildListDelegate([
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'price_per_share'.tr,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: StyleManager().smallFontSize,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          'tier_1'.tr,
-                          style: TextStyle(
-                              color: ColorManager.greenColor,
-                              fontSize: StyleManager().smallFontSize,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Text(
-                          'shares_available'.tr,
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: StyleManager().smallFontSize),
-                        ),
-                      ],
-                    ),
-                  ])),
-              Obx(() {
-                return SliverList(
-                    delegate: SliverChildBuilderDelegate((_, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Get.to(RosterDetailFromDiscovery());
-                        },
-                        child: ShareSingleItem(
-                          index: index,
-                        ),
-                      );
-                    }, childCount: cpoController.userList.length));
-              }),
+                    _buildListItem(),
+                    _buildListItem(),
+                    _buildListItem(),
+                    _buildListItem(),
+                    _buildListItem(),
+                    _buildListItem(),
+                  ]),
+                )
+              ],
+            )));
+  }
 
-            ],
+  Widget _buildListItem() {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 0, left: 0, right: 0),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              'Tier',
+              style: TextStyle(
+                  color: ColorManager.greenColor,
+                  fontSize: StyleManager().smallFontSize,
+                  fontWeight: FontWeight.w500),
+            ),
           ),
-        ));
+        ),
+        ListView.builder(
+          padding: EdgeInsets.only(top: 8.0),
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              child: Text(
+                'Patrick Homes$index',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: StyleManager().mediumFontSize,
+                    fontWeight: FontWeight.w500),
+              ),
+
+
+
+            );
+          },
+          itemCount: 4,
+          shrinkWrap: true,
+          // todo comment this out and check the result
+          physics:
+              ClampingScrollPhysics(), // todo comment this out and check the result
+        ),
+      ],
+    );
   }
 }

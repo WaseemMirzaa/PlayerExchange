@@ -5,31 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad0bb67d-36a3-448b-91d4-30182be4b70a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/Networking/APIRequests.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/6.7/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Current Public Offerings/Responses/CPOModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/Responses/CPOModel.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/Current Public Offerings/requests/CPORequest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/Current Public Offerings/requests/CPORequest.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ui/screens/current_public_offering_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/current_public_offering_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/home_tabs/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/home_tabs/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/sign_up_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/screens/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/screens/splash_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ui/widgets/share_single_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ui/widgets/share_single_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\Mharo\.android\avd\Pixel_2_API_30.avd]" />
   <component name="ExportToHTMLSettings">
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../PlayerExchange\exportToHTML" />
   </component>
@@ -65,9 +57,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Sample Projects/shopx-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -103,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646479179182</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="CPO APIs not finished">
+      <created>1647001367291</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647001367291</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -134,7 +133,8 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="gitignore add" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="CPO APIs not finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="CPO APIs not finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -151,12 +151,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart</url>
-          <line>26</line>
+          <line>28</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/models/Current Public Offerings/controller/CPOController.dart</url>
-          <line>24</line>
+          <line>26</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
