@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:player_exchange/Networking/API.dart';
 import 'package:player_exchange/Networking/APIRequests.dart';
-import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPOController.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPO_Controller.dart';
 import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:get/get.dart';

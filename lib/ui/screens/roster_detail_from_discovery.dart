@@ -19,6 +19,7 @@ import 'buyAndWatch/watch_screen.dart';
 class RosterDetailFromDiscovery extends StatefulWidget {
   const RosterDetailFromDiscovery({Key? key}) : super(key: key);
 
+
   @override
   _RosterDetailFromDiscoveryState createState() =>
       _RosterDetailFromDiscoveryState();

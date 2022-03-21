@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/models/Rosters/Controller/Roster_Controller.dart';
 import 'package:player_exchange/ui/screens/home_tabs/exhange_screen_group_two.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
@@ -9,8 +10,9 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 
 class RosterScreen extends StatefulWidget {
-  const RosterScreen({Key? key, bool isFromExchangeScreen = false})
+   RosterScreen({Key? key, bool isFromExchangeScreen = false})
       : super(key: key);
+  RosterController rosterController =Get.put(RosterController());
 
   @override
   _RosterScreenState createState() => _RosterScreenState();
@@ -30,8 +32,8 @@ class _RosterScreenState extends State<RosterScreen> {
                 onTap: () {
                   Get.to(ExchangeScreenSecond());
                 },
-                child: RoasterListItem());
-          }, childCount: 5)),
+                child: RoasterListItem(index:index));
+          }, childCount: widget.rosterController.rosterList.length)),
           SliverList(
               delegate: SliverChildListDelegate([
             SvgPicture.asset(AssetsString().WheelImage),

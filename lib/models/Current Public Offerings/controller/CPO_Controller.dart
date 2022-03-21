@@ -6,8 +6,8 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:player_exchange/Networking/API.dart';
 import 'package:player_exchange/Networking/APIRequests.dart';
-import 'package:player_exchange/models/Current%20Public%20Offerings/Responses/CPOModel.dart';
-import 'package:player_exchange/models/Current%20Public%20Offerings/requests/CPORequest.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/Responses/CPO_Model.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/requests/CPO_Request.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class CPOController extends GetxController {
