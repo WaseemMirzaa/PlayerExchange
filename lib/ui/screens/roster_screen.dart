@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/models/Rosters/Controller/Roster_Controller.dart';
+import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/exhange_screen_group_two.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';

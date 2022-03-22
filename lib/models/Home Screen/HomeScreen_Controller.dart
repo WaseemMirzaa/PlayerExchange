@@ -6,7 +6,6 @@ import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
 
 class HomeScreenController extends GetxController {
   var isLoading = true.obs;
-  var rosterList = <RosterModel>[].obs;
 RosterController rosterController = Get.put(RosterController());
 
   @override

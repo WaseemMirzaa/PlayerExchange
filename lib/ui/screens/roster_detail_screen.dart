@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
 import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
 import 'package:player_exchange/ui/screens/cash_screen.dart';
 import 'package:player_exchange/ui/screens/exchange_player.dart';
@@ -18,14 +19,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'home_tabs/exchnage_screen.dart';
 
-class TraderDetailScreen extends StatefulWidget {
-  const TraderDetailScreen({Key? key}) : super(key: key);
+class RosterDetailScreen extends StatefulWidget {
+  final RosterModel rosterModel;
+  const RosterDetailScreen({Key? key, required this.rosterModel}) : super(key: key);
 
   @override
-  _TraderDetailScreenState createState() => _TraderDetailScreenState();
+  _RosterDetailScreenState createState() => _RosterDetailScreenState();
 }
 
-class _TraderDetailScreenState extends State<TraderDetailScreen> {
+class _RosterDetailScreenState extends State<RosterDetailScreen> {
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class _TraderDetailScreenState extends State<TraderDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'JONES QBNY'.tr,
+                    widget.rosterModel.cpoAthletes!.playerName.toString(),
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: StyleManager().largeFontSize,
@@ -74,7 +76,7 @@ class _TraderDetailScreenState extends State<TraderDetailScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    '\$16.45',
+                                    '\$'+ widget.rosterModel.cpoAthletes!.currentPricePerShare.toString(),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w600,
@@ -110,11 +112,11 @@ class _TraderDetailScreenState extends State<TraderDetailScreen> {
                                     style: TextStyle(
                                         fontSize: StyleManager().smallFontSize,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                                        color: ColorManager.greenColor),
                                   ),
                                   Icon(
                                     Icons.arrow_forward_ios_rounded,
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     size: 12,
                                   )
                                 ],
@@ -134,7 +136,7 @@ class _TraderDetailScreenState extends State<TraderDetailScreen> {
                             TextSpan(
                                 style:
                                     TextStyle(color: ColorManager.greenColor),
-                                text: ' 375'),
+                                text: widget.rosterModel.cpoAthletes!.sharesAvailable.toString()),
                           ]))
                         ],
                       )),
