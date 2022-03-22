@@ -16,7 +16,7 @@ import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/screens/login_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
 import 'package:player_exchange/ui/screens/sign_up_screen.dart';
-import 'package:player_exchange/ui/screens/trader_detail_screen.dart';
+import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

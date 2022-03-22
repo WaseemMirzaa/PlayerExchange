@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
 import 'package:player_exchange/ui/screens/detail_page/detail_page.dart';
 import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
 import 'package:player_exchange/utils/color_manager.dart';
@@ -7,7 +8,8 @@ import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AscendingListItem extends StatefulWidget {
-  const AscendingListItem({Key? key}) : super(key: key);
+  final RosterModel rosterModel;
+  const AscendingListItem({Key? key, required this.rosterModel}) : super(key: key);
 
   @override
   _AscendingListItemState createState() => _AscendingListItemState();

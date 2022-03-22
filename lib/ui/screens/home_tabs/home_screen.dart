@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:player_exchange/Networking/API.dart';
 import 'package:player_exchange/Networking/APIRequests.dart';
-import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPOController.dart';
+import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPO_Controller.dart';
+import 'package:player_exchange/models/Home%20Screen/HomeScreen_Controller.dart';
+import 'package:player_exchange/models/Rosters/Controller/Roster_Controller.dart';
 import 'package:player_exchange/ui/screens/buyAndWatch/watch_screen.dart';
 import 'package:player_exchange/ui/screens/buyAndWatch/watch_screen.dart';
 import 'package:player_exchange/ui/screens/cash_screen.dart';
@@ -12,7 +15,7 @@ import 'package:player_exchange/ui/screens/current_public_offering_screen.dart';
 import 'package:player_exchange/ui/screens/detail_page/detail_page.dart';
 import 'package:player_exchange/ui/screens/drawer.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
-import 'package:player_exchange/ui/screens/trader_detail_screen.dart';
+import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -26,7 +29,10 @@ import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final HomeScreenController homeScreenController =
+      Get.put(HomeScreenController());
+
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -278,21 +284,30 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                height: 220,
-                width: double.infinity,
-                child: ListView.separated(
-                  itemBuilder: (_, index) {
-                    return InkWell(
-                        onTap: () {
-                          Get.to(TraderDetailScreen());
-                        },
-                        child: RoasterListItem());
-                  },
-                  itemCount: 5,
-                  separatorBuilder: (_, index) => CustomDivider(),
-                ),
-              ),
+              Obx(() {
+                return Container(
+                  height: 220,
+                  width: double.infinity,
+                  child: ListView.separated(
+                    itemBuilder: (_, index) {
+                      return InkWell(
+                          onTap: () {
+                            Get.to(RosterDetailScreen(
+                                rosterModel: widget
+                                    .homeScreenController
+                                    .rosterController
+                                    .rosterList
+                                    .obs
+                                    .value[index]));
+                          },
+                          child: RoasterListItem(index: index));
+                    },
+                    itemCount: widget.homeScreenController.rosterController
+                        .rosterList.obs.value.length,
+                    separatorBuilder: (_, index) => CustomDivider(),
+                  ),
+                );
+              }),
               Container(
                 width: double.infinity,
                 height: 230,
@@ -315,11 +330,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 170,
                       child: ListView.builder(
                         itemBuilder: (_, index) {
-                          return AscendingListItem();
+                          return AscendingListItem(rosterModel: widget
+                              .homeScreenController
+                              .rosterController
+                              .rosterList
+                              .obs
+                              .value[index]);
                         },
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        itemCount: 5,
+                        itemCount: widget.homeScreenController.rosterController
+                            .rosterList.obs.value.length,
                       ),
                     )
                   ],

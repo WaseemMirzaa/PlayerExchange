@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
 import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
@@ -17,7 +18,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'buyAndWatch/watch_screen.dart';
 
 class RosterDetailFromDiscovery extends StatefulWidget {
-  const RosterDetailFromDiscovery({Key? key}) : super(key: key);
+  
+  const RosterDetailFromDiscovery({Key? key,}) : super(key: key);
+
 
   @override
   _RosterDetailFromDiscoveryState createState() =>
