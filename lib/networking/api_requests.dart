@@ -1,9 +1,10 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 
-import 'package:player_exchange/models/current_public_offerings/Responses/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
+
+import 'api.dart';
 
 
 class APIRequests {

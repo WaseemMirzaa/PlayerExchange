@@ -4,10 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-import 'package:player_exchange/Networking/api.dart';
-import 'package:player_exchange/Networking/api_requests.dart';
-import 'package:player_exchange/models/current_public_offerings/Responses/cpo_model.dart';
-import 'package:sn_progress_dialog/progress_dialog.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 
 class CPOController extends GetxController {
   var isLoading = true.obs;
