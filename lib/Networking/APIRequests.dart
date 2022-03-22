@@ -1,3 +1,4 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:player_exchange/Networking/API.dart';
 import 'package:player_exchange/models/Current%20Public%20Offerings/Responses/CPOModel.dart';
@@ -18,6 +19,7 @@ class APIRequests {
       return cpoModelListFromJson(jsonString);
     } else {
       //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
       return <CpoModel>[];
     }
   }
