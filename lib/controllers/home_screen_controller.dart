@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:player_exchange/Networking/APIRequests.dart';
-import 'package:player_exchange/models/Rosters/Controller/Roster_Controller.dart';
-import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
+import 'package:player_exchange/controllers/roster_controller.dart';
 
 
 class HomeScreenController extends GetxController {

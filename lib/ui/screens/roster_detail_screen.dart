@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_screen.dart';
 import 'package:player_exchange/ui/screens/exchange_player.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
@@ -17,6 +16,7 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'buy_and_watch/buy_screen.dart';
 import 'home_tabs/exchnage_screen.dart';
 
 class RosterDetailScreen extends StatefulWidget {

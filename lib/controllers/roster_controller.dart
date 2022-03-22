@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/Networking/APIRequests.dart';
-import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 
 class RosterController extends GetxController {
   var isLoading = true.obs;

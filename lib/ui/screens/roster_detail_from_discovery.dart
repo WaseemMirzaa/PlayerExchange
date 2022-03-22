@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:player_exchange/models/Rosters/Responses/Roster_Model.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -15,7 +13,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'buyAndWatch/watch_screen.dart';
+import 'buy_and_watch/buy_screen.dart';
+
 
 class RosterDetailFromDiscovery extends StatefulWidget {
   

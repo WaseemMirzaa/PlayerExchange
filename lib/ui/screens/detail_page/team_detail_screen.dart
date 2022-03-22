@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/watch_screen.dart';
 import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';

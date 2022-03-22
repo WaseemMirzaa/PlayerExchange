@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/payment_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import 'payment_screen.dart';
 
 class BuyScreen extends StatefulWidget {
   const BuyScreen({Key? key}) : super(key: key);

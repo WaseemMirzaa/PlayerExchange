@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:player_exchange/models/auth/UserModel.dart';
+import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {

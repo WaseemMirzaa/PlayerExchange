@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/models/Current%20Public%20Offerings/Responses/CPO_Model.dart';
-import 'package:player_exchange/models/Current%20Public%20Offerings/controller/CPO_Controller.dart';
+import 'package:player_exchange/controllers/cpo_controller.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/watch_screen.dart';
 import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
