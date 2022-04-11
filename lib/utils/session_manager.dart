@@ -5,14 +5,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
   static const String USER_KEY = "USER_KEY";
+  static const String USER_ID_KEY = "USER_ID_KEY";
 
-  static Future<void> saveUserData(User user) async {
+  static Future<void> setUserData(User user) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     preferences.setString(USER_KEY, jsonEncode(user));
   }
 
-  Future<User?> getUserData() async {
+  static Future<User?> getUserData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     String? json = preferences.getString(USER_KEY);
@@ -23,4 +24,5 @@ class SessionManager {
     }
     return null;
   }
+
 }

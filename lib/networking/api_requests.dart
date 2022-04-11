@@ -1,5 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 
 import 'package:player_exchange/models/rosters/roster_model.dart';
@@ -25,6 +26,8 @@ class APIRequests {
       return <CpoModel>[];
     }
   }
+
+
   static Future<List<RosterModel>> doApi_getRoster() async {
     String jsonStringFilter = '?filter={"include": [{"relation": "cpoAthletes"}]}';
     var completeUrl = Api.baseURL + 'rosters' + jsonStringFilter;
@@ -36,6 +39,20 @@ class APIRequests {
     } else {
       //show error message
       return <RosterModel>[];
+    }
+  }
+
+
+  static Future<User> doApi_getUserProfile(String id) async {
+    var completeUrl = Api.baseURL + 'users/' + id;
+    var response = await client.get(Uri.parse(
+        completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return userFromJson(response.body);
+    } else {
+      //show error message
+      return User();
     }
   }
 

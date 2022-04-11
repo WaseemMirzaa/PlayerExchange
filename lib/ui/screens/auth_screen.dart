@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/controllers/auth_screen_controller.dart';
 import 'package:player_exchange/ui/screens/login_screen.dart';
 import 'package:player_exchange/ui/screens/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -16,6 +17,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  AuthScreenController authScreenController = Get.put(AuthScreenController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

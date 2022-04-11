@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/controllers/login_screen_controller.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/auth/sign_in_request.dart';
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
+  LoginScreenController loginScreenController = Get.put(LoginScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .33,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width * .50,
+                  height: MediaQuery.of(context).size.height * .33,
+                  width: MediaQuery.of(context).size.width * .50,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -66,10 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Image.asset(
                         AssetsString().AppLogo,
                         height: ScreenUtil().setHeight(
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .height * .20),
+                            MediaQuery.of(context).size.height * .20),
                       ),
 
                       Text(
@@ -104,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -153,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -235,7 +228,6 @@ class _LoginScreenState extends State<LoginScreen> {
       return false;
     }
 
-
     if (passwordController.text.isEmpty) {
       Fluttertoast.showToast(msg: 'Password Required');
 
@@ -244,9 +236,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return true;
   }
 
-  void callSignInApi() async{
-
-    if(validate()){
+  void callSignInApi() async {
+    if (validate()) {
       SignInRequest signInRequest = SignInRequest();
       signInRequest.email = emailController.text;
       signInRequest.password = passwordController.text;
@@ -257,74 +248,58 @@ class _LoginScreenState extends State<LoginScreen> {
 
       var dio = Dio();
       try {
-        final response = await dio.post(
-            Api.baseURL+'user/login',
-            data: signInRequest.toJson(),  options: Options(headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        }));
+        final response = await dio.post(Api.baseURL + 'user/login',
+            data: signInRequest.toJson(),
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            }));
 
         pd.close();
 
-        if(response.data != null) {
-
+        print ("login response: " + response.toString());
+        if (response.data != null) {
           UserModel userResponse = UserModel.fromJson(response.data);
-        //  if(userResponse.user == null){
-        //    Fluttertoast.showToast(msg: Api.apiErrorResponse);
+          //  if(userResponse.user == null){
+          //    Fluttertoast.showToast(msg: Api.apiErrorResponse);
 
-         //   return;
-         // }
+          //   return;
+          // }
 
-          if( userResponse.message != null && userResponse.message =='Successfully logged in') {
-//TODO: Need User Object in Response
-            //SessionManager.saveUserData(userResponse.user!);
+          if (userResponse.message != null &&
+              userResponse.message == 'Successfully logged in') {
 
+            if(userResponse.user != null) {
+              SessionManager.setUserData(userResponse.user!);
+            }
             TabsScreen.currentIndex = 0;
 
-            Get.off(() => TabsScreen(selectedIndex: TabsScreen.currentIndex,));
-
-
-          }
-          else{
-            if(userResponse.message == null){
+            Get.off(() => TabsScreen(
+                  selectedIndex: TabsScreen.currentIndex,
+                ));
+          } else {
+            if (userResponse.message == null) {
               Fluttertoast.showToast(msg: Api.apiErrorResponse);
-
-            }
-            else{
+            } else {
               Fluttertoast.showToast(msg: userResponse.message.toString());
             }
-            }
-
-
-
-
+          }
         }
-
       } on DioError catch (e) {
-
         pd.close();
 
-        if(e.response != null) {
-
+        if (e.response != null) {
           print('has response');
 
           AuthErrorResponse resp = AuthErrorResponse.fromJson(e.response!.data);
 
           print('has error ${resp.toString()}');
 
-          Fluttertoast.showToast(msg: resp.error?.message ?? "Invalid Credentials");
-
+          Fluttertoast.showToast(
+              msg: resp.error?.message ?? "Invalid Credentials");
         } else {
-
           Fluttertoast.showToast(msg: e.response.toString());
-
-
         }
-
       }
-
-
     }
   }
-
-
 }

@@ -45,14 +45,14 @@ class RosterModel {
 
   RosterModel.fromJson(dynamic json) {
     _id = json['id'];
-    _userId = json['userId'];
-    _sharesBought = json['sharesBought'];
-    _currentValue = json['currentValue'];
-    _averageCost = json['averageCost'];
-    _totalValue = json['totalValue'];
-    _totalInvestment = json['totalInvestment'];
-    _totalRevenue = json['totalRevenue'];
-    _cpoAthletesId = json['cpoAthletesId'];
+    _userId = json['userId'] ?? "";
+    _sharesBought = json['sharesBought'] ?? 0.0;
+    _currentValue = json['currentValue'] ?? 0.0;
+    _averageCost = json['averageCost'] ?? 0.0;
+    _totalValue = json['totalValue'] ?? 0.0;
+    _totalInvestment = json['totalInvestment'] ?? 0.0;
+    _totalRevenue = json['totalRevenue'] ?? 0.0;
+    _cpoAthletesId = json['cpoAthletesId'] ?? "";
     _cpoAthletes = json['cpoAthletes'] != null ? CpoAthletes.fromJson(json['cpoAthletes']) : null;
   }
   String? _id;

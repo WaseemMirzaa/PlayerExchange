@@ -1,73 +1,209 @@
+import 'dart:convert';
+/// message : "Successfully logged in"
+/// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkMmMyY2YyLTkxZjEtNDRmMC04MDI1LTRmM2EzNTA0ZTc3MCIsInVzZXJUeXBlIjoiVXNlciIsImlhdCI6MTY0OTY3MzcxNiwiZXhwIjo0Nzk0NjczNzE2fQ._-HpoUrm1fc7cCH0FDyJJfPyHSBypn5OTSP47Jteoo8"
+/// user : {"id":"1d2c2cf2-91f1-44f0-8025-4f3a3504e770","name":"sibghat","email":"sibghat@gmail.com","age":0.0,"password":"$2a$10$hVHYzuvgEOdqtis.FEpnMOeujvmjyp4YMzqfCRA/4Xs9pmruHJ/bu","userType":"User","fcmToken":"string","createdAt":"2022-04-05T11:59:50.000Z","secretKey":"","uniqueKey":"cc765e9b-3f48-4a4f-ab94-02b34a1a1698","isBlocked":false,"isActive":true,"profilePicture":"","unInvestedValue":0.0,"totalValue":0.0,"lossGainPercentage":0.0}
+
+UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
+String userModelToJson(UserModel data) => json.encode(data.toJson());
 class UserModel {
-String? message;
-User? user;
-
-UserModel({this.message, this.user});
-
-UserModel.fromJson(Map<String, dynamic> json) {
-message = json['message'];
-user = json['user'] != null ? new User.fromJson(json['user']) : null;
+  UserModel({
+      String? message, 
+      String? token, 
+      User? user,}){
+    _message = message;
+    _token = token;
+    _user = user;
 }
 
-Map<String, dynamic> toJson() {
-  final Map<String, dynamic> data = new Map<String, dynamic>();
-  data['message'] = this.message;
-  if (this.user != null) {
-    data['user'] = this.user!.toJson();
+  UserModel.fromJson(dynamic json) {
+    _message = json['message'];
+    _token = json['token'];
+    _user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
-  return data;
-}
-}
-
-class User {
-  String? id;
-  String? name;
-  String? email;
-  String? password;
-  String? userType;
-  String? fcmToken;
-  String? createdAt;
-  String? uniqueKey;
-  bool? isBlocked;
-  bool? isActive;
-
-  User(
-      {this.id,
-        this.name,
-        this.email,
-        this.password,
-        this.userType,
-        this.fcmToken,
-        this.createdAt,
-        this.uniqueKey,
-        this.isBlocked,
-        this.isActive});
-
-  User.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    password = json['password'];
-    userType = json['userType'];
-    fcmToken = json['fcmToken'];
-    createdAt = json['createdAt'];
-    uniqueKey = json['uniqueKey'];
-    isBlocked = json['isBlocked'];
-    isActive = json['isActive'];
-  }
+  String? _message;
+  String? _token;
+  User? _user;
+UserModel copyWith({  String? message,
+  String? token,
+  User? user,
+}) => UserModel(  message: message ?? _message,
+  token: token ?? _token,
+  user: user ?? _user,
+);
+  String? get message => _message;
+  String? get token => _token;
+  User? get user => _user;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['userType'] = this.userType;
-    data['fcmToken'] = this.fcmToken;
-    data['createdAt'] = this.createdAt;
-    data['uniqueKey'] = this.uniqueKey;
-    data['isBlocked'] = this.isBlocked;
-    data['isActive'] = this.isActive;
-    return data;
+    final map = <String, dynamic>{};
+    map['message'] = _message;
+    map['token'] = _token;
+    if (_user != null) {
+      map['user'] = _user?.toJson();
+    }
+    return map;
   }
+
+}
+
+/// id : "1d2c2cf2-91f1-44f0-8025-4f3a3504e770"
+/// name : "sibghat"
+/// email : "sibghat@gmail.com"
+/// age : 0.0
+/// password : "$2a$10$hVHYzuvgEOdqtis.FEpnMOeujvmjyp4YMzqfCRA/4Xs9pmruHJ/bu"
+/// userType : "User"
+/// fcmToken : "string"
+/// createdAt : "2022-04-05T11:59:50.000Z"
+/// secretKey : ""
+/// uniqueKey : "cc765e9b-3f48-4a4f-ab94-02b34a1a1698"
+/// isBlocked : false
+/// isActive : true
+/// profilePicture : ""
+/// unInvestedValue : 0.0
+/// totalValue : 0.0
+/// lossGainPercentage : 0.0
+
+User userFromJson(String str) => User.fromJson(json.decode(str));
+String userToJson(User data) => json.encode(data.toJson());
+class User {
+  User({
+      String? id, 
+      String? name, 
+      String? email, 
+      double? age, 
+      String? password, 
+      String? userType, 
+      String? fcmToken, 
+      String? createdAt, 
+      String? secretKey, 
+      String? uniqueKey, 
+      bool? isBlocked, 
+      bool? isActive, 
+      String? profilePicture, 
+      double? unInvestedValue, 
+      double? totalValue, 
+      double? lossGainPercentage,}){
+    _id = id;
+    _name = name;
+    _email = email;
+    _age = age;
+    _password = password;
+    _userType = userType;
+    _fcmToken = fcmToken;
+    _createdAt = createdAt;
+    _secretKey = secretKey;
+    _uniqueKey = uniqueKey;
+    _isBlocked = isBlocked;
+    _isActive = isActive;
+    _profilePicture = profilePicture;
+    _unInvestedValue = unInvestedValue;
+    _totalValue = totalValue;
+    _lossGainPercentage = lossGainPercentage;
+}
+
+  User.fromJson(dynamic json) {
+    _id = json['id'];
+    _name = json['name'] ?? "";
+    _email = json['email'] ?? "";
+    _age = json['age'] ?? 0;
+    _password = json['password'] ?? "";
+    _userType = json['userType'] ?? "";
+    _fcmToken = json['fcmToken'] ?? "";
+    _createdAt = json['createdAt'] ?? new DateTime.now();
+    _secretKey = json['secretKey'] ?? "";
+    _uniqueKey = json['uniqueKey'] ?? "";
+    _isBlocked = json['isBlocked'] ?? true;
+    _isActive = json['isActive'] ?? true;
+    _profilePicture = json['profilePicture']  ?? "";
+    _unInvestedValue = json['unInvestedValue']  ?? 0.0;
+    _totalValue = json['totalValue'] ?? 0.0;
+    _lossGainPercentage = json['lossGainPercentage'] ?? 0.0;
+  }
+  String? _id;
+  String? _name;
+  String? _email;
+  double? _age;
+  String? _password;
+  String? _userType;
+  String? _fcmToken;
+  String? _createdAt;
+  String? _secretKey;
+  String? _uniqueKey;
+  bool? _isBlocked;
+  bool? _isActive;
+  String? _profilePicture;
+  double? _unInvestedValue;
+  double? _totalValue;
+  double? _lossGainPercentage;
+User copyWith({  String? id,
+  String? name,
+  String? email,
+  double? age,
+  String? password,
+  String? userType,
+  String? fcmToken,
+  String? createdAt,
+  String? secretKey,
+  String? uniqueKey,
+  bool? isBlocked,
+  bool? isActive,
+  String? profilePicture,
+  double? unInvestedValue,
+  double? totalValue,
+  double? lossGainPercentage,
+}) => User(  id: id ?? _id,
+  name: name ?? _name,
+  email: email ?? _email,
+  age: age ?? _age,
+  password: password ?? _password,
+  userType: userType ?? _userType,
+  fcmToken: fcmToken ?? _fcmToken,
+  createdAt: createdAt ?? _createdAt,
+  secretKey: secretKey ?? _secretKey,
+  uniqueKey: uniqueKey ?? _uniqueKey,
+  isBlocked: isBlocked ?? _isBlocked,
+  isActive: isActive ?? _isActive,
+  profilePicture: profilePicture ?? _profilePicture,
+  unInvestedValue: unInvestedValue ?? _unInvestedValue,
+  totalValue: totalValue ?? _totalValue,
+  lossGainPercentage: lossGainPercentage ?? _lossGainPercentage,
+);
+  String? get id => _id;
+  String? get name => _name;
+  String? get email => _email;
+  double? get age => _age;
+  String? get password => _password;
+  String? get userType => _userType;
+  String? get fcmToken => _fcmToken;
+  String? get createdAt => _createdAt;
+  String? get secretKey => _secretKey;
+  String? get uniqueKey => _uniqueKey;
+  bool? get isBlocked => _isBlocked;
+  bool? get isActive => _isActive;
+  String? get profilePicture => _profilePicture;
+  double? get unInvestedValue => _unInvestedValue;
+  double? get totalValue => _totalValue;
+  double? get lossGainPercentage => _lossGainPercentage;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = _id;
+    map['name'] = _name;
+    map['email'] = _email;
+    map['age'] = _age;
+    map['password'] = _password;
+    map['userType'] = _userType;
+    map['fcmToken'] = _fcmToken;
+    map['createdAt'] = _createdAt;
+    map['secretKey'] = _secretKey;
+    map['uniqueKey'] = _uniqueKey;
+    map['isBlocked'] = _isBlocked;
+    map['isActive'] = _isActive;
+    map['profilePicture'] = _profilePicture;
+    map['unInvestedValue'] = _unInvestedValue;
+    map['totalValue'] = _totalValue;
+    map['lossGainPercentage'] = _lossGainPercentage;
+    return map;
+  }
+
 }

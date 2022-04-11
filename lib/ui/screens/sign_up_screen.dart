@@ -503,7 +503,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       signUpRequest.password = passwordController.text;
 
       ProgressDialog pd = ProgressDialog(context: context);
-      pd.show(max: 100, msg: 'Loading');
+      pd.show(max: 100, msg: 'Creating new user...');
 
       var dio = Dio();
       try {
@@ -521,7 +521,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           if(userResponse.user != null && userResponse.user?.id != null) {
 
-            SessionManager.saveUserData(userResponse.user!);
+            SessionManager.setUserData(userResponse.user!);
 
             TabsScreen.currentIndex = 0;
 

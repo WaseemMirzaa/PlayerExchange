@@ -47,15 +47,15 @@ class CpoModel {
 
   CpoModel.fromJson(dynamic json) {
     _id = json['id'];
-    _playerName = json['playerName'];
-    _profilePicture = json['profilePicture'];
-    _playerId = json['playerId'];
-    _video = json['video'];
-    _currentPricePerShare = json['currentPricePerShare'];
-    _sharePurchased = json['sharePurchased'];
-    _sharesAvailable = json['sharesAvailable'];
-    _position = json['position'];
-    _tiersId = json['tiersId'];
+    _playerName = json['playerName'] ?? "";
+    _profilePicture = json['profilePicture'] ?? "";
+    _playerId = json['playerId'] ?? "";
+    _video = json['video'] ?? "";
+    _currentPricePerShare = json['currentPricePerShare'] ?? 0.0;
+    _sharePurchased = json['sharePurchased'] ?? 0.0;
+    _sharesAvailable = json['sharesAvailable'] ?? 0.0;
+    _position = json['position'] ?? "";
+    _tiersId = json['tiersId']?? "";
     _tiers = json['tiers'] != null ? Tiers.fromJson(json['tiers']) : null;
   }
   String? _id;

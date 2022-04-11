@@ -1,10 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/ui/screens/login_screen.dart';
+import 'package:player_exchange/utils/session_manager.dart';
 
 import 'home_tabs/tabs_screen.dart';
 
 class AppDrawer extends StatelessWidget {
+  AppDrawerController appDrawerController = Get.put(AppDrawerController());
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -117,6 +124,17 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
+          //Logout
+          _createDrawerItem(
+            icon: Icons.logout,
+            text: 'Logout',
+            onTap: () {
+              Navigator.of(context).pop();
+              SessionManager.setUserData(new User());
+              Get.offAll(LoginScreen());
+            },
+          ),
+
         ],
       ),
     );
@@ -173,7 +191,7 @@ class AppDrawer extends StatelessWidget {
             'Account Value',
             style: TextStyle(fontSize: 18),
           ),
-          Text('\$0.00', style: TextStyle(fontSize: 18)),
+          Text('\$ ' + (appDrawerController.user?.totalValue ?? 0.0).toString()  , style: TextStyle(fontSize: 18)),
           Container(
             height: 10,
           ),
@@ -181,7 +199,7 @@ class AppDrawer extends StatelessWidget {
             'Account Balance',
             style: TextStyle(fontSize: 18),
           ),
-          Text('\$0.00', style: TextStyle(fontSize: 18, color: Colors.green)),
+          Text('\$ ' + (appDrawerController.user?.unInvestedValue ?? 0.0).toString(), style: TextStyle(fontSize: 18, color: Colors.green)),
           // )
           Container(
             height: 30,
@@ -210,12 +228,14 @@ class AppDrawer extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 25,
+                      backgroundImage: NetworkImage(appDrawerController.user?.profilePicture ?? ""),
+
                       backgroundColor: Colors.white,
                     ),
                     Container(
                       width: 10,
                     ),
-                    Text("@Hike",
+                    Text(appDrawerController.user?.name ?? "",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
