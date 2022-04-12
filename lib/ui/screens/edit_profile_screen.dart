@@ -8,14 +8,14 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
-  _EditProfileState createState() => _EditProfileState();
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   var shareController = TextEditingController();
   var offerAmountController = TextEditingController();
 
@@ -48,7 +48,7 @@ class _EditProfileState extends State<EditProfile> {
                 ],
               ),
               Text(
-                'NickName',
+                'Name',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class _EditProfileState extends State<EditProfile> {
                 controller: shareController,
                 decoration: InputDecoration(
                   hintText: "IsacB",
-                  label: Text('Nick Name'),
+                  label: Text('Name'),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(
@@ -80,39 +80,39 @@ class _EditProfileState extends State<EditProfile> {
               SizedBox(
                 height: 30.h,
               ),
-              Text(
-                'Username',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
-              SizedBox(
-                height: 7.h,
-              ),
-              Text(
-                'You can use your username to login',
-                style: TextStyle(color: Colors.black),
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              TextFormField(
-                controller: offerAmountController,
-                decoration: InputDecoration(
-                  hintText: "@IsacB",
-                  label: Text('User Name'),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      borderSide: BorderSide(
-                        color: ColorManager.lightGreyDivider,
-                        width: 0.1,
-                      )),
-                ),
-              ),
-              SizedBox(
-                height: 30.h,
-              ),
+              // Text(
+              //   'Username',
+              //   style: TextStyle(
+              //       color: Colors.black,
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 18),
+              // ),
+              // SizedBox(
+              //   height: 7.h,
+              // ),
+              // Text(
+              //   'You can use your username to login',
+              //   style: TextStyle(color: Colors.black),
+              // ),
+              // SizedBox(
+              //   height: 10.h,
+              // ),
+              // TextFormField(
+              //   controller: offerAmountController,
+              //   decoration: InputDecoration(
+              //     hintText: "@IsacB",
+              //     label: Text('User Name'),
+              //     border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.all(Radius.circular(10)),
+              //         borderSide: BorderSide(
+              //           color: ColorManager.lightGreyDivider,
+              //           width: 0.1,
+              //         )),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 30.h,
+              // ),
               FilledButton(
                 onTap: () {},
                 text: 'Earn Reward',
