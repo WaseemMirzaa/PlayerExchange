@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/controllers/profile_screen_controller.dart';
 import 'package:player_exchange/ui/screens/edit_profile_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -19,7 +20,10 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  ProfileScreenController profileScreenController = Get.put(ProfileScreenController());
+  ProfileScreenController profileScreenController =
+      Get.put(ProfileScreenController());
+  AppDrawerController appDrawerController =
+      Get.find<AppDrawerController>(tag: "AppDrawerController");
 
   @override
   Widget build(BuildContext context) {
@@ -180,47 +184,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget headerWidget() {
-    return Obx((){ return Container(
-      color: ColorManager.backgroundGreyColor,
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        child: Column(
-          children: [
-            SvgPicture.asset(AssetsString().ProfileImage),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              profileScreenController.user.value.name ?? "",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: StyleManager().largeFontSize,
-                  fontWeight: FontWeight.w600),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              profileScreenController.user.value.email ?? "",
-              style: TextStyle(color: Colors.grey),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              'Joined: ' + (profileScreenController.user.value.createdAt ?? ""),
-              style: TextStyle(color: Colors.grey),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CustomDivider(),
-            SizedBox(
-              height: 15,
-            )
-          ],
+    return Obx(() {
+      return Container(
+        color: ColorManager.backgroundGreyColor,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Column(
+            children: [
+              Container(
+                height: 120.0,
+                width: 120.0,
+                decoration: BoxDecoration(
+                  color: Colors.black12,
+                  image: DecorationImage(
+                    image: NetworkImage(appDrawerController
+                            .user.value.profilePicture ?? ""),
+                    fit: BoxFit.fill,
+                  ),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              // FadeInImage.assetNetwork(
+              //   placeholder: AssetsString().placeHolderProfile,
+              //   // placeholder: 'assets/placeHolderProfile.jpg',
+              //   image: appDrawerController.user.value.profilePicture ?? "https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png",
+              // ),
+              // SvgPicture.asset(AssetsString().ProfileImage),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                appDrawerController.user.value.name ?? "",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: StyleManager().largeFontSize,
+                    fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                appDrawerController.user.value.email ?? "",
+                style: TextStyle(color: Colors.grey),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Joined: ' + (appDrawerController.user.value.createdAt ?? ""),
+                style: TextStyle(color: Colors.grey),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomDivider(),
+              SizedBox(
+                height: 15,
+              )
+            ],
+          ),
         ),
-      ),
-    );});
+      );
+    });
   }
 }

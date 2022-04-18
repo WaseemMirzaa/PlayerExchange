@@ -111,6 +111,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_image_compress:
+    dependency: "direct main"
+    description:
+      name: flutter_image_compress
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   flutter_inappwebview:
     dependency: transitive
     description:
@@ -378,13 +385,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sn_progress_dialog:
-    dependency: "direct main"
-    description:
-      name: sn_progress_dialog
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   source_span:
     dependency: transitive
     description:

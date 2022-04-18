@@ -7,7 +7,7 @@ import 'package:player_exchange/utils/session_manager.dart';
 
 class HomeScreenController extends GetxController {
   var isLoading = true.obs;
-RosterController rosterController = Get.put(RosterController());
+  RosterController rosterController = Get.put(RosterController());
 
   @override
   void onInit() {

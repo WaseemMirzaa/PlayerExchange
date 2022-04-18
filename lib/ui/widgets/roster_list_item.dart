@@ -34,10 +34,14 @@ class _RoasterListItemState extends State<RoasterListItem> {
           Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 10, 0, 10),
             child: CircleAvatar(
-              radius: 20.0,
-              foregroundImage: NetworkImage(
-                  'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-              backgroundColor: Colors.transparent,
+              backgroundColor: ColorManager.placeholderGreyColor,
+              radius: 27,
+              child: CircleAvatar(
+                radius:25.0,
+                foregroundImage: NetworkImage(
+                    widget.rosterController.rosterList[widget.index].obs.value.cpoAthletes!.profilePicture ?? ""),
+                backgroundColor: Colors.white,
+              ),
             ),
           ),
           Flexible(

@@ -84,7 +84,7 @@ class User {
       double? totalValue, 
       double? lossGainPercentage,}){
     _id = id;
-    _name = name;
+    name = name;
     _email = email;
     _age = age;
     _password = password;
@@ -95,7 +95,7 @@ class User {
     _uniqueKey = uniqueKey;
     _isBlocked = isBlocked;
     _isActive = isActive;
-    _profilePicture = profilePicture;
+    profilePicture = profilePicture;
     _unInvestedValue = unInvestedValue;
     _totalValue = totalValue;
     _lossGainPercentage = lossGainPercentage;
@@ -103,7 +103,7 @@ class User {
 
   User.fromJson(dynamic json) {
     _id = json['id'];
-    _name = json['name'] ?? "";
+    name = json['name'] ?? "";
     _email = json['email'] ?? "";
     _age = json['age'] ?? 0;
     _password = json['password'] ?? "";
@@ -114,13 +114,13 @@ class User {
     _uniqueKey = json['uniqueKey'] ?? "";
     _isBlocked = json['isBlocked'] ?? true;
     _isActive = json['isActive'] ?? true;
-    _profilePicture = json['profilePicture']  ?? "";
+    profilePicture = json['profilePicture']  ?? "";
     _unInvestedValue = json['unInvestedValue']  ?? 0.0;
     _totalValue = json['totalValue'] ?? 0.0;
     _lossGainPercentage = json['lossGainPercentage'] ?? 0.0;
   }
   String? _id;
-  String? _name;
+  String? name;
   String? _email;
   double? _age;
   String? _password;
@@ -131,7 +131,7 @@ class User {
   String? _uniqueKey;
   bool? _isBlocked;
   bool? _isActive;
-  String? _profilePicture;
+  String? profilePicture;
   double? _unInvestedValue;
   double? _totalValue;
   double? _lossGainPercentage;
@@ -152,7 +152,7 @@ User copyWith({  String? id,
   double? totalValue,
   double? lossGainPercentage,
 }) => User(  id: id ?? _id,
-  name: name ?? _name,
+  name: name ?? name,
   email: email ?? _email,
   age: age ?? _age,
   password: password ?? _password,
@@ -163,13 +163,13 @@ User copyWith({  String? id,
   uniqueKey: uniqueKey ?? _uniqueKey,
   isBlocked: isBlocked ?? _isBlocked,
   isActive: isActive ?? _isActive,
-  profilePicture: profilePicture ?? _profilePicture,
+  profilePicture: profilePicture ?? profilePicture,
   unInvestedValue: unInvestedValue ?? _unInvestedValue,
   totalValue: totalValue ?? _totalValue,
   lossGainPercentage: lossGainPercentage ?? _lossGainPercentage,
 );
   String? get id => _id;
-  String? get name => _name;
+  // String? get name => name;
   String? get email => _email;
   double? get age => _age;
   String? get password => _password;
@@ -180,7 +180,7 @@ User copyWith({  String? id,
   String? get uniqueKey => _uniqueKey;
   bool? get isBlocked => _isBlocked;
   bool? get isActive => _isActive;
-  String? get profilePicture => _profilePicture;
+  // String? get profilePicture => profilePicture;
   double? get unInvestedValue => _unInvestedValue;
   double? get totalValue => _totalValue;
   double? get lossGainPercentage => _lossGainPercentage;
@@ -188,7 +188,7 @@ User copyWith({  String? id,
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = _id;
-    map['name'] = _name;
+    map['name'] = name;
     map['email'] = _email;
     map['age'] = _age;
     map['password'] = _password;
@@ -199,7 +199,7 @@ User copyWith({  String? id,
     map['uniqueKey'] = _uniqueKey;
     map['isBlocked'] = _isBlocked;
     map['isActive'] = _isActive;
-    map['profilePicture'] = _profilePicture;
+    map['profilePicture'] = profilePicture;
     map['unInvestedValue'] = _unInvestedValue;
     map['totalValue'] = _totalValue;
     map['lossGainPercentage'] = _lossGainPercentage;

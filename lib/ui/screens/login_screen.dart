@@ -12,13 +12,14 @@ import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/auth/sign_in_request.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
+import 'package:player_exchange/ui/widgets/circle-progress-bar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
+import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
-import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -243,8 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
       signInRequest.password = passwordController.text;
       signInRequest.fcmToken = '';
 
-      ProgressDialog pd = ProgressDialog(context: context);
-      pd.show(max: 100, msg: 'Loading');
+      LoadingIndicatorDialog().show(context, text: "Logging in...");
 
       var dio = Dio();
       try {
@@ -254,8 +254,7 @@ class _LoginScreenState extends State<LoginScreen> {
               HttpHeaders.contentTypeHeader: "application/json",
             }));
 
-        pd.close();
-
+        LoadingIndicatorDialog().dismiss();
         print ("login response: " + response.toString());
         if (response.data != null) {
           UserModel userResponse = UserModel.fromJson(response.data);
@@ -285,8 +284,8 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         }
       } on DioError catch (e) {
-        pd.close();
 
+        LoadingIndicatorDialog().dismiss();
         if (e.response != null) {
           print('has response');
 

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/cpo_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
 class ShareSingleItem extends StatelessWidget {
-  int index=0;
+  final CpoModel cpoModel;
   final CPOController cpoController = Get.put(CPOController());
 
-   ShareSingleItem({Key? key,this.index=0}) : super(key: key);
+   ShareSingleItem({Key? key,required this.cpoModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class ShareSingleItem extends StatelessWidget {
           Flexible(
               flex: 1,
               child: Text(
-                cpoController.userList[index].obs.value.playerName.toString(),
+                cpoModel.obs.value.playerName.toString(),
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: StyleManager().smallFontSize,
@@ -36,7 +37,7 @@ class ShareSingleItem extends StatelessWidget {
                   Flexible(
                       flex: 1,
                       child: Text(
-                        '\$'+cpoController.userList[index].obs.value.currentPricePerShare.toString(),
+                        '\$'+cpoModel.obs.value.currentPricePerShare.toString(),
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: StyleManager().smallFontSize,
@@ -45,7 +46,8 @@ class ShareSingleItem extends StatelessWidget {
                   Flexible(
                       flex: 1,
                       child: Text(
-                        index==0?'100000':"",
+                        // index==0?'100000':"",
+                        cpoModel.sharesAvailable.toString(),
                         style: TextStyle(color: Colors.black),
                       ))
                 ],

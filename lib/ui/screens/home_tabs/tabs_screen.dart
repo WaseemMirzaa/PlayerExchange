@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/list_notifier.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/ui/screens/home_tabs/discover_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/exchnage_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/home_screen.dart';
@@ -196,13 +197,25 @@ class _TabsScreenState extends State<TabsScreen> {
                 ),
               ),
               BottomNavigationBarItem(
-                icon: new SizedBox(
-                  child: Image(
-                    image: AssetImage('assets/pic.png'),
-                  ),
-                  width: 38,
-                  height: 38,
-                ),
+                // icon: Obx (() {return new SizedBox(
+                //   child: Image(
+                //     image: NetworkImage(Get.find<AppDrawerController>(tag: "AppDrawerController").user.value.profilePicture ?? ""),
+                //   ),
+                //   width: 38,
+                //   height: 38,
+                // );}),
+                icon: Obx(() {
+                  return CircleAvatar(
+                    radius: 13,
+                    backgroundImage: NetworkImage(Get.find<AppDrawerController>(
+                                tag: "AppDrawerController")
+                            .user
+                            .value
+                            .profilePicture ??
+                        ""),
+                    backgroundColor: Colors.white,
+                  );
+                }),
                 // ignore: deprecated_member_use
                 title: FittedBox(
                   fit: BoxFit.fitWidth,

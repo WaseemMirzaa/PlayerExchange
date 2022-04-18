@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
@@ -10,7 +11,7 @@ import 'package:player_exchange/utils/session_manager.dart';
 import 'home_tabs/tabs_screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  AppDrawerController appDrawerController = Get.put(AppDrawerController());
+  AppDrawerController appDrawerController = Get.put(AppDrawerController(), tag: "AppDrawerController", permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +192,7 @@ class AppDrawer extends StatelessWidget {
             'Account Value',
             style: TextStyle(fontSize: 18),
           ),
-          Text('\$ ' + (appDrawerController.user?.totalValue ?? 0.0).toString()  , style: TextStyle(fontSize: 18)),
+          Text('\$ ' + (appDrawerController.user.value.totalValue ?? 0.0).toString()  , style: TextStyle(fontSize: 18)),
           Container(
             height: 10,
           ),
@@ -199,7 +200,7 @@ class AppDrawer extends StatelessWidget {
             'Account Balance',
             style: TextStyle(fontSize: 18),
           ),
-          Text('\$ ' + (appDrawerController.user?.unInvestedValue ?? 0.0).toString(), style: TextStyle(fontSize: 18, color: Colors.green)),
+          Text('\$ ' + (appDrawerController.user.value.unInvestedValue ?? 0.0).toString(), style: TextStyle(fontSize: 18, color: Colors.green)),
           // )
           Container(
             height: 30,
@@ -210,7 +211,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _createHeader() {
-    return Container(
+    return Obx ((){ return Container(
       height: 150,
       child: DrawerHeader(
           margin: EdgeInsets.zero,
@@ -228,14 +229,14 @@ class AppDrawer extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 25,
-                      backgroundImage: NetworkImage(appDrawerController.user?.profilePicture ?? ""),
+                      backgroundImage: NetworkImage(appDrawerController.user.value.profilePicture ?? ""),
 
                       backgroundColor: Colors.white,
                     ),
                     Container(
                       width: 10,
                     ),
-                    Text(appDrawerController.user?.name ?? "",
+                    Text(appDrawerController.user.value.name ?? "",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
@@ -243,6 +244,6 @@ class AppDrawer extends StatelessWidget {
                   ],
                 )),
           ])),
-    );
+    );});
   }
 }

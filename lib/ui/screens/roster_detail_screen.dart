@@ -51,10 +51,14 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                         fontWeight: FontWeight.bold),
                   ),
                   CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: NetworkImage(
-                        'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-                    backgroundColor: Colors.transparent,
+                    radius: 32,
+                    backgroundColor: ColorManager.placeholderGreyColor,
+                    child: CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage(
+                          widget.rosterModel.cpoAthletes!.profilePicture ?? ""),
+                      backgroundColor: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -86,8 +90,6 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                     width: 3.w,
                                   ),
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Icon(
                                         Icons.arrow_drop_up_rounded,
@@ -108,7 +110,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    '\$' + '75',
+                                    '\$'+ "${widget.rosterModel.cpoAthletes!.currentPricePerShare! * widget.rosterModel.cpoAthletes!.sharePurchased!}",
                                     style: TextStyle(
                                         fontSize: StyleManager().smallFontSize,
                                         fontWeight: FontWeight.w600,

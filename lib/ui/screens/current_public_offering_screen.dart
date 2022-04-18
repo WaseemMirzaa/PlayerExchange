@@ -3,6 +3,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:player_exchange/Networking/api.dart';
 import 'package:player_exchange/Networking/api_requests.dart';
 import 'package:player_exchange/controllers/cpo_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
@@ -140,96 +141,156 @@ class _CurrentPublicOfferingScreenState
                   SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'tier_1'.tr,
-                        style: TextStyle(
-                            color: ColorManager.greenColor,
-                            fontSize: StyleManager().smallFontSize,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        'shares_available'.tr,
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: StyleManager().smallFontSize),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   children: [
+                  //     Text(
+                  //       'tier_1'.tr,
+                  //       style: TextStyle(
+                  //           color: ColorManager.greenColor,
+                  //           fontSize: StyleManager().smallFontSize,
+                  //           fontWeight: FontWeight.w500),
+                  //     ),
+                  //     Text(
+                  //       'shares_available'.tr,
+                  //       style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: StyleManager().smallFontSize),
+                  //     ),
+                  //   ],
+                  // ),
                 ])),
                 Obx(() {
                   return SliverList(
                       delegate: SliverChildBuilderDelegate((_, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(RosterDetailFromDiscovery());
-                      },
-                      child: ShareSingleItem(
-                        index: index,
-                      ),
+                    final item = cpoController.cpoItemList[index];
+                    return ListTile(
+                      title: item.buildTitle(context),
+                      visualDensity: VisualDensity.compact,
                     );
-                  }, childCount: cpoController.userList.length));
+                  }, childCount: cpoController.cpoItemList.length));
                 }),
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    _buildListItem(),
-                    _buildListItem(),
-                    _buildListItem(),
-                    _buildListItem(),
-                    _buildListItem(),
-                    _buildListItem(),
-                  ]),
-                )
+                // SliverList(
+                //   delegate: SliverChildListDelegate([
+                //     _buildListItem(),
+                //     _buildListItem(),
+                //     _buildListItem(),
+                //     _buildListItem(),
+                //     _buildListItem(),
+                //     _buildListItem(),
+                //   ]),
+                // )
               ],
             )));
   }
 
-  Widget _buildListItem() {
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(top: 0, left: 0, right: 0),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Tier',
-              style: TextStyle(
-                  color: ColorManager.greenColor,
-                  fontSize: StyleManager().smallFontSize,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
+// Widget _buildListItem() {
+//   return Column(
+//     children: <Widget>[
+//       Padding(
+//         padding: EdgeInsets.only(top: 0, left: 0, right: 0),
+//         child: Align(
+//           alignment: Alignment.topLeft,
+//           child: Text(
+//             'Tier',
+//             style: TextStyle(
+//                 color: ColorManager.greenColor,
+//                 fontSize: StyleManager().smallFontSize,
+//                 fontWeight: FontWeight.w500),
+//           ),
+//         ),
+//       ),
+//       ListView.builder(
+//         padding: EdgeInsets.only(top: 8.0),
+//         itemBuilder: (context, index) {
+//           return Padding(
+//             padding: EdgeInsets.symmetric(
+//               horizontal: 16.0,
+//               vertical: 8.0,
+//             ),
+//             child: Text(
+//               'Patrick Homes$index',
+//               style: TextStyle(
+//                   color: Colors.black,
+//                   fontSize: StyleManager().mediumFontSize,
+//                   fontWeight: FontWeight.w500),
+//             ),
+//           );
+//         },
+//         itemCount: 4,
+//         shrinkWrap: true,
+//         // todo comment this out and check the result
+//         physics:
+//             ClampingScrollPhysics(), // todo comment this out and check the result
+//       ),
+//     ],
+//   );
+// }
+}
+
+/// The base class for the different types of items the list can contain.
+abstract class CpoListItem {
+  CpoModel get cpoModel;
+  /// The title line to show in a list item.
+  Widget buildTitle(BuildContext context);
+}
+
+/// A ListItem that contains data to display a heading.
+class CpoHeadingItem implements CpoListItem {
+  String sharesAvailable = "Shares Available";
+
+  CpoHeadingItem({required this.cpoModel});
+
+  @override
+  Widget buildTitle(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Text(
+          cpoModel.tiers?.name ?? "",
+          style: TextStyle(
+              color: ColorManager.greenColor,
+              fontSize: StyleManager().smallFontSize,
+              fontWeight: FontWeight.w500),
         ),
-        ListView.builder(
-          padding: EdgeInsets.only(top: 8.0),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              child: Text(
-                'Patrick Homes$index',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: StyleManager().mediumFontSize,
-                    fontWeight: FontWeight.w500),
-              ),
-
-
-
-            );
-          },
-          itemCount: 4,
-          shrinkWrap: true,
-          // todo comment this out and check the result
-          physics:
-              ClampingScrollPhysics(), // todo comment this out and check the result
+        Text(
+          'Shares Available',
+          style: TextStyle(
+              color: Colors.grey, fontSize: StyleManager().smallFontSize),
         ),
       ],
     );
   }
+
+  @override
+  // TODO: implement cpoModel
+  late final CpoModel  cpoModel;
+
+
+}
+
+/// A ListItem that contains data to display a message.
+class CpoShareItem implements CpoListItem {
+  CpoShareItem({required CpoModel cpoModel}) {
+    this.cpoModel = cpoModel;
+  }
+
+  @override
+  Widget buildTitle(BuildContext context) => GestureDetector(
+      onTap: () {
+        Get.to(RosterDetailFromDiscovery());
+      },
+      // child: ShareSingleItem(
+      //   index: index,
+      // ),
+      child: ShareSingleItem(
+        cpoModel: cpoModel,
+      ));
+
+  @override
+  // TODO: implement cpoModel
+  late final CpoModel cpoModel;
+
 }
