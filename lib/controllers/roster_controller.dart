@@ -7,6 +7,7 @@ class RosterController extends GetxController {
   var isLoading = true.obs;
   var rosterList = <RosterModel>[].obs;
   var itemList = <Widget>[].obs;
+  var ascendingRosterList = <RosterModel>[].obs;
 
 
   void getRoster() async {
@@ -15,10 +16,17 @@ class RosterController extends GetxController {
       var roster = await APIRequests.doApi_getRoster();
       if (roster != null) {
         rosterList.value = roster;
+        sortAscendingList(roster);
+
       }
     } finally {
       isLoading(false);
     }
+  }
+
+  void sortAscendingList(var roster){
+    ascendingRosterList.value.addAll(roster);
+    ascendingRosterList.sort((a,b) => a.cpoAthletes!.currentPricePerShare!.compareTo(b.cpoAthletes!.currentPricePerShare!));
   }
 }
 

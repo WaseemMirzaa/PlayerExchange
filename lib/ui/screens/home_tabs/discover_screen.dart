@@ -3,8 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:player_exchange/controllers/discover_screen_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/detail_page/team_detail_screen.dart';
-import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
+import 'package:player_exchange/ui/screens/cpo_detail_from_discovery.dart';
 import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/custom_text_field.dart';
@@ -22,6 +25,8 @@ class DiscoverScreen extends StatefulWidget {
 }
 
 class _DiscoverScreenState extends State<DiscoverScreen> {
+  DiscoverScreenController discoverScreenController = Get.put(DiscoverScreenController());
+
   final YoutubePlayerController youtubeController = YoutubePlayerController(
     initialVideoId: 'NG6pvXpnIso',
     flags: const YoutubePlayerFlags(
@@ -32,6 +37,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    discoverScreenController.getWatchList();
+
     return Scaffold(
         body: SafeArea(
       child: SingleChildScrollView(
@@ -136,13 +143,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   itemBuilder: (_, index) {
                     return InkWell(
                         onTap: () {
-                          Get.to(RosterDetailFromDiscovery());
+                          Get.to(CpoDetailFromDiscovery(cpoModel: discoverScreenController.favoriteList.value[index].cpoAthletes ?? new CpoModel()));
                         },
                         child: RoasterListItem(
-                          isShowSharesLabel: false,
+                          rosterModel: new RosterModel(),
+                          isRoster: false,
+                          cpoModel: discoverScreenController.favoriteList[index].cpoAthletes ?? new CpoModel(),
                         ));
                   },
-                  itemCount: 5,
+                  itemCount: discoverScreenController.favoriteList.length,
                   separatorBuilder: (_, index) => CustomDivider(),
                 ),
               ),

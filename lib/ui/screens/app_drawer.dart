@@ -11,7 +11,7 @@ import 'package:player_exchange/utils/session_manager.dart';
 import 'home_tabs/tabs_screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  AppDrawerController appDrawerController = Get.put(AppDrawerController(), tag: "AppDrawerController", permanent: true);
+  AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {

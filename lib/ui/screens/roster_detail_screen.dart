@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_screen.dart';
 import 'package:player_exchange/ui/screens/exchange_player.dart';
@@ -449,7 +450,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: FilledButton(
               onTap: () {
-                Get.to(() => const BuyScreen());
+                Get.to(() => BuyScreen(widget.rosterModel.cpoAthletes ?? CpoModel()));
               },
               text: "Buy",
               reverseColor: true,

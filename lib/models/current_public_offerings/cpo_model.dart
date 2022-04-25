@@ -26,7 +26,7 @@ class CpoModel {
       String? profilePicture, 
       String? playerId, 
       String? video, 
-      int? currentPricePerShare, 
+      num? currentPricePerShare,
       int? sharePurchased, 
       int? sharesAvailable, 
       String? position, 
@@ -63,7 +63,7 @@ class CpoModel {
   String? _profilePicture;
   String? _playerId;
   String? _video;
-  int? _currentPricePerShare;
+  num? _currentPricePerShare;
   int? _sharePurchased;
   int? _sharesAvailable;
   String? _position;
@@ -75,7 +75,7 @@ class CpoModel {
   String? get profilePicture => _profilePicture;
   String? get playerId => _playerId;
   String? get video => _video;
-  int? get currentPricePerShare => _currentPricePerShare;
+  num? get currentPricePerShare => _currentPricePerShare;
   int? get sharePurchased => _sharePurchased;
   int? get sharesAvailable => _sharesAvailable;
   String? get position => _position;

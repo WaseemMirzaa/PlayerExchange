@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/roster_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/exhange_screen_group_two.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
@@ -32,7 +33,8 @@ class _RosterScreenState extends State<RosterScreen> {
                 onTap: () {
                   Get.to(ExchangeScreenSecond());
                 },
-                child: RoasterListItem(index:index));
+                child: RoasterListItem(isRoster: true, rosterModel: widget.rosterController.rosterList[index],
+                cpoModel: widget.rosterController.rosterList[index].cpoAthletes ?? CpoModel(),));
           }, childCount: widget.rosterController.rosterList.length)),
           SliverList(
               delegate: SliverChildListDelegate([

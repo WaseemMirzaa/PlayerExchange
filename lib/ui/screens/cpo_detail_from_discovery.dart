@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
+import 'package:get/get.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/controllers/cpo_detail_discovery_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
@@ -9,32 +13,46 @@ import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
+// import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'buy_and_watch/buy_screen.dart';
 
+class CpoDetailFromDiscovery extends StatefulWidget {
+  final CpoModel cpoModel;
 
-class RosterDetailFromDiscovery extends StatefulWidget {
-  
-  const RosterDetailFromDiscovery({Key? key,}) : super(key: key);
-
+  const CpoDetailFromDiscovery({Key? key, required this.cpoModel}) : super(key: key);
 
   @override
-  _RosterDetailFromDiscoveryState createState() =>
-      _RosterDetailFromDiscoveryState();
+  _CpoDetailFromDiscoveryState createState() => _CpoDetailFromDiscoveryState();
 }
 
-class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
+class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
+  CPODetailDiscoveryController cpoDetailDiscoveryController =
+      Get.put(CPODetailDiscoveryController());
+  AppDrawerController appDrawerController = Get.find<AppDrawerController>();
   int activeIndex = 0;
-  final YoutubePlayerController youtubeController = YoutubePlayerController(
-    initialVideoId: 'NG6pvXpnIso',
+  late final YoutubePlayerController youtubeController = YoutubePlayerController(
+    // initialVideoId: 'NG6pvXpnIso',
+    initialVideoId: widget.cpoModel.video ?? "",
     flags: const YoutubePlayerFlags(
       autoPlay: false,
       mute: true,
     ),
   );
+  // late VideoPlayerController _controller;
+
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _controller = VideoPlayerController.network(
+  //       'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+  //     ..initialize().then((_) {
+  //       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+  //       setState(() {});
+  //     });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,17 +69,20 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'JONES QBNY'.tr,
+                    widget.cpoModel.playerName ?? "",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: StyleManager().largeFontSize,
                         fontWeight: FontWeight.bold),
                   ),
                   CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage:
-                        NetworkImage('https://via.placeholder.com/150'),
-                    backgroundColor: Colors.transparent,
+                    radius: 32,
+                    backgroundColor: ColorManager.placeholderGreyColor,
+                    child: CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage(widget.cpoModel.profilePicture ?? ""),
+                      backgroundColor: Colors.transparent,
+                    ),
                   ),
                 ],
               ),
@@ -81,23 +102,21 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                           Row(
                             children: [
                               Text(
-                                '\$ 16.45',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
+                                '\$ ' + widget.cpoModel.currentPricePerShare.toString(),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
                               ),
                               Row(
                                 children: [
                                   Text(
-                                    '\$' + '75',
+                                    ' \$' + '75',
                                     style: TextStyle(
                                         fontSize: StyleManager().smallFontSize,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white),
+                                        color: ColorManager.greenColor),
                                   ),
                                   Icon(
                                     Icons.arrow_forward_ios_rounded,
-                                    color: Colors.white,
+                                    color: ColorManager.greenColor,
                                     size: 12,
                                   )
                                 ],
@@ -110,14 +129,11 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'available_shares'.tr),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: ' 375 '),
+                                style: TextStyle(color: ColorManager.greenColor),
+                                text: widget.cpoModel.sharesAvailable.toString() ?? ""),
                           ]))
                         ],
                       )),
@@ -129,14 +145,10 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'open'.tr + " : "),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375 '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -144,14 +156,10 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'high'.tr + " : "),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375 '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -159,13 +167,10 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'low'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(
-                                    color: ColorManager.lowPriceColor),
+                                style: TextStyle(color: ColorManager.lowPriceColor),
                                 text: '\$ 375 '),
                           ])),
                         ],
@@ -191,22 +196,18 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                         Text(
                           'live'.tr,
                           style: TextStyle(
-                              color: ColorManager.greenColor,
-                              fontWeight: FontWeight.w600),
+                              color: ColorManager.greenColor, fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
                           width: 15,
                         ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '1Q', isEnable: false))
+                        Container(width: 50, child: OfferHeading(title: '1Q', isEnable: false))
                       ],
                     ),
                     Text(
                       '2 Q'.tr,
                       style: TextStyle(
-                          color: ColorManager.buttonBorderGreyColor,
-                          fontWeight: FontWeight.w600),
+                          color: ColorManager.buttonBorderGreyColor, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -265,8 +266,7 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.only(top: 8.0, bottom: 10, left: 10, right: 10),
+                padding: EdgeInsets.only(top: 8.0, bottom: 10, left: 10, right: 10),
                 child: CustomDivider(),
               ),
             ])),
@@ -293,94 +293,132 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
   }
 
   getChartWidget() {
-    return SliverList(
-        delegate: SliverChildListDelegate([
-      Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 15,
+    cpoDetailDiscoveryController.getWatchList(
+        appDrawerController.user.value.id ?? "", widget.cpoModel.id ?? "");
+    // _controller = VideoPlayerController.network(
+    //     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+    //   ..initialize().then((_) {
+    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //     setState(() {});
+    //   });
+    return Obx(() {
+      return SliverList(
+          delegate: SliverChildListDelegate([
+        Container(
+            // padding: EdgeInsets.symmetric(
+            //   vertical: 15,
+            // ),
+            // child: Scaffold(
+            //   body: Center(
+            //     child: _controller.value.isInitialized
+            //         ? AspectRatio(
+            //       aspectRatio: _controller.value.aspectRatio,
+            //       child: VideoPlayer(_controller),
+            //     )
+            //         : Container(),
+            //   ),
+            //   floatingActionButton: FloatingActionButton(
+            //     onPressed: () {
+            //       setState(() {
+            //         _controller.value.isPlaying
+            //             ? _controller.pause()
+            //             : _controller.play();
+            //       });
+            //     },
+            //     child: Icon(
+            //       _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+            //     ),
+            //   ),
+            // ),
+            child: YoutubePlayer(
+              controller: youtubeController,
+              showVideoProgressIndicator: true,
+              progressColors: const ProgressBarColors(
+                playedColor: Colors.redAccent,
+                handleColor: Color(0xffFF6757),
+              ),
+              onReady: () {},
+            ),
+            ),
+        Text(
+          'Justin Fields Throws 20 yards td pass to put bears up at half...',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
         ),
-        child: YoutubePlayer(
-          controller: youtubeController,
-          showVideoProgressIndicator: true,
-          progressColors: const ProgressBarColors(
-            playedColor: Colors.redAccent,
-            handleColor: Color(0xffFF6757),
+        Text(
+          '2d',
+          style: TextStyle(color: ColorManager.colorTextGray, fontWeight: FontWeight.w400),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    shareTitleAndValue(
+                        'Share Cost', '\$' + widget.cpoModel.currentPricePerShare.toString(),
+                        isShowGraph: true),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Column(
+                  children: [
+                    shareTitleAndValue(
+                        'Share Available', '\$' + widget.cpoModel.sharesAvailable.toString()),
+                  ],
+                ),
+              ),
+            ],
           ),
-          onReady: () {},
         ),
-      ),
-      Text(
-        'Justin Fields Throws 20 yards td pass to put bears up at half...',
-        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-      ),
-      Text(
-        '2d',
-        style: TextStyle(
-            color: ColorManager.colorTextGray, fontWeight: FontWeight.w400),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 30.0),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  shareTitleAndValue('Share Cost', '\$15', isShowGraph: true),
-                ],
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                child: FilledButton(
+                  onTap: () {
+                    Get.to(() => BuyScreen(widget.cpoModel));
+                  },
+                  text: "Buy",
+                  reverseColor: true,
+                  isFullWidth: false,
+                  color: ColorManager.blueGreyButtonColor,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Column(
-                children: [
-                  shareTitleAndValue('Share Available', '\$15'),
-                ],
+              SizedBox(
+                width: 15.w,
               ),
-            ),
-          ],
+              Expanded(
+                child: FilledButton(
+                  onTap: () {
+                    //Add to watch list
+                    if (!cpoDetailDiscoveryController.isWatched.value) {
+                      cpoDetailDiscoveryController.addToWatchList(
+                          appDrawerController.user.value.id ?? "", widget.cpoModel.id ?? "");
+                    } else {
+                      cpoDetailDiscoveryController.removeFromWatchList();
+                    }
+                  },
+                  text: cpoDetailDiscoveryController.isWatched.value ? "Unwatch" : "Watch",
+                  reverseColor: true,
+                  isFullWidth: false,
+                  color: ColorManager.blueGreyButtonColor,
+                ),
+              ),
+              // FilledButton(onTap: (){
+              //   Get.to(()=>const WatchScreen());
+              // },text: "Watch",reverseColor: true,isFullWidth: false,color: ColorManager.blueGreyButtonColor,),
+            ],
+          ),
         ),
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: FilledButton(
-                onTap: () {
-                  Get.to(() => const BuyScreen());
-                },
-                text: "Buy",
-                reverseColor: true,
-                isFullWidth: false,
-                color: ColorManager.blueGreyButtonColor,
-              ),
-            ),
-            SizedBox(
-              width: 15.w,
-            ),
-            Expanded(
-              child: FilledButton(
-                onTap: () {
-
-                  TabsScreen.currentIndex = 1;
-                  Get.offAll(() => TabsScreen(selectedIndex: 1,));
-                },
-                text: "Watch",
-                reverseColor: true,
-                isFullWidth: false,
-                color: ColorManager.blueGreyButtonColor,
-              ),
-            ),
-            // FilledButton(onTap: (){
-            //   Get.to(()=>const WatchScreen());
-            // },text: "Watch",reverseColor: true,isFullWidth: false,color: ColorManager.blueGreyButtonColor,),
-          ],
-        ),
-      ),
-      CustomDivider(),
-    ]));
+        CustomDivider(),
+      ]));
+    });
   }
 
   getNewList() {
@@ -501,8 +539,7 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
               ),
               Text(
                 'Lorem Ipsum is simply dummy text of  ',
-                style: TextStyle(
-                    color: Colors.grey, fontSize: StyleManager().smallFontSize),
+                style: TextStyle(color: Colors.grey, fontSize: StyleManager().smallFontSize),
               ),
               SizedBox(
                 height: 7,
@@ -543,7 +580,7 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
       Padding(
         padding: EdgeInsets.symmetric(vertical: 15),
         child: Text(
-          'JONES QBNY'.tr,
+          widget.cpoModel.playerName ?? "",
           style: TextStyle(
               color: Colors.black,
               fontSize: StyleManager().largeFontSize,
@@ -557,14 +594,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'Postion',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
-              'QB',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              widget.cpoModel.position ?? "",
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -576,14 +611,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'Age',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               '24',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -595,14 +628,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'Weight',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               '220',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -614,14 +645,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'Height',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               '6\'5\"',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -633,14 +662,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'College',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'Duke',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -652,14 +679,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'Draft',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'Round 1 Pick 6',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -671,14 +696,12 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
             Expanded(
                 child: Text(
               'Team',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'Giants',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -694,5 +717,11 @@ class _RosterDetailFromDiscoveryState extends State<RosterDetailFromDiscovery> {
         height: 20,
       )
     ]));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // _controller.dispose();
   }
 }

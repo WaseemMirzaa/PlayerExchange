@@ -48,7 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       .then((isSuccess) => {
                             if (isSuccess)
                               {
-                                Get.find<AppDrawerController>(tag: "AppDrawerController").user.value =
+                                Get.find<AppDrawerController>().user.value =
                                     editProfileScreenController.user.value,
                                 SessionManager.setUserData(editProfileScreenController.user.value),
                                 Get.back()

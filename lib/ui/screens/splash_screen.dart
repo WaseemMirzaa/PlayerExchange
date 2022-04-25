@@ -2,23 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:player_exchange/theming/theme_model.dart';
-import 'package:player_exchange/ui/screens/auth_screen.dart';
-import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
-import 'package:player_exchange/ui/screens/cash_screen.dart';
-import 'package:player_exchange/ui/screens/current_public_offering_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/exchnage_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/home_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/profile_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
-import 'package:player_exchange/ui/screens/login_screen.dart';
-import 'package:player_exchange/ui/screens/roster_screen.dart';
-import 'package:player_exchange/ui/screens/sign_up_screen.dart';
-import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
-import 'package:player_exchange/utils/assets_string.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/ui/screens/auth_screen.dart';
+import 'package:player_exchange/utils/assets_string.dart';
+import 'package:player_exchange/utils/session_manager.dart';
+
+import 'home_tabs/tabs_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -31,16 +22,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(
-    //     Duration(seconds: 3),
-    //         () => Get.offAll(AuthScreen()));
 
-    Timer(Duration(seconds: 3), () => Get.offAll(AuthScreen()));
+    Timer(Duration(seconds: 3), () => {moveToScreen()});
     // Timer(Duration(seconds: 3), () => Get.offAll(TabsScreen(selectedIndex: TabsScreen.currentIndex,)));
 
     // Timer(
     //     Duration(seconds: 3),
     //         () => Get.offAll(CashScreen()));
+  }
+
+  moveToScreen() async {
+    User? user = await SessionManager.getUserData();
+    if (user != null && user.id != null && user.id!.isNotEmpty) {
+      await Get.off(() => TabsScreen(
+            selectedIndex: TabsScreen.currentIndex,
+          ));
+    } else {
+      Get.offAll(AuthScreen());
+    }
   }
 
   @override
@@ -49,8 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
       BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width,
           maxHeight: MediaQuery.of(context).size.height),
-      designSize: Size(MediaQuery.of(context).size.width,
-          MediaQuery.of(context).size.height),
+      designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
     );
     return Scaffold(
       body: Container(

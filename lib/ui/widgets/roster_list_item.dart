@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/roster_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
@@ -9,11 +11,11 @@ import 'package:player_exchange/utils/style_manager.dart';
 
 class RoasterListItem extends StatefulWidget {
   int index = 0;
-  bool isShowSharesLabel;
+  bool isRoster;
+  CpoModel cpoModel;
+  RosterModel rosterModel = RosterModel();
 
-  RosterController rosterController = Get.put(RosterController());
-
-  RoasterListItem({Key? key, this.isShowSharesLabel = true,this.index=0}) : super(key: key);
+  RoasterListItem({Key? key, this.isRoster = true, required this.cpoModel, required this.rosterModel}) : super(key: key);
 
   @override
   _RoasterListItemState createState() => _RoasterListItemState();
@@ -35,11 +37,11 @@ class _RoasterListItemState extends State<RoasterListItem> {
             padding: const EdgeInsets.fromLTRB(10.0, 10, 0, 10),
             child: CircleAvatar(
               backgroundColor: ColorManager.placeholderGreyColor,
-              radius: 27,
+              radius: 22,
               child: CircleAvatar(
-                radius:25.0,
+                radius:20.0,
                 foregroundImage: NetworkImage(
-                    widget.rosterController.rosterList[widget.index].obs.value.cpoAthletes!.profilePicture ?? ""),
+                    widget.cpoModel.profilePicture ?? ""),
                 backgroundColor: Colors.white,
               ),
             ),
@@ -50,18 +52,18 @@ class _RoasterListItemState extends State<RoasterListItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.rosterController.rosterList[widget.index].obs.value.cpoAthletes!.playerName.toString(),
+                    widget.cpoModel.playerName.toString(),
 
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: StyleManager().mediumFontSize,
+                        fontSize: StyleManager().smallFontSize,
                         fontWeight: FontWeight.w600),
                   ),
-                  widget.isShowSharesLabel
+                  widget.isRoster
                       ? Padding(
                           padding: const EdgeInsets.only(top: 3.0),
                           child: Text(
-                            widget.rosterController.rosterList[widget.index].obs.value.sharesBought.toString() +' Shares',
+                            widget.rosterModel.sharesBought.toString() +' Shares',
                             style: TextStyle(color: ColorManager.colorTextGray),
                           ),
                         )
@@ -73,7 +75,7 @@ class _RoasterListItemState extends State<RoasterListItem> {
               flex: 1,
               child: Container(
                 child: Text(
-                  widget.rosterController.rosterList[widget.index].obs.value.cpoAthletes!.position.toString()+'\n'+"Team",
+                  widget.cpoModel.position.toString()+'\n'+"Team",
                   // widget.rosterController.rosterList[widget.index].obs.value.cpoAthletes!..toString(), TODO Put team in Model
                   style: TextStyle(
                       color: Colors.black,
@@ -91,7 +93,7 @@ class _RoasterListItemState extends State<RoasterListItem> {
                     color: ColorManager.greenColor,
                   ),
                   Text(
-                   '\$'+widget.rosterController.rosterList[widget.index].obs.value.currentValue.toString(),
+                   '\$'+widget.cpoModel.currentPricePerShare.toString(),
                     style: TextStyle(
                         fontSize: StyleManager().smallFontSize,
                         fontWeight: FontWeight.w600,

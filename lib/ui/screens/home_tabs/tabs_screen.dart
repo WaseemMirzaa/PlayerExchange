@@ -207,8 +207,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 icon: Obx(() {
                   return CircleAvatar(
                     radius: 13,
-                    backgroundImage: NetworkImage(Get.find<AppDrawerController>(
-                                tag: "AppDrawerController")
+                    backgroundImage: NetworkImage(Get.find<AppDrawerController>()
                             .user
                             .value
                             .profilePicture ??

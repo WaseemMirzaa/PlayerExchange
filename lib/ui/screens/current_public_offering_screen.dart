@@ -4,11 +4,11 @@ import 'package:player_exchange/Networking/api.dart';
 import 'package:player_exchange/Networking/api_requests.dart';
 import 'package:player_exchange/controllers/cpo_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
-import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
+import 'package:player_exchange/ui/screens/cpo_detail_from_discovery.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
-import 'package:player_exchange/ui/widgets/share_single_item.dart';
+import 'package:player_exchange/ui/widgets/cpo_share_single_item.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -112,18 +112,6 @@ class _CurrentPublicOfferingScreenState
                                   ))),
                         ],
                       )
-
-                      /*     ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(onTap: (){
-                        setState(() {
-                          activeIndex=index;
-                        });
-                      }, child: Container(height: 30,width: 50, child: OfferHeading(title: "QB",isEnable: activeIndex==index?true:false,)));
-                    },
-                  ),*/
                       ),
                 ),
                 SliverList(
@@ -141,25 +129,6 @@ class _CurrentPublicOfferingScreenState
                   SizedBox(
                     height: 15,
                   ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   mainAxisSize: MainAxisSize.max,
-                  //   children: [
-                  //     Text(
-                  //       'tier_1'.tr,
-                  //       style: TextStyle(
-                  //           color: ColorManager.greenColor,
-                  //           fontSize: StyleManager().smallFontSize,
-                  //           fontWeight: FontWeight.w500),
-                  //     ),
-                  //     Text(
-                  //       'shares_available'.tr,
-                  //       style: TextStyle(
-                  //           color: Colors.grey,
-                  //           fontSize: StyleManager().smallFontSize),
-                  //     ),
-                  //   ],
-                  // ),
                 ])),
                 Obx(() {
                   return SliverList(
@@ -185,48 +154,7 @@ class _CurrentPublicOfferingScreenState
             )));
   }
 
-// Widget _buildListItem() {
-//   return Column(
-//     children: <Widget>[
-//       Padding(
-//         padding: EdgeInsets.only(top: 0, left: 0, right: 0),
-//         child: Align(
-//           alignment: Alignment.topLeft,
-//           child: Text(
-//             'Tier',
-//             style: TextStyle(
-//                 color: ColorManager.greenColor,
-//                 fontSize: StyleManager().smallFontSize,
-//                 fontWeight: FontWeight.w500),
-//           ),
-//         ),
-//       ),
-//       ListView.builder(
-//         padding: EdgeInsets.only(top: 8.0),
-//         itemBuilder: (context, index) {
-//           return Padding(
-//             padding: EdgeInsets.symmetric(
-//               horizontal: 16.0,
-//               vertical: 8.0,
-//             ),
-//             child: Text(
-//               'Patrick Homes$index',
-//               style: TextStyle(
-//                   color: Colors.black,
-//                   fontSize: StyleManager().mediumFontSize,
-//                   fontWeight: FontWeight.w500),
-//             ),
-//           );
-//         },
-//         itemCount: 4,
-//         shrinkWrap: true,
-//         // todo comment this out and check the result
-//         physics:
-//             ClampingScrollPhysics(), // todo comment this out and check the result
-//       ),
-//     ],
-//   );
-// }
+
 }
 
 /// The base class for the different types of items the list can contain.
@@ -280,12 +208,9 @@ class CpoShareItem implements CpoListItem {
   @override
   Widget buildTitle(BuildContext context) => GestureDetector(
       onTap: () {
-        Get.to(RosterDetailFromDiscovery());
+        Get.to(CpoDetailFromDiscovery(cpoModel: cpoModel,));
       },
-      // child: ShareSingleItem(
-      //   index: index,
-      // ),
-      child: ShareSingleItem(
+      child: CpoShareSingleItem(
         cpoModel: cpoModel,
       ));
 

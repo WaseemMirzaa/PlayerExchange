@@ -7,19 +7,19 @@ import 'package:player_exchange/utils/session_manager.dart';
 class AuthScreenController extends GetxController {
   @override
   void onInit() {
-    getUserData();
+    // getUserData();
   }
 
-  getUserData() async {
-    User? user = await SessionManager.getUserData();
-    if (user != null && user.id != null && user.id!.isNotEmpty) {
-      await Get.off(() => TabsScreen(
-            selectedIndex: TabsScreen.currentIndex,
-          ));
-    }
+  // getUserData() async {
+  //   User? user = await SessionManager.getUserData();
+  //   if (user != null && user.id != null && user.id!.isNotEmpty) {
+  //     await Get.off(() => TabsScreen(
+  //           selectedIndex: TabsScreen.currentIndex,
+  //         ));
+  //   }
     // else{
     //   SessionManager.setUserData(new User());
     //   Get.to(LoginScreen());
     // }
-  }
+  // }
 }

@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ProfileScreenController profileScreenController =
       Get.put(ProfileScreenController());
   AppDrawerController appDrawerController =
-      Get.find<AppDrawerController>(tag: "AppDrawerController");
+      Get.find<AppDrawerController>();
 
   @override
   Widget build(BuildContext context) {

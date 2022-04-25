@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/cpo_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
-import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
-class ShareSingleItem extends StatelessWidget {
+class CpoShareSingleItem extends StatelessWidget {
   final CpoModel cpoModel;
   final CPOController cpoController = Get.put(CPOController());
 
-   ShareSingleItem({Key? key,required this.cpoModel}) : super(key: key);
+  CpoShareSingleItem({Key? key, required this.cpoModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top:8.0),
+      padding: EdgeInsets.only(top: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,7 +36,8 @@ class ShareSingleItem extends StatelessWidget {
                   Flexible(
                       flex: 1,
                       child: Text(
-                        '\$'+cpoModel.obs.value.currentPricePerShare.toString(),
+                        '\$' +
+                            cpoModel.obs.value.currentPricePerShare.toString(),
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: StyleManager().smallFontSize,

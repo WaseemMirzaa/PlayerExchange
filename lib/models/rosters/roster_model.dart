@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 /// id : "e410a31e-e929-4e15-8ae6-e24a02f7df93"
 /// userId : "e056fb9e-2dbe-4205-a9ab-5f35db504f76"
 /// sharesBought : 10
@@ -30,7 +32,7 @@ class RosterModel {
       int? totalInvestment, 
       int? totalRevenue, 
       String? cpoAthletesId, 
-      CpoAthletes? cpoAthletes,}){
+      CpoModel? cpoAthletes,}){
     _id = id;
     _userId = userId;
     _sharesBought = sharesBought;
@@ -53,7 +55,7 @@ class RosterModel {
     _totalInvestment = json['totalInvestment'] ?? 0.0;
     _totalRevenue = json['totalRevenue'] ?? 0.0;
     _cpoAthletesId = json['cpoAthletesId'] ?? "";
-    _cpoAthletes = json['cpoAthletes'] != null ? CpoAthletes.fromJson(json['cpoAthletes']) : null;
+    _cpoAthletes = json['cpoAthletes'] != null ? CpoModel.fromJson(json['cpoAthletes']) : null;
   }
   String? _id;
   String? _userId;
@@ -64,7 +66,7 @@ class RosterModel {
   int? _totalInvestment;
   int? _totalRevenue;
   String? _cpoAthletesId;
-  CpoAthletes? _cpoAthletes;
+  CpoModel? _cpoAthletes;
 
   String? get id => _id;
   String? get userId => _userId;
@@ -75,7 +77,7 @@ class RosterModel {
   int? get totalInvestment => _totalInvestment;
   int? get totalRevenue => _totalRevenue;
   String? get cpoAthletesId => _cpoAthletesId;
-  CpoAthletes? get cpoAthletes => _cpoAthletes;
+  CpoModel? get cpoAthletes => _cpoAthletes;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -107,79 +109,79 @@ class RosterModel {
 /// position : "QB"
 /// tiersId : "dc2f3556-fdfc-42e7-93a3-d93c3a5b58bb"
 
-CpoAthletes cpoAthletesFromJson(String str) => CpoAthletes.fromJson(json.decode(str));
-String cpoAthletesToJson(CpoAthletes data) => json.encode(data.toJson());
-class CpoAthletes {
-  CpoAthletes({
-      String? id, 
-      String? playerName, 
-      String? profilePicture, 
-      String? playerId, 
-      String? video, 
-      int? currentPricePerShare, 
-      int? sharePurchased, 
-      int? sharesAvailable, 
-      String? position, 
-      String? tiersId,}){
-    _id = id;
-    _playerName = playerName;
-    _profilePicture = profilePicture;
-    _playerId = playerId;
-    _video = video;
-    _currentPricePerShare = currentPricePerShare;
-    _sharePurchased = sharePurchased;
-    _sharesAvailable = sharesAvailable;
-    _position = position;
-    _tiersId = tiersId;
-}
-
-  CpoAthletes.fromJson(dynamic json) {
-    _id = json['id'];
-    _playerName = json['playerName'];
-    _profilePicture = json['profilePicture'];
-    _playerId = json['playerId'];
-    _video = json['video'];
-    _currentPricePerShare = json['currentPricePerShare'];
-    _sharePurchased = json['sharePurchased'];
-    _sharesAvailable = json['sharesAvailable'];
-    _position = json['position'];
-    _tiersId = json['tiersId'];
-  }
-  String? _id;
-  String? _playerName;
-  String? _profilePicture;
-  String? _playerId;
-  String? _video;
-  int? _currentPricePerShare;
-  int? _sharePurchased;
-  int? _sharesAvailable;
-  String? _position;
-  String? _tiersId;
-
-  String? get id => _id;
-  String? get playerName => _playerName;
-  String? get profilePicture => _profilePicture;
-  String? get playerId => _playerId;
-  String? get video => _video;
-  int? get currentPricePerShare => _currentPricePerShare;
-  int? get sharePurchased => _sharePurchased;
-  int? get sharesAvailable => _sharesAvailable;
-  String? get position => _position;
-  String? get tiersId => _tiersId;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['playerName'] = _playerName;
-    map['profilePicture'] = _profilePicture;
-    map['playerId'] = _playerId;
-    map['video'] = _video;
-    map['currentPricePerShare'] = _currentPricePerShare;
-    map['sharePurchased'] = _sharePurchased;
-    map['sharesAvailable'] = _sharesAvailable;
-    map['position'] = _position;
-    map['tiersId'] = _tiersId;
-    return map;
-  }
-
-}
+// CpoAthletes cpoAthletesFromJson(String str) => CpoAthletes.fromJson(json.decode(str));
+// String cpoAthletesToJson(CpoAthletes data) => json.encode(data.toJson());
+// class CpoAthletes {
+//   CpoAthletes({
+//       String? id,
+//       String? playerName,
+//       String? profilePicture,
+//       String? playerId,
+//       String? video,
+//       int? currentPricePerShare,
+//       int? sharePurchased,
+//       int? sharesAvailable,
+//       String? position,
+//       String? tiersId,}){
+//     _id = id;
+//     _playerName = playerName;
+//     _profilePicture = profilePicture;
+//     _playerId = playerId;
+//     _video = video;
+//     _currentPricePerShare = currentPricePerShare;
+//     _sharePurchased = sharePurchased;
+//     _sharesAvailable = sharesAvailable;
+//     _position = position;
+//     _tiersId = tiersId;
+// }
+//
+//   CpoAthletes.fromJson(dynamic json) {
+//     _id = json['id'];
+//     _playerName = json['playerName'];
+//     _profilePicture = json['profilePicture'];
+//     _playerId = json['playerId'];
+//     _video = json['video'];
+//     _currentPricePerShare = json['currentPricePerShare'];
+//     _sharePurchased = json['sharePurchased'];
+//     _sharesAvailable = json['sharesAvailable'];
+//     _position = json['position'];
+//     _tiersId = json['tiersId'];
+//   }
+//   String? _id;
+//   String? _playerName;
+//   String? _profilePicture;
+//   String? _playerId;
+//   String? _video;
+//   int? _currentPricePerShare;
+//   int? _sharePurchased;
+//   int? _sharesAvailable;
+//   String? _position;
+//   String? _tiersId;
+//
+//   String? get id => _id;
+//   String? get playerName => _playerName;
+//   String? get profilePicture => _profilePicture;
+//   String? get playerId => _playerId;
+//   String? get video => _video;
+//   int? get currentPricePerShare => _currentPricePerShare;
+//   int? get sharePurchased => _sharePurchased;
+//   int? get sharesAvailable => _sharesAvailable;
+//   String? get position => _position;
+//   String? get tiersId => _tiersId;
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['id'] = _id;
+//     map['playerName'] = _playerName;
+//     map['profilePicture'] = _profilePicture;
+//     map['playerId'] = _playerId;
+//     map['video'] = _video;
+//     map['currentPricePerShare'] = _currentPricePerShare;
+//     map['sharePurchased'] = _sharePurchased;
+//     map['sharesAvailable'] = _sharesAvailable;
+//     map['position'] = _position;
+//     map['tiersId'] = _tiersId;
+//     return map;
+//   }
+//
+// }
