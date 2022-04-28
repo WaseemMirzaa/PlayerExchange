@@ -5,7 +5,7 @@ import 'package:player_exchange/utils/color_manager.dart';
 class LoadingIndicatorDialog {
   static final LoadingIndicatorDialog _singleton = LoadingIndicatorDialog._internal();
   late BuildContext _context;
-  bool isDisplayed = false;
+  static bool isDisplayed = false;
 
   factory LoadingIndicatorDialog() {
     return _singleton;
@@ -17,12 +17,12 @@ class LoadingIndicatorDialog {
     if(isDisplayed) {
       return;
     }
+    isDisplayed = true;
     showDialog<void>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           _context = context;
-          isDisplayed = true;
           return WillPopScope(
             onWillPop: () async => false,
             child: SimpleDialog(

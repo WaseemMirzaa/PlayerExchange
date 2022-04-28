@@ -7,13 +7,13 @@ UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userModelToJson(UserModel data) => json.encode(data.toJson());
 class UserModel {
   UserModel({
-      String? message, 
-      String? token, 
-      User? user,}){
+    String? message,
+    String? token,
+    User? user,}){
     _message = message;
     _token = token;
     _user = user;
-}
+  }
 
   UserModel.fromJson(dynamic json) {
     _message = json['message'];
@@ -23,13 +23,13 @@ class UserModel {
   String? _message;
   String? _token;
   User? _user;
-UserModel copyWith({  String? message,
-  String? token,
-  User? user,
-}) => UserModel(  message: message ?? _message,
-  token: token ?? _token,
-  user: user ?? _user,
-);
+  UserModel copyWith({  String? message,
+    String? token,
+    User? user,
+  }) => UserModel(  message: message ?? _message,
+    token: token ?? _token,
+    user: user ?? _user,
+  );
   String? get message => _message;
   String? get token => _token;
   User? get user => _user;
@@ -62,27 +62,30 @@ UserModel copyWith({  String? message,
 /// unInvestedValue : 0.0
 /// totalValue : 0.0
 /// lossGainPercentage : 0.0
+/// stripeCustomerId : ""
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 class User {
   User({
-      String? id, 
-      String? name, 
-      String? email, 
-      double? age, 
-      String? password, 
-      String? userType, 
-      String? fcmToken, 
-      String? createdAt, 
-      String? secretKey, 
-      String? uniqueKey, 
-      bool? isBlocked, 
-      bool? isActive, 
-      String? profilePicture, 
-      double? unInvestedValue, 
-      double? totalValue, 
-      double? lossGainPercentage,}){
+    String? id,
+    String? name,
+    String? email,
+    num? age,
+    String? password,
+    String? userType,
+    String? fcmToken,
+    String? createdAt,
+    String? secretKey,
+    String? uniqueKey,
+    bool? isBlocked,
+    bool? isActive,
+    String? profilePicture,
+    num? unInvestedValue,
+    num? totalValue,
+    num? lossGainPercentage,
+    String? stripeCustomerId,
+  }){
     _id = id;
     name = name;
     _email = email;
@@ -99,13 +102,14 @@ class User {
     _unInvestedValue = unInvestedValue;
     _totalValue = totalValue;
     _lossGainPercentage = lossGainPercentage;
-}
+    stripeCustomerId = stripeCustomerId;
+  }
 
   User.fromJson(dynamic json) {
     _id = json['id'];
     name = json['name'] ?? "";
     _email = json['email'] ?? "";
-    _age = json['age'] ?? 0;
+    _age = json['age'] ?? 0.0;
     _password = json['password'] ?? "";
     _userType = json['userType'] ?? "";
     _fcmToken = json['fcmToken'] ?? "";
@@ -118,11 +122,13 @@ class User {
     _unInvestedValue = json['unInvestedValue']  ?? 0.0;
     _totalValue = json['totalValue'] ?? 0.0;
     _lossGainPercentage = json['lossGainPercentage'] ?? 0.0;
+    stripeCustomerId = json['stripeCustomerId'] ?? "";
+
   }
   String? _id;
   String? name;
   String? _email;
-  double? _age;
+  num? _age;
   String? _password;
   String? _userType;
   String? _fcmToken;
@@ -132,46 +138,50 @@ class User {
   bool? _isBlocked;
   bool? _isActive;
   String? profilePicture;
-  double? _unInvestedValue;
-  double? _totalValue;
-  double? _lossGainPercentage;
-User copyWith({  String? id,
-  String? name,
-  String? email,
-  double? age,
-  String? password,
-  String? userType,
-  String? fcmToken,
-  String? createdAt,
-  String? secretKey,
-  String? uniqueKey,
-  bool? isBlocked,
-  bool? isActive,
-  String? profilePicture,
-  double? unInvestedValue,
-  double? totalValue,
-  double? lossGainPercentage,
-}) => User(  id: id ?? _id,
-  name: name ?? name,
-  email: email ?? _email,
-  age: age ?? _age,
-  password: password ?? _password,
-  userType: userType ?? _userType,
-  fcmToken: fcmToken ?? _fcmToken,
-  createdAt: createdAt ?? _createdAt,
-  secretKey: secretKey ?? _secretKey,
-  uniqueKey: uniqueKey ?? _uniqueKey,
-  isBlocked: isBlocked ?? _isBlocked,
-  isActive: isActive ?? _isActive,
-  profilePicture: profilePicture ?? profilePicture,
-  unInvestedValue: unInvestedValue ?? _unInvestedValue,
-  totalValue: totalValue ?? _totalValue,
-  lossGainPercentage: lossGainPercentage ?? _lossGainPercentage,
-);
+  num? _unInvestedValue;
+  num? _totalValue;
+  num? _lossGainPercentage;
+  String? stripeCustomerId;
+
+  User copyWith({  String? id,
+    String? name,
+    String? email,
+    num? age,
+    String? password,
+    String? userType,
+    String? fcmToken,
+    String? createdAt,
+    String? secretKey,
+    String? uniqueKey,
+    bool? isBlocked,
+    bool? isActive,
+    String? profilePicture,
+    num? unInvestedValue,
+    num? totalValue,
+    num? lossGainPercentage,
+    String? stripeCustomerId,
+  }) => User(  id: id ?? _id,
+    name: name ?? name,
+    email: email ?? _email,
+    age: age ?? _age,
+    password: password ?? _password,
+    userType: userType ?? _userType,
+    fcmToken: fcmToken ?? _fcmToken,
+    createdAt: createdAt ?? _createdAt,
+    secretKey: secretKey ?? _secretKey,
+    uniqueKey: uniqueKey ?? _uniqueKey,
+    isBlocked: isBlocked ?? _isBlocked,
+    isActive: isActive ?? _isActive,
+    profilePicture: profilePicture ?? profilePicture,
+    unInvestedValue: unInvestedValue ?? _unInvestedValue,
+    totalValue: totalValue ?? _totalValue,
+    lossGainPercentage: lossGainPercentage ?? _lossGainPercentage,
+    stripeCustomerId: stripeCustomerId ?? stripeCustomerId,
+  );
   String? get id => _id;
   // String? get name => name;
   String? get email => _email;
-  double? get age => _age;
+  num? get age => _age;
   String? get password => _password;
   String? get userType => _userType;
   String? get fcmToken => _fcmToken;
@@ -181,9 +191,10 @@ User copyWith({  String? id,
   bool? get isBlocked => _isBlocked;
   bool? get isActive => _isActive;
   // String? get profilePicture => profilePicture;
-  double? get unInvestedValue => _unInvestedValue;
-  double? get totalValue => _totalValue;
-  double? get lossGainPercentage => _lossGainPercentage;
+  num? get unInvestedValue => _unInvestedValue;
+  num? get totalValue => _totalValue;
+  num? get lossGainPercentage => _lossGainPercentage;
+  // String? get stripeCustomerId => stripeCustomerId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -203,6 +214,7 @@ User copyWith({  String? id,
     map['unInvestedValue'] = _unInvestedValue;
     map['totalValue'] = _totalValue;
     map['lossGainPercentage'] = _lossGainPercentage;
+    map['stripeCustomerId'] = stripeCustomerId;
     return map;
   }
 

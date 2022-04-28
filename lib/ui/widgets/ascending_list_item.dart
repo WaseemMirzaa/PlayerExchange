@@ -24,6 +24,8 @@ class _AscendingListItemState extends State<AscendingListItem> {
           Get.to(() => CpoDetailFromDiscovery(cpoModel: widget.rosterModel.cpoAthletes ?? CpoModel()));
         },
         child: Container(
+          height: 180,
+          width: 170,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
@@ -52,6 +54,7 @@ class _AscendingListItemState extends State<AscendingListItem> {
                 ),
                 Text(
                   widget.rosterModel.cpoAthletes!.playerName ?? "",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: StyleManager().mediumFontSize,
@@ -69,12 +72,15 @@ class _AscendingListItemState extends State<AscendingListItem> {
                       Icons.arrow_drop_up_rounded,
                       color: ColorManager.greenColor,
                     ),
-                    Text(
-                      '\$' + widget.rosterModel.currentValue.toString(),
-                      style: TextStyle(
-                          fontSize: StyleManager().smallFontSize,
-                          fontWeight: FontWeight.w600,
-                          color: ColorManager.greenColor),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 25),
+                      child: Text(
+                        '\$' + widget.rosterModel.currentValue.toString(),
+                        style: TextStyle(
+                            fontSize: StyleManager().smallFontSize,
+                            fontWeight: FontWeight.w600,
+                            color: ColorManager.greenColor),
+                      ),
                     ),
                   ],
                 )

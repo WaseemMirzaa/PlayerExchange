@@ -20,6 +20,7 @@ class RosterScreen extends StatefulWidget {
 }
 
 class _RosterScreenState extends State<RosterScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,5 +106,10 @@ class _RosterScreenState extends State<RosterScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    widget.rosterController.getRoster();
   }
 }

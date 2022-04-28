@@ -35,9 +35,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     ),
   );
 
+
+  @override
+  void initState() {
+    discoverScreenController.getWatchList();
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    discoverScreenController.getWatchList();
+    // discoverScreenController.getWatchList();
 
     return Scaffold(
         body: SafeArea(

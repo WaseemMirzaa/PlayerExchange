@@ -17,7 +17,7 @@ class CPOController extends GetxController {
 
   @override
   void onInit() {
-    getCpoAthletes("QB");
+    // getCpoAthletes("QB");
     super.onInit();
   }
 
@@ -46,19 +46,29 @@ class CPOController extends GetxController {
         if(tierAthletesMap[cpoModel.tiers?.name] != null) {
           tierAthletesMap[cpoModel.tiers?.name]!.add(cpoModel);
         }
-
-        cpoItemList.add(CpoShareItem(cpoModel: cpoModel));
       }
       //If tier does not exists
       else{
         List cpoModels = [];
         cpoModels.add(cpoModel);
-        tierAthletesMap.assign(cpoModel.tiers?.name, cpoModels);
-        cpoItemList.add(CpoHeadingItem(cpoModel: cpoModel));
-        cpoItemList.add(CpoShareItem(cpoModel: cpoModel));
+        tierAthletesMap[cpoModel.tiers?.name] = cpoModels;
+      }
+    }
 
+
+    for(String key in tierAthletesMap.keys){
+      bool keyChanged = true;
+      for(CpoModel cpoModel in tierAthletesMap[key]){
+        if(keyChanged){
+          cpoItemList.add(CpoHeadingItem(cpoModel: cpoModel));
+          cpoItemList.add(CpoShareItem(cpoModel: cpoModel));
+          keyChanged = false;
+        }else{
+          cpoItemList.add(CpoShareItem(cpoModel: cpoModel));
+        }
 
       }
+
     }
     // print("tierAthletesMap"+ tierAthletesMap.toString());
   }

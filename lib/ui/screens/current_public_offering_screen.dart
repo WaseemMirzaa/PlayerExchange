@@ -26,8 +26,17 @@ class _CurrentPublicOfferingScreenState
   final CPOController cpoController = Get.put(CPOController());
   int activeIndex = 0;
 
+
+  @override
+  void initState() {
+    print("CPO Screen: initState");
+    cpoController.getCpoAthletes("QB");
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar:
             customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),

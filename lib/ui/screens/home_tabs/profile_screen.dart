@@ -199,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   image: DecorationImage(
                     image: NetworkImage(appDrawerController
                             .user.value.profilePicture ?? ""),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(20),

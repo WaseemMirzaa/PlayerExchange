@@ -257,7 +257,10 @@ class _LoginScreenState extends State<LoginScreen> {
         LoadingIndicatorDialog().dismiss();
         print ("login response: " + response.toString());
         if (response.data != null) {
-          UserModel userResponse = UserModel.fromJson(response.data);
+          UserModel userResponse;
+          try {
+            UserModel userResponse = UserModel.fromJson(response.data);
+
           //  if(userResponse.user == null){
           //    Fluttertoast.showToast(msg: Api.apiErrorResponse);
 
@@ -282,8 +285,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Fluttertoast.showToast(msg: userResponse.message.toString());
             }
           }
+          } catch (e) {
+            print(e);
+          }
         }
       } on DioError catch (e) {
+        e.printError();
 
         LoadingIndicatorDialog().dismiss();
         if (e.response != null) {

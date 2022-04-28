@@ -29,6 +29,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeScreenController homeScreenController = Get.put(HomeScreenController());
 
+
+  @override
+  void initState() {
+    homeScreenController.rosterController.getRoster();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -321,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       // AscendingListItem()
                       SizedBox(
-                        height: 170,
+                        height: 190,
                         child: ListView.builder(
                           itemBuilder: (_, index) {
                             return AscendingListItem(

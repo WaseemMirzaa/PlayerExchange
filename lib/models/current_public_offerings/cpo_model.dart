@@ -29,7 +29,8 @@ class CpoModel {
       num? currentPricePerShare,
       int? sharePurchased, 
       int? sharesAvailable, 
-      String? position, 
+      int? totalShares,
+      String? position,
       String? tiersId, 
       Tiers? tiers,}){
     _id = id;
@@ -40,6 +41,7 @@ class CpoModel {
     _currentPricePerShare = currentPricePerShare;
     _sharePurchased = sharePurchased;
     _sharesAvailable = sharesAvailable;
+    _totalShares = totalShares;
     _position = position;
     _tiersId = tiersId;
     _tiers = tiers;
@@ -54,6 +56,7 @@ class CpoModel {
     _currentPricePerShare = json['currentPricePerShare'] ?? 0.0;
     _sharePurchased = json['sharePurchased'] ?? 0.0;
     _sharesAvailable = json['sharesAvailable'] ?? 0.0;
+    _totalShares = json['totalShares'] ?? 0.0;
     _position = json['position'] ?? "";
     _tiersId = json['tiersId']?? "";
     _tiers = json['tiers'] != null ? Tiers.fromJson(json['tiers']) : null;
@@ -66,6 +69,7 @@ class CpoModel {
   num? _currentPricePerShare;
   int? _sharePurchased;
   int? _sharesAvailable;
+  int? _totalShares;
   String? _position;
   String? _tiersId;
   Tiers? _tiers;
@@ -78,6 +82,7 @@ class CpoModel {
   num? get currentPricePerShare => _currentPricePerShare;
   int? get sharePurchased => _sharePurchased;
   int? get sharesAvailable => _sharesAvailable;
+  int? get totalShares => _totalShares;
   String? get position => _position;
   String? get tiersId => _tiersId;
   Tiers? get tiers => _tiers;
@@ -92,6 +97,7 @@ class CpoModel {
     map['currentPricePerShare'] = _currentPricePerShare;
     map['sharePurchased'] = _sharePurchased;
     map['sharesAvailable'] = _sharesAvailable;
+    map['totalShares'] = _totalShares;
     map['position'] = _position;
     map['tiersId'] = _tiersId;
     if (_tiers != null) {

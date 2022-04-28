@@ -167,24 +167,31 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 10, bottom: 10),
-        child: SizedBox(
-          height: 120,
-          child: image == null
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(AssetsString().EditProfileImage),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.file(image!, fit: BoxFit.cover),
-                    ),
-                  ],
-                ),
+        child: Center(
+          child: SizedBox(
+            height: 120.0,
+            width: 120.0,
+            child: image == null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AssetsString().EditProfileImage),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 120.0,
+                        width: 120.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.file(image!, fit: BoxFit.cover),
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );

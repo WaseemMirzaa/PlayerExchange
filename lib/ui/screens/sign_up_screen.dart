@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/api/response/create_cutomer/CreateCustomerReponse.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/sign_up_request.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
@@ -21,6 +22,7 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
 import 'login_screen.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -496,11 +498,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void callSignUpApi() async {
 
     if(validate()) {
+      Map<String, dynamic>? customerResponse = await getCustomerResponse();
+      if(customerResponse == null) {
+
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(msg: 'Unable to signup please try again!');
+        return;
+
+      }
+      var user = CreateCustomerResponse.fromJson(customerResponse);
+      print(user.customer.toString() + "<>" + user.status.toString());
+
       SignUpRequest signUpRequest = SignUpRequest();
       signUpRequest.email = emailController.text;
       signUpRequest.name = userNameController.text;
       signUpRequest.fcmToken = '';
       signUpRequest.password = passwordController.text;
+      signUpRequest.stripeCustomerId = user.customer;
 
       LoadingIndicatorDialog().show(context, text: "Creating new user...");
 
@@ -554,6 +568,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       }
     }
+  }
+
+
+  Future<Map<String, dynamic>>? getCustomerResponse() async {
+    Map<String, dynamic> json = {"email": "m.waseemmirzaa@gmail.com"};
+
+    final response = await http.Client().post(
+      Uri.parse(
+          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/create_customer'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(json),
+    );
+    return response.statusCode == 200
+        ? jsonDecode(response.body)
+        : null;
   }
 }
 

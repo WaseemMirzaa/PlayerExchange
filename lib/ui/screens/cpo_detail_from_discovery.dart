@@ -81,7 +81,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                     child: CircleAvatar(
                       radius: 30.0,
                       backgroundImage: NetworkImage(widget.cpoModel.profilePicture ?? ""),
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Colors.white,
                     ),
                   ),
                 ],
@@ -108,7 +108,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                               Row(
                                 children: [
                                   Text(
-                                    ' \$' + '75',
+                                    ' \$' + (widget.cpoModel.currentPricePerShare! * widget.cpoModel.sharesAvailable!).toString(),
                                     style: TextStyle(
                                         fontSize: StyleManager().smallFontSize,
                                         fontWeight: FontWeight.w600,
@@ -148,7 +148,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'open'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -159,7 +159,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'high'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -171,7 +171,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                                 text: 'low'.tr + " : "),
                             TextSpan(
                                 style: TextStyle(color: ColorManager.lowPriceColor),
-                                text: '\$ 375 '),
+                                text: '\$ --- '),
                           ])),
                         ],
                       )),
