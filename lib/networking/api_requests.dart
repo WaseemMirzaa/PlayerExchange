@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/favorite_model.dart';
@@ -30,8 +31,11 @@ class APIRequests {
   }
 
   static Future<List<CpoModel>> doApi_getCpoAthletesWithNames({String playerName = ""}) async {
+    // String jsonStringFilter =
+    //     '?filter={"where": {"playerName": "$playerName"},"include": [{"relation": "tiers"}]}';
     String jsonStringFilter =
-        '?filter={"where": {"playerName": "$playerName"},"include": [{"relation": "tiers"}]}';
+        '?filter[where][playerName][regexp]=/^$playerName/i&[include][relation]=tiers';
+    // filter[where][name][regexp]=^n/i
     var completeUrl = Api.baseURL + 'cpo-athletes' + jsonStringFilter;
     var response = await client.get(Uri.parse(completeUrl));
     if (response.statusCode == 200) {
@@ -168,6 +172,45 @@ class APIRequests {
     } else {
       //show error message
       return <FavoriteModel>[];
+    }
+  }
+
+
+  static Future<bool> doApi_addExchangePlayer(num shares, num asking, String rosterId, String userId) async {
+    var completeUrl = Api.baseURL + 'exchange-players';
+    try {
+      var response = await client.post(Uri.parse(completeUrl),
+          body: jsonEncode(
+              {'shares': shares, 'askingAmount': asking,'rosterId': rosterId,'userId': userId}
+          ), headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        Fluttertoast.showToast(msg: "Successfully added");
+
+        return true;
+        // return await exchangePlayerModelListFromJson(jsonString);
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Unable to add");
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
+  static Future<List<ExchangePlayerModel>> doApi_getExchangePlayers() async {
+    String jsonStringFilter =
+        '?filter={"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+    var completeUrl = Api.baseURL + 'exchange-players' + jsonStringFilter;
+    var response = await client.get(Uri.parse(completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return exchangePlayerModelListFromJson(jsonString);
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return <ExchangePlayerModel>[];
     }
   }
 }

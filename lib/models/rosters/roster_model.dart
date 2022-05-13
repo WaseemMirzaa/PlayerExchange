@@ -25,12 +25,12 @@ class RosterModel {
   RosterModel({
       String? id, 
       String? userId, 
-      int? sharesBought, 
-      int? currentValue, 
-      int? averageCost, 
-      int? totalValue, 
-      int? totalInvestment, 
-      int? totalRevenue, 
+      num? sharesBought, 
+      num? currentValue, 
+      num? averageCost, 
+      num? totalValue, 
+      num? totalInvestment, 
+      num? totalRevenue, 
       String? cpoAthletesId, 
       CpoModel? cpoAthletes,}){
     _id = id;
@@ -59,23 +59,23 @@ class RosterModel {
   }
   String? _id;
   String? _userId;
-  int? _sharesBought;
-  int? _currentValue;
-  int? _averageCost;
-  int? _totalValue;
-  int? _totalInvestment;
-  int? _totalRevenue;
+  num? _sharesBought;
+  num? _currentValue;
+  num? _averageCost;
+  num? _totalValue;
+  num? _totalInvestment;
+  num? _totalRevenue;
   String? _cpoAthletesId;
   CpoModel? _cpoAthletes;
 
   String? get id => _id;
   String? get userId => _userId;
-  int? get sharesBought => _sharesBought;
-  int? get currentValue => _currentValue;
-  int? get averageCost => _averageCost;
-  int? get totalValue => _totalValue;
-  int? get totalInvestment => _totalInvestment;
-  int? get totalRevenue => _totalRevenue;
+  num? get sharesBought => _sharesBought;
+  num? get currentValue => _currentValue;
+  num? get averageCost => _averageCost;
+  num? get totalValue => _totalValue;
+  num? get totalInvestment => _totalInvestment;
+  num? get totalRevenue => _totalRevenue;
   String? get cpoAthletesId => _cpoAthletesId;
   CpoModel? get cpoAthletes => _cpoAthletes;
 
@@ -118,9 +118,9 @@ class RosterModel {
 //       String? profilePicture,
 //       String? playerId,
 //       String? video,
-//       int? currentPricePerShare,
-//       int? sharePurchased,
-//       int? sharesAvailable,
+//       num? currentPricePerShare,
+//       num? sharePurchased,
+//       num? sharesAvailable,
 //       String? position,
 //       String? tiersId,}){
 //     _id = id;
@@ -152,9 +152,9 @@ class RosterModel {
 //   String? _profilePicture;
 //   String? _playerId;
 //   String? _video;
-//   int? _currentPricePerShare;
-//   int? _sharePurchased;
-//   int? _sharesAvailable;
+//   num? _currentPricePerShare;
+//   num? _sharePurchased;
+//   num? _sharesAvailable;
 //   String? _position;
 //   String? _tiersId;
 //
@@ -163,9 +163,9 @@ class RosterModel {
 //   String? get profilePicture => _profilePicture;
 //   String? get playerId => _playerId;
 //   String? get video => _video;
-//   int? get currentPricePerShare => _currentPricePerShare;
-//   int? get sharePurchased => _sharePurchased;
-//   int? get sharesAvailable => _sharesAvailable;
+//   num? get currentPricePerShare => _currentPricePerShare;
+//   num? get sharePurchased => _sharePurchased;
+//   num? get sharesAvailable => _sharesAvailable;
 //   String? get position => _position;
 //   String? get tiersId => _tiersId;
 //

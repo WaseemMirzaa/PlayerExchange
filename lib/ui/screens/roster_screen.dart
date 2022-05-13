@@ -52,25 +52,25 @@ class _RosterScreenState extends State<RosterScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 OfferHeading(
-                  title: '2QBs',
+                  title: '${widget.rosterController.countQBs} QBs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
                 ),
                 OfferHeading(
-                  title: '3RBs',
+                  title: '${widget.rosterController.countRBs} RBs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
                 ),
                 OfferHeading(
-                  title: '2TEs',
+                  title: '${widget.rosterController.countTEs} TEs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
                 ),
                 OfferHeading(
-                  title: '3WRs',
+                  title: '${widget.rosterController.countWRs} WRs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,

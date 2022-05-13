@@ -11,7 +11,10 @@ class RosterController extends GetxController {
   var rosterList = <RosterModel>[].obs;
   var itemList = <Widget>[].obs;
   var ascendingRosterList = <RosterModel>[].obs;
-
+  RxInt countQBs = 0.obs;
+  RxInt countRBs = 0.obs;
+  RxInt countTEs = 0.obs;
+  RxInt countWRs = 0.obs;
 
   void getRoster() async {
     Rx<User?> user = (await SessionManager.getUserData()).obs;
@@ -27,12 +30,27 @@ class RosterController extends GetxController {
     } finally {
       isLoading(false);
     }
+
+    countPositions();
   }
 
   void sortAscendingList(var roster){
     ascendingRosterList.clear();
     ascendingRosterList.value.addAll(roster);
     ascendingRosterList.sort((a,b) => a.cpoAthletes!.currentPricePerShare!.compareTo(b.cpoAthletes!.currentPricePerShare!));
+  }
+
+  void countPositions(){
+    countQBs.value = 0;
+    countRBs.value = 0;
+    countTEs.value = 0;
+    countWRs.value = 0;
+    for(RosterModel rosterModel in rosterList){
+      rosterModel.cpoAthletes?.position == "QB" ? countQBs.value++ : countQBs;
+      rosterModel.cpoAthletes?.position == "RB" ? countRBs.value++ : countRBs;
+      rosterModel.cpoAthletes?.position == "TE" ? countTEs.value++ : countTEs;
+      rosterModel.cpoAthletes?.position == "WR" ? countWRs.value++ : countWRs;
+    }
   }
 }
 

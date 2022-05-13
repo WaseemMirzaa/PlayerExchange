@@ -1,27 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_screen.dart';
-import 'package:player_exchange/ui/screens/exchange_player.dart';
+import 'package:player_exchange/ui/screens/exchange_player_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
-import 'package:player_exchange/ui/widgets/new_tab_widget.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/utils/assets_string.dart';
-import 'package:get/get.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'buy_and_watch/buy_screen.dart';
-import 'home_tabs/exchnage_screen.dart';
 
 class RosterDetailScreen extends StatefulWidget {
   final RosterModel rosterModel;
+
   const RosterDetailScreen({Key? key, required this.rosterModel}) : super(key: key);
 
   @override
@@ -30,6 +29,7 @@ class RosterDetailScreen extends StatefulWidget {
 
 class _RosterDetailScreenState extends State<RosterDetailScreen> {
   int activeIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,8 +56,8 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                     backgroundColor: ColorManager.placeholderGreyColor,
                     child: CircleAvatar(
                       radius: 30.0,
-                      backgroundImage: NetworkImage(
-                          widget.rosterModel.cpoAthletes!.profilePicture ?? ""),
+                      backgroundImage:
+                          NetworkImage(widget.rosterModel.cpoAthletes!.profilePicture ?? ""),
                       backgroundColor: Colors.white,
                     ),
                   ),
@@ -81,7 +81,9 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    '\$'+ widget.rosterModel.cpoAthletes!.currentPricePerShare.toString(),
+                                    '\$' +
+                                        widget.rosterModel.cpoAthletes!.currentPricePerShare
+                                            .toString(),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w600,
@@ -99,8 +101,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                       Text(
                                         '9\% ',
                                         style: TextStyle(
-                                            fontSize:
-                                                StyleManager().smallFontSize,
+                                            fontSize: StyleManager().smallFontSize,
                                             fontWeight: FontWeight.w600,
                                             color: ColorManager.greenColor),
                                       ),
@@ -111,7 +112,8 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    '\$'+ "${widget.rosterModel.cpoAthletes!.currentPricePerShare! * widget.rosterModel.cpoAthletes!.sharePurchased!}",
+                                    '\$' +
+                                        "${widget.rosterModel.cpoAthletes!.currentPricePerShare! * widget.rosterModel.cpoAthletes!.sharePurchased!}",
                                     style: TextStyle(
                                         fontSize: StyleManager().smallFontSize,
                                         fontWeight: FontWeight.w600,
@@ -132,13 +134,10 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                                text: 'available_shares'.tr),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                text: 'Available Shares: '),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
+                                style: TextStyle(color: ColorManager.greenColor),
                                 text: widget.rosterModel.cpoAthletes!.sharesAvailable.toString()),
                           ]))
                         ],
@@ -152,14 +151,10 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'open'.tr + " : "),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375'),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375'),
                           ])),
                           SizedBox(
                             height: 5,
@@ -167,14 +162,10 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'high'.tr + " : "),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375'),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375'),
                           ])),
                           SizedBox(
                             height: 5,
@@ -182,13 +173,10 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'low'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(
-                                    color: ColorManager.lowPriceColor),
+                                style: TextStyle(color: ColorManager.lowPriceColor),
                                 text: '\$ 375'),
                           ])),
                         ],
@@ -214,22 +202,18 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                         Text(
                           'live'.tr,
                           style: TextStyle(
-                              color: ColorManager.greenColor,
-                              fontWeight: FontWeight.w600),
+                              color: ColorManager.greenColor, fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
                           width: 15,
                         ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '1Q', isEnable: false))
+                        Container(width: 50, child: OfferHeading(title: '1Q', isEnable: false))
                       ],
                     ),
                     Text(
                       '2 Q'.tr,
-                      style: TextStyle(
-                          color: ColorManager.colorTextGray,
-                          fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(color: ColorManager.colorTextGray, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -288,8 +272,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.only(top: 8.0, bottom: 10, left: 10, right: 10),
+                padding: EdgeInsets.only(top: 8.0, bottom: 10, left: 10, right: 10),
                 child: CustomDivider(),
               ),
             ])),
@@ -343,9 +326,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                         Text(
                           'FanNation',
                           style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12.sp),
+                              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 12.sp),
                         ),
                         SizedBox(
                           width: 5,
@@ -379,8 +360,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                       height: 10.h,
                     ),
                     Text('5 Hours ago',
-                        style: TextStyle(
-                            color: ColorManager.colorTextGray, fontSize: 11))
+                        style: TextStyle(color: ColorManager.colorTextGray, fontSize: 11))
                   ],
                 )),
                 Padding(
@@ -411,15 +391,17 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
               flex: 1,
               child: Column(
                 children: [
-                  shareTitleAndValue('Share', '\$15'),
+                  shareTitleAndValue('Share', ((widget.rosterModel.sharesBought ?? 0).toString())),
                   SizedBox(
                     height: 15.h,
                   ),
-                  shareTitleAndValue('Ave. Cost', '\$15'),
+                  shareTitleAndValue(
+                      'Ave. Cost', ('\$' + (widget.rosterModel.averageCost ?? 0).toString())),
                   SizedBox(
                     height: 15.h,
                   ),
-                  shareTitleAndValue('Total Investment', '\$15'),
+                  shareTitleAndValue('Total Investment',
+                      ('\$' + (widget.rosterModel.totalInvestment ?? 0).toString())),
                 ],
               ),
             ),
@@ -427,15 +409,30 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
               flex: 1,
               child: Column(
                 children: [
-                  shareTitleAndValue('Current Value', '\$15'),
+                  shareTitleAndValue(
+                      'Current Value',
+                      ('\$' +
+                          (widget.rosterModel.cpoAthletes?.currentPricePerShare ?? 0).toString())),
                   SizedBox(
                     height: 15.h,
                   ),
-                  shareTitleAndValue('Total Value', '\$15'),
+                  shareTitleAndValue(
+                      'Total Value',
+                      ('\$' +
+                          ((widget.rosterModel.cpoAthletes?.currentPricePerShare?.toDouble() ??
+                                      0.0) *
+                                  (widget.rosterModel.sharesBought ?? 0))
+                              .toString())),
                   SizedBox(
                     height: 15.h,
                   ),
-                  shareTitleAndValue('Total Revenue', '\$15')
+                  shareTitleAndValue(
+                      'Total Revenue',
+                      ('\$' +
+                          ((widget.rosterModel.cpoAthletes?.currentPricePerShare?.toDouble() ??
+                              0.0) *
+                              (widget.rosterModel.sharesBought ?? 0))
+                              .toString())),
                 ],
               ),
             ),
@@ -463,7 +460,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: FilledButton(
               onTap: () {
-                Get.to(() => const ExchangePlayerScreen());
+                Get.to(() => ExchangePlayerScreen(rosterModel: widget.rosterModel,));
               },
               text: "eXchange",
               reverseColor: true,
@@ -600,17 +597,14 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
               ),
               Text(
                 'Just Now',
-                style:
-                    TextStyle(color: ColorManager.colorTextGray, fontSize: 12),
+                style: TextStyle(color: ColorManager.colorTextGray, fontSize: 12),
               ),
               SizedBox(
                 height: 7,
               ),
               Text(
                 'Lorem Ipsum is simply dummy text of  ',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: StyleManager().smallFontSize),
+                style: TextStyle(color: Colors.black, fontSize: StyleManager().smallFontSize),
               ),
               SizedBox(
                 height: 7,
@@ -669,14 +663,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'Postion',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               'QB',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),
@@ -688,14 +680,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'Age',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               '24',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),
@@ -707,14 +697,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'Weight',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               '220',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),
@@ -726,14 +714,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'Height',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               '6\'5\"',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),
@@ -745,14 +731,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'College',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               'Duke',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),
@@ -764,14 +748,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'Draft',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               'Round 1 Pick 6',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),
@@ -783,14 +765,12 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: Text(
               'Team',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             )),
             Expanded(
                 child: Text(
               'Giants',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
             ))
           ],
         ),

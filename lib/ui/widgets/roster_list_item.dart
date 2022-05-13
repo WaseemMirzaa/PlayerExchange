@@ -53,7 +53,9 @@ class _RoasterListItemState extends State<RoasterListItem> {
                 children: [
                   Text(
                     widget.cpoModel.playerName.toString(),
-
+                    maxLines: 2,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: StyleManager().smallFontSize,

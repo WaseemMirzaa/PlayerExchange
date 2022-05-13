@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/ui/screens/home_tabs/discover_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/exchnage_screen.dart';
+import 'package:player_exchange/ui/screens/home_tabs/exchange_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/home_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/messages_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/profile_screen.dart';

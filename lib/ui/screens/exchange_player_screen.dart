@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/exchnage_screen.dart';
-import 'package:player_exchange/ui/screens/home_tabs/home_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
-import 'package:player_exchange/ui/screens/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
@@ -13,13 +17,13 @@ import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
+import 'package:player_exchange/utils/number_utils.dart';
 import 'package:player_exchange/utils/style_manager.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:get/get.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExchangePlayerScreen extends StatefulWidget {
-  const ExchangePlayerScreen({Key? key}) : super(key: key);
+  final RosterModel rosterModel;
+
+  const ExchangePlayerScreen({Key? key, required this.rosterModel}) : super(key: key);
 
   @override
   ExchangePlayerScreenState createState() => ExchangePlayerScreenState();
@@ -27,16 +31,11 @@ class ExchangePlayerScreen extends StatefulWidget {
 
 class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
   int activeIndex = 0;
-  final YoutubePlayerController youtubeController = YoutubePlayerController(
-    initialVideoId: 'NG6pvXpnIso',
-    flags: const YoutubePlayerFlags(
-      autoPlay: false,
-      mute: true,
-    ),
-  );
 
   var shareController = TextEditingController();
   var offerAmountController = TextEditingController();
+  int asking = 0;
+  int shares = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -53,17 +52,22 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'JONES QBNY'.tr,
+                    widget.rosterModel.cpoAthletes?.playerName ?? "",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: StyleManager().largeFontSize,
                         fontWeight: FontWeight.bold),
                   ),
                   CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage:
-                        NetworkImage('https://via.placeholder.com/150'),
-                    backgroundColor: Colors.transparent,
+                    radius: 30,
+                    backgroundColor: ColorManager.placeholderGreyColor,
+                    child: CircleAvatar(
+                      radius: 28.0,
+                      backgroundImage:
+                          NetworkImage(widget.rosterModel.cpoAthletes?.profilePicture ?? ""),
+                      // NetworkImage('https://via.placeholder.com/150'),
+                      backgroundColor: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -83,25 +87,25 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           Row(
                             children: [
                               Text(
-                                '\$ 16.45',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600),
+                                '\$ ' +
+                                    (widget.rosterModel.cpoAthletes?.currentPricePerShare ?? 0)
+                                        .toString(),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
                               ),
                               Row(
                                 children: [
-                                  Text(
-                                    '\$' + '75',
-                                    style: TextStyle(
-                                        fontSize: StyleManager().smallFontSize,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.white,
-                                    size: 12,
-                                  )
+                                  // Text(
+                                  //   '\$' + (widget.rosterModel.cpoAthletes?.currentPricePerShare ?? 0).toString(),
+                                  //   style: TextStyle(
+                                  //       fontSize: StyleManager().smallFontSize,
+                                  //       fontWeight: FontWeight.w600,
+                                  //       color: Colors.black),
+                                  // ),
+                                  // Icon(
+                                  //   Icons.arrow_forward_ios_rounded,
+                                  //   color: Colors.white,
+                                  //   size: 12,
+                                  // )
                                 ],
                               )
                             ],
@@ -112,14 +116,13 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                                text: 'available_shares'.tr),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                text: 'available_shares '.tr),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: ' 375 '),
+                              style: TextStyle(color: ColorManager.greenColor),
+                              text:
+                                  (widget.rosterModel.cpoAthletes?.sharesAvailable ?? 0).toString(),
+                            )
                           ]))
                         ],
                       )),
@@ -131,14 +134,10 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'open'.tr + " : "),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -146,14 +145,10 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'high'.tr + " : "),
                             TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -161,14 +156,11 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'low'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(
-                                    color: ColorManager.lowPriceColor),
-                                text: '\$ 375 '),
+                                style: TextStyle(color: ColorManager.lowPriceColor),
+                                text: '\$ --- '),
                           ])),
                         ],
                       )),
@@ -193,29 +185,24 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                         Text(
                           'live'.tr,
                           style: TextStyle(
-                              color: ColorManager.greenColor,
-                              fontWeight: FontWeight.w600),
+                              color: ColorManager.greenColor, fontWeight: FontWeight.w600),
                         ),
                         SizedBox(
                           width: 15,
                         ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '1Q', isEnable: false))
+                        Container(width: 50, child: OfferHeading(title: '1Q', isEnable: false))
                       ],
                     ),
                     Text(
                       '2 Q'.tr,
                       style: TextStyle(
-                          color: ColorManager.buttonBorderGreyColor,
-                          fontWeight: FontWeight.w600),
+                          color: ColorManager.buttonBorderGreyColor, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
               ),
               Padding(
-                padding:
-                    EdgeInsets.only(top: 8.0, bottom: 10, left: 10, right: 10),
+                padding: EdgeInsets.only(top: 8.0, bottom: 10, left: 10, right: 10),
                 child: CustomDivider(),
               ),
               Padding(
@@ -224,22 +211,28 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      height: 100,
+                      height: 110,
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: Column(
                         children: [
                           Text(
                             'Asking',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
+                            style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black),
                           ),
                           Container(
                             height: 10,
                           ),
-                          TextField(
+                          TextFormField(
                             style: TextStyle(color: Colors.green),
                             controller: shareController,
+                            textAlign: TextAlign.center,
+                            // autovalidateMode: AutovalidateMode.always,
+                            keyboardType: TextInputType.number,
+                            maxLength: 8,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            ],
+
                             cursorColor: Colors.black,
                             decoration: const InputDecoration(
                               hintText: "\$0",
@@ -247,61 +240,77 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                               focusColor: Colors.black,
                               hoverColor: Colors.black,
                               border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
                                     color: ColorManager.lightGreyDivider,
-                                    width: 0.1,
+                                    width: 2,
                                   )),
                               focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
                                     color: ColorManager.greenColor,
-                                    width: 1,
+                                    width: 2,
                                   )),
                             ),
+                            onChanged: (String? value) {
+                              if (NumberUtils.isNumeric(value)) {
+                                asking = int.parse(value!);
+                              } else {
+                                asking = 0;
+                              }
+                            },
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      height: 100,
+                      height: 110,
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: Column(
                         children: [
                           Text(
                             'Shares',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black),
+                            style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black),
                           ),
                           Container(
                             height: 10,
                           ),
-                          TextField(
+                          TextFormField(
                             style: TextStyle(color: Colors.green),
                             controller: offerAmountController,
+                            textAlign: TextAlign.center,
+                            // autovalidateMode: AutovalidateMode.always,
+                            keyboardType: TextInputType.number,
+                            maxLength: 8,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                            ],
+
                             decoration: const InputDecoration(
                               hintText: "0",
                               fillColor: Colors.black,
                               focusColor: Colors.black,
                               hoverColor: Colors.black,
                               border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
                                     color: ColorManager.lightGreyDivider,
-                                    width: 0.1,
+                                    width: 2,
                                   )),
                               focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
                                     color: ColorManager.greenColor,
-                                    width: 1,
+                                    width: 2,
                                   )),
                             ),
+                            onChanged: (String? value) {
+                              if (NumberUtils.isNumeric(value)) {
+                                shares = int.parse(value!);
+                              } else {
+                                shares = 0;
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -313,19 +322,30 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                 height: 100,
               ),
               FilledButton(
-                onTap: () {
-                  Navigator.popUntil(
-                    context,
-                    ModalRoute.withName('/'),
-                  );
-                  TabsScreen.currentIndex = 2;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TabsScreen(
-                              selectedIndex: 2,
-                            )),
-                  );
+                onTap: () async {
+                  if (shares > 0 && asking > 0) {
+                    User user = Get.find<AppDrawerController>().user.value;
+                    await APIRequests.doApi_addExchangePlayer(
+                            shares, asking, widget.rosterModel.id ?? "", user.id ?? "")
+                        .then((value) => {
+                          if(value){
+                            Navigator.popUntil(
+                              context,
+                              ModalRoute.withName('/'),
+                            ),
+                            TabsScreen.currentIndex = 2,
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      TabsScreen(
+                                        selectedIndex: 2,
+                                      )),
+                            )
+                          }
+                            });
+                  }
+
                   // Navigator.of(context).pushNamed('')
                 },
                 text: 'Send to Exchange Market'.tr,
@@ -401,9 +421,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                         TextSpan(
                             text: ' roster',
                             style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17)),
+                                color: Colors.green, fontWeight: FontWeight.w700, fontSize: 17)),
                       ],
                     ),
                   ),
@@ -415,9 +433,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
               child: Text(
                 'or',
                 style: TextStyle(
-                    color: ColorManager.colorTextGray,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 17),
+                    color: ColorManager.colorTextGray, fontWeight: FontWeight.w700, fontSize: 17),
               ),
             ),
             GestureDetector(
@@ -440,9 +456,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                         TextSpan(
                             text: 'cash offer',
                             style: TextStyle(
-                                color: Colors.green,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 17)),
+                                color: Colors.green, fontWeight: FontWeight.w700, fontSize: 17)),
                       ],
                     ),
                   ),
@@ -598,8 +612,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
               ),
               Text(
                 'Lorem Ipsum is simply dummy text of  ',
-                style: TextStyle(
-                    color: Colors.grey, fontSize: StyleManager().smallFontSize),
+                style: TextStyle(color: Colors.grey, fontSize: StyleManager().smallFontSize),
               ),
               SizedBox(
                 height: 7,
@@ -654,14 +667,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'Postion',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'QB',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -673,14 +684,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'Age',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               '24',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -692,14 +701,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'Weight',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               '220',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -711,14 +718,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'Height',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               '6\'5\"',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -730,14 +735,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'College',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'Duke',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -749,14 +752,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'Draft',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'Round 1 Pick 6',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),
@@ -768,14 +769,12 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
             Expanded(
                 child: Text(
               'Team',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             )),
             Expanded(
                 child: Text(
               'Giants',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
             ))
           ],
         ),

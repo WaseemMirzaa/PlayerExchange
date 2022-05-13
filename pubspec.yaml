@@ -35,7 +35,7 @@ dependencies:
   flutter_image_compress: ^1.0.0-nullsafety
 #  video_player: ^2.1.0
   flutter_stripe: ^2.4.0
-  search_widget: ^1.0.2
+  paginated_search_bar: ^1.1.2
 
 
 
