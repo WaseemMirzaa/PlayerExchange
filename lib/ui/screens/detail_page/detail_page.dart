@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/buy_screen.dart';
-import 'package:player_exchange/ui/screens/buyAndWatch/watch_screen.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/ui/screens/buy_and_watch/buy_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
@@ -286,7 +286,7 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             Expanded(
               child: FilledButton(onTap: (){
-                Get.to(()=>const BuyScreen());
+                Get.to(()=> BuyScreen(new CpoModel()));
               },
                 text: "Buy",reverseColor: true,isFullWidth: false,color: ColorManager.blueGreyButtonColor,),
             ),

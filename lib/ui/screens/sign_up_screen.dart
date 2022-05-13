@@ -1,25 +1,52 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/api/response/create_cutomer/CreateCustomerReponse.dart';
+import 'package:player_exchange/models/auth/error_response.dart';
+import 'package:player_exchange/models/auth/sign_up_request.dart';
+import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
+import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
+import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import 'login_screen.dart';
+import 'package:http/http.dart' as http;
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
+
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
+
 class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormState>();
-  bool checBox = true;
 
+  TextEditingController userNameController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+  TextEditingController confirmPasswordController = new TextEditingController();
+
+  bool checBox = false;
+
+  @override
+  void initState() {
+    
+  } // controller
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,19 +61,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height * .33,
-                  width: MediaQuery.of(context).size.width* .50,
+                  width: MediaQuery.of(context).size.width * .50,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                     // SplashLogo(height: MediaQuery.of(context).size.height * .33,),
+                      // SplashLogo(height: MediaQuery.of(context).size.height * .33,),
                       SizedBox(
                         height: ScreenUtil().setHeight(20),
                       ),
-                      Image.asset(AssetsString().AppLogo,
-                          height: ScreenUtil().setHeight(
-                              MediaQuery.of(context).size.height * .20),
+                      Image.asset(
+                        AssetsString().AppLogo,
+                        height: ScreenUtil().setHeight(
+                            MediaQuery.of(context).size.height * .20),
                       ),
 
                       Text(
@@ -160,21 +188,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Theme(
                         data: DefaultStyleConfigs().textFieldTheme(),
                         child: TextFormField(
-                          onChanged: (value) {
-                            setState(() {});
-                          },
-                          // inputFormatters: <TextInputFormatter>[
                           //   FilteringTextInputFormatter.allow(RegExp("[0-9._a-zA-Z]")),
                           // ],
                           keyboardType: TextInputType.emailAddress,
-                         // controller: signUpController.nameEditingController,
+                          // controller: signUpController.nameEditingController,
                           style: TextStyle(
                               color: ColorManager.greenColor,
-                              fontSize:StyleManager().mediumFontSize ),
+                              fontSize: StyleManager().mediumFontSize),
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -191,16 +215,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             labelText: 'User Name',
                             labelStyle: TextStyle(
                                 color: ColorManager.greenColor,
-                                fontSize:StyleManager().mediumFontSize ),
+                                fontSize: StyleManager().mediumFontSize),
                           ),
-                          validator: (txt) {
-                            // if (signUpController
-                            //     .nameEditingController.text.length >
-                            //     2)
-                            //   return null;
-                            // else
-                            //   return 'Enter Valid username';
-                          },
+                          controller: userNameController,
+                          // validator: (txt) {
+                          //   if (
+                          //       userNameController.text.length >
+                          //       2)
+                          //     return null;
+                          //   else
+                          //     return 'Enter Valid username';
+                          // },
                         ),
                       ),
                     ),
@@ -215,14 +240,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             setState(() {});
                           },
                           keyboardType: TextInputType.emailAddress,
-                         // controller: signUpController.emailEditingController,
+                          // controller: signUpController.emailEditingController,
                           style: TextStyle(
                               color: ColorManager.greenColor,
-                              fontSize:StyleManager().mediumFontSize ),
+                              fontSize: StyleManager().mediumFontSize),
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -240,13 +265,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorManager.greenColor,
                                 fontSize: StyleManager().mediumFontSize),
                           ),
-                          validator: (txt) {
-                            // if (EmailValidator.validate(
-                            //     signUpController.emailEditingController.text))
-                            //   return null;
-                            // else
-                              return 'Enter Valid Email';
-                          },
+                        controller: emailController,
                         ),
                       ),
                     ),
@@ -270,7 +289,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -288,14 +307,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorManager.greenColor,
                                 fontSize: StyleManager().mediumFontSize),
                           ),
-                          validator: (txt) {
-                            // if (signUpController
-                            //     .passwordEditingController.text.length >
-                            //     5)
-                            //   return null;
-                            // else
-                            //   return 'Enter Valid Password';
-                          },
+                         controller: passwordController,
                         ),
                       ),
                     ),
@@ -319,7 +331,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: ColorManager.greenColor),
+                                  BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -337,14 +349,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorManager.greenColor,
                                 fontSize: StyleManager().mediumFontSize),
                           ),
-                          validator: (txt) {
-                            // if (signUpController
-                            //     .passwordEditingController.text.length >
-                            //     5)
-                            //   return null;
-                            // else
-                            //   return 'Enter Valid Password';
-                          },
+                          controller: confirmPasswordController,
                         ),
                       ),
                     ),
@@ -364,7 +369,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           RichText(
                             text: TextSpan(
                               text: 'I agree with your ',
-                              style:TextStyle( fontWeight: FontWeight.bold,color: ColorManager.greenColor),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorManager.greenColor),
                               children: <TextSpan>[
                                 TextSpan(
                                     text: 'Term & Conditions',
@@ -390,7 +397,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: ColorManager.greenColor),
                           ),
                           onPressed: () {
-                            Get.back();
+                            Get.to(LoginScreen());
                             /*Get.to(ForgotPassword(),
                               transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*/
                           },
@@ -402,11 +409,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
                       child: FilledButton(
-                        isFullWidth: true,
+                        color: checBox == true ? ColorManager.greenColor : ColorManager.colorTextGray,
+                          isFullWidth: true,
                           text: "Sign Up",
-                          onTap:(){
-                            TabsScreen.currentIndex = 0;
-                            Get.off(() => TabsScreen(selectedIndex: 0,));
+                          onTap: () {
+                            callSignUpApi();
                           }),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(80)),
@@ -417,4 +424,174 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+  bool validate() {
+
+    if(userNameController.text.isEmpty) {
+
+      Fluttertoast.showToast(msg: 'Username Required');
+
+      return false;
+
+    }
+
+    if(emailController.text.isEmpty) {
+
+      Fluttertoast.showToast(msg: 'Email Required');
+
+      return false;
+
+    }
+
+    if(!emailController.text.isEmail) {
+
+      Fluttertoast.showToast(msg: 'Invalid Email');
+
+      return false;
+
+
+    }
+
+    if(passwordController.text.isEmpty) {
+
+      Fluttertoast.showToast(msg: 'Password Required');
+
+      return false;
+
+    }
+
+    if(passwordController.text.length < 6) {
+
+      Fluttertoast.showToast(msg: 'Password must be at least 6 characters long');
+
+      return false;
+
+    }
+
+    if(confirmPasswordController.text.isEmpty) {
+
+      Fluttertoast.showToast(msg: 'Confirm Password Required');
+
+      return false;
+
+    }
+
+    if(confirmPasswordController.text != passwordController.text) {
+
+      Fluttertoast.showToast(msg: 'Passwords do not match');
+
+      return false;
+    }
+
+
+    if(!checBox) {
+
+      Fluttertoast.showToast(msg: 'Please agree to terms and condition first');
+
+      return false;
+
+    }
+
+    return true;
+  }
+
+  void callSignUpApi() async {
+
+    if(validate()) {
+      Map<String, dynamic>? customerResponse = await getCustomerResponse();
+      if(customerResponse == null) {
+
+        Navigator.of(context).pop();
+        Fluttertoast.showToast(msg: 'Unable to signup please try again!');
+        return;
+
+      }
+      var user = CreateCustomerResponse.fromJson(customerResponse);
+      print(user.customer.toString() + "<>" + user.status.toString());
+
+      SignUpRequest signUpRequest = SignUpRequest();
+      signUpRequest.email = emailController.text;
+      signUpRequest.name = userNameController.text;
+      signUpRequest.fcmToken = '';
+      signUpRequest.password = passwordController.text;
+      signUpRequest.stripeCustomerId = user.customer;
+
+      LoadingIndicatorDialog().show(context, text: "Creating new user...");
+
+      var dio = Dio();
+      try {
+        final response = await dio.post(
+            Api.baseURL+'user/create-user',
+            data: signUpRequest.toJson(),  options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        }));
+
+        LoadingIndicatorDialog().dismiss();
+
+        if(response.data != null) {
+
+          UserModel userResponse = UserModel.fromJson(response.data);
+
+          if(userResponse.user != null && userResponse.user?.id != null) {
+
+            SessionManager.setUserData(userResponse.user!);
+
+            TabsScreen.currentIndex = 0;
+
+            Get.off(() => TabsScreen(selectedIndex: 0,));
+
+
+          }
+
+        }
+
+      } on DioError catch (e) {
+
+        LoadingIndicatorDialog().dismiss();
+
+        if(e.response != null) {
+
+          print('has response');
+
+          AuthErrorResponse resp = AuthErrorResponse.fromJson(e.response!.data);
+
+          print('has error ${resp.toString()}');
+
+          Fluttertoast.showToast(msg: resp.error?.message ?? "Invalid Credentials");
+
+        } else {
+
+          Fluttertoast.showToast(msg: e.response.toString());
+
+
+        }
+
+      }
+    }
+  }
+
+
+  Future<Map<String, dynamic>>? getCustomerResponse() async {
+    Map<String, dynamic> json = {"email": "m.waseemmirzaa@gmail.com"};
+
+    final response = await http.Client().post(
+      Uri.parse(
+          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/create_customer'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(json),
+    );
+    return response.statusCode == 200
+        ? jsonDecode(response.body)
+        : null;
+  }
 }
+
+
+
+
+
+
+
+

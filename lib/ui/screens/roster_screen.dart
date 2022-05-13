@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/controllers/roster_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/exhange_screen_group_two.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
@@ -9,14 +11,16 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 
 class RosterScreen extends StatefulWidget {
-  const RosterScreen({Key? key, bool isFromExchangeScreen = false})
+   RosterScreen({Key? key, bool isFromExchangeScreen = false})
       : super(key: key);
+  RosterController rosterController =Get.put(RosterController());
 
   @override
   _RosterScreenState createState() => _RosterScreenState();
 }
 
 class _RosterScreenState extends State<RosterScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +34,9 @@ class _RosterScreenState extends State<RosterScreen> {
                 onTap: () {
                   Get.to(ExchangeScreenSecond());
                 },
-                child: RoasterListItem());
-          }, childCount: 5)),
+                child: RoasterListItem(isRoster: true, rosterModel: widget.rosterController.rosterList[index],
+                cpoModel: widget.rosterController.rosterList[index].cpoAthletes ?? CpoModel(),));
+          }, childCount: widget.rosterController.rosterList.length)),
           SliverList(
               delegate: SliverChildListDelegate([
             SvgPicture.asset(AssetsString().WheelImage),
@@ -47,25 +52,25 @@ class _RosterScreenState extends State<RosterScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 OfferHeading(
-                  title: '2QBs',
+                  title: '${widget.rosterController.countQBs} QBs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
                 ),
                 OfferHeading(
-                  title: '3RBs',
+                  title: '${widget.rosterController.countRBs} RBs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
                 ),
                 OfferHeading(
-                  title: '2TEs',
+                  title: '${widget.rosterController.countTEs} TEs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
                 ),
                 OfferHeading(
-                  title: '3WRs',
+                  title: '${widget.rosterController.countWRs} WRs',
                   isEnable: true,
                   enableColor: ColorManager.buttonGreyColor,
                   textColor: Colors.black,
@@ -101,5 +106,10 @@ class _RosterScreenState extends State<RosterScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    widget.rosterController.getRoster();
   }
 }

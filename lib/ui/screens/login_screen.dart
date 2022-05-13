@@ -1,10 +1,22 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/controllers/login_screen_controller.dart';
+import 'package:player_exchange/models/auth/error_response.dart';
+import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/models/auth/sign_in_request.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
+import 'package:player_exchange/ui/widgets/circle-progress-bar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
+import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
+import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -18,6 +30,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
+  LoginScreenController loginScreenController = Get.put(LoginScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: ColorManager.greenColor,
                                 fontSize: StyleManager().mediumFontSize),
                           ),
+                          controller: emailController,
                           validator: (txt) {
                             // if (EmailValidator.validate(
                             //     signUpController.emailEditingController.text))
@@ -147,6 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: ColorManager.greenColor,
                                 fontSize: StyleManager().mediumFontSize),
                           ),
+                          controller: passwordController,
                           validator: (txt) {
                             // if (signUpController
                             //     .passwordEditingController.text.length >
@@ -186,10 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: FilledButton(
                           text: "Sign In",
                           onTap: () {
-                            TabsScreen.currentIndex = 0;
-                            Get.offAll(() => TabsScreen(
-                                  selectedIndex: 0,
-                                ));
+                            callSignInApi();
                           }),
                     )
                   ],
@@ -198,5 +214,98 @@ class _LoginScreenState extends State<LoginScreen> {
             )),
       ),
     );
+  }
+
+  bool validate() {
+    if (emailController.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Email Required');
+
+      return false;
+    }
+
+    if (!emailController.text.isEmail) {
+      Fluttertoast.showToast(msg: 'Invalid Email');
+
+      return false;
+    }
+
+    if (passwordController.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'Password Required');
+
+      return false;
+    }
+    return true;
+  }
+
+  void callSignInApi() async {
+    if (validate()) {
+      SignInRequest signInRequest = SignInRequest();
+      signInRequest.email = emailController.text;
+      signInRequest.password = passwordController.text;
+      signInRequest.fcmToken = '';
+
+      LoadingIndicatorDialog().show(context, text: "Logging in...");
+
+      var dio = Dio();
+      try {
+        final response = await dio.post(Api.baseURL + 'user/login',
+            data: signInRequest.toJson(),
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            }));
+
+        LoadingIndicatorDialog().dismiss();
+        print ("login response: " + response.toString());
+        if (response.data != null) {
+          UserModel userResponse;
+          try {
+            UserModel userResponse = UserModel.fromJson(response.data);
+
+          //  if(userResponse.user == null){
+          //    Fluttertoast.showToast(msg: Api.apiErrorResponse);
+
+          //   return;
+          // }
+
+          if (userResponse.message != null &&
+              userResponse.message == 'Successfully logged in') {
+
+            if(userResponse.user != null) {
+              SessionManager.setUserData(userResponse.user!);
+            }
+            TabsScreen.currentIndex = 0;
+
+            Get.off(() => TabsScreen(
+                  selectedIndex: TabsScreen.currentIndex,
+                ));
+          } else {
+            if (userResponse.message == null) {
+              Fluttertoast.showToast(msg: Api.apiErrorResponse);
+            } else {
+              Fluttertoast.showToast(msg: userResponse.message.toString());
+            }
+          }
+          } catch (e) {
+            print(e);
+          }
+        }
+      } on DioError catch (e) {
+        e.printError();
+
+        LoadingIndicatorDialog().dismiss();
+        if (e.response != null) {
+          print('has response');
+
+          AuthErrorResponse resp = AuthErrorResponse.fromJson(e.response!.data);
+
+          print('has error ${resp.toString()}');
+
+          Fluttertoast.showToast(
+              msg: resp.error?.message ?? "Invalid Credentials");
+        } else {
+          Fluttertoast.showToast(msg: e.response.toString());
+        }
+      }
+    }
   }
 }

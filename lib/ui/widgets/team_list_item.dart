@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/detail_page/detail_page.dart';
-import 'package:player_exchange/ui/screens/roster_detail_from_discovery.dart';
-import 'package:player_exchange/ui/screens/trader_detail_screen.dart';
+import 'package:player_exchange/ui/screens/cpo_detail_from_discovery.dart';
+import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
@@ -21,7 +22,7 @@ class _TeamListItemState extends State<TeamListItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => RosterDetailFromDiscovery());
+        Get.to(() => CpoDetailFromDiscovery(cpoModel: CpoModel(),));
       },
       child: Column(
         children: [
