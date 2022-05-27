@@ -168,7 +168,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 title: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: Text(
-                    'exchnage'.tr,
+                    'exchnage'.tr, 
                     style: TextStyle(
                         color: TabsScreen.currentIndex == 2
                             ? ColorManager.greenColor
