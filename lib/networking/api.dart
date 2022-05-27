@@ -1,5 +1,6 @@
 class Api{
-  static String baseURL= "http://192.168.10.6:3000/";    //stripeHome Wifi     //Local Host
+  static String baseURL= "http://137.184.157.131:3000/";    //MobiOcean server
+  // static String baseURL= "http://192.168.10.6:3000/";    //stripeHome Wifi     //Local Host
   // static String baseURL= "http://192.168.18.19:3000/"; //Office Wifi   //Local Host
   // static String baseURL= "http://192.168.36.254:3000/";    // redmi Wifi     //Local Host
 
