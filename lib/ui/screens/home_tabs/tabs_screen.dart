@@ -91,6 +91,8 @@ class _TabsScreenState extends State<TabsScreen> {
             key: widget.bottomNavBarKey,
             type: BottomNavigationBarType.fixed,
             currentIndex: TabsScreen.currentIndex,
+            // selectedLabelStyle: TextStyle(fontSize: 22),
+            selectedItemColor: ColorManager.greenColor,
             onTap: (index) {
               if (TabsScreen.currentIndex == index) {
                 NavigatorState? key = getCurrentNavigatorKey();
@@ -115,6 +117,7 @@ class _TabsScreenState extends State<TabsScreen> {
                 }*/
               }
             },
+
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -125,16 +128,8 @@ class _TabsScreenState extends State<TabsScreen> {
                   width: bottomNavIconSize(0),
                 ),
                 // ignore: deprecated_member_use
-                title: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'home'.tr,
-                    style: TextStyle(
-                        color: TabsScreen.currentIndex == 0
-                            ? ColorManager.greenColor
-                            : ColorManager.buttonBorderGreyColor),
-                  ),
-                ),
+                label: "home".tr,
+
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -145,16 +140,9 @@ class _TabsScreenState extends State<TabsScreen> {
                   width: bottomNavIconSize(1),
                 ),
                 // ignore: deprecated_member_use
-                title: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'discover'.tr,
-                    style: TextStyle(
-                        color: TabsScreen.currentIndex == 1
-                            ? ColorManager.greenColor
-                            : ColorManager.buttonBorderGreyColor),
-                  ),
-                ),
+                label: "discover".tr,
+
+
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -165,16 +153,8 @@ class _TabsScreenState extends State<TabsScreen> {
                   width: bottomNavIconSize(1),
                 ),
                 // ignore: deprecated_member_use
-                title: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'exchnage'.tr, 
-                    style: TextStyle(
-                        color: TabsScreen.currentIndex == 2
-                            ? ColorManager.greenColor
-                            : ColorManager.buttonBorderGreyColor),
-                  ),
-                ),
+                label: "exchange".tr,
+
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -185,16 +165,8 @@ class _TabsScreenState extends State<TabsScreen> {
                   width: bottomNavIconSize(3),
                 ),
                 // ignore: deprecated_member_use
-                title: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'messages'.tr,
-                    style: TextStyle(
-                        color: TabsScreen.currentIndex == 3
-                            ? ColorManager.greenColor
-                            : ColorManager.buttonBorderGreyColor),
-                  ),
-                ),
+                label: "messages".tr,
+
               ),
               BottomNavigationBarItem(
                 // icon: Obx (() {return new SizedBox(
@@ -215,19 +187,11 @@ class _TabsScreenState extends State<TabsScreen> {
                     backgroundColor: Colors.white,
                   );
                 }),
-                // ignore: deprecated_member_use
-                title: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'profile'.tr,
-                    style: TextStyle(
-                        color: TabsScreen.currentIndex == 4
-                            ? ColorManager.greenColor
-                            : ColorManager.buttonBorderGreyColor),
-                  ),
-                ),
+                label: "profile".tr,
+
               ),
             ],
+
           ),
         ),
         body: IndexedStack(
