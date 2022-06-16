@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
@@ -19,6 +20,8 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/number_utils.dart';
 import 'package:player_exchange/utils/style_manager.dart';
+
+import 'home_tabs/exchange_screen.dart';
 
 class ExchangePlayerScreen extends StatefulWidget {
   final RosterModel rosterModel;
@@ -117,11 +120,10 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                               text: TextSpan(children: [
                             TextSpan(
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'available_shares '.tr),
+                                text: 'available_shares'.tr),
                             TextSpan(
                               style: TextStyle(color: ColorManager.greenColor),
-                              text:
-                                  (widget.rosterModel.cpoAthletes?.sharesAvailable ?? 0).toString(),
+                              text: " " + (widget.rosterModel.sharesBought ?? 0).toString(),
                             )
                           ]))
                         ],
@@ -323,26 +325,42 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
               ),
               FilledButton(
                 onTap: () async {
-                  if (shares > 0 && asking > 0) {
+                  if (shares <= 0) {
+                    Fluttertoast.showToast(msg: "Shares must be greater than 0");
+                  } else if (asking <= 0) {
+                    Fluttertoast.showToast(msg: "Asking Price must be greater than 0");
+                  }
+                  if (shares > (widget.rosterModel.sharesBought ?? 0).toInt()) {
+                    Fluttertoast.showToast(msg: "Not enough shares available");
+                  } else if (shares > 0 &&
+                      asking > 0 &&
+                      shares <= (widget.rosterModel.sharesBought ?? 0).toInt()) {
                     User user = Get.find<AppDrawerController>().user.value;
+                    // var bottomWidgetKey=TabsScreen(selectedIndex: 2).bottomNavBarKey;
+                    // BottomNavigationBar navigationBar =  bottomWidgetKey.currentWidget as BottomNavigationBar;
+
                     await APIRequests.doApi_addExchangePlayer(
                             shares, asking, widget.rosterModel.id ?? "", user.id ?? "")
                         .then((value) => {
-                          if(value){
-                            Navigator.popUntil(
-                              context,
-                              ModalRoute.withName('/'),
-                            ),
-                            TabsScreen.currentIndex = 2,
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      TabsScreen(
-                                        selectedIndex: 2,
-                                      )),
-                            )
-                          }
+                              if (value)
+                                {
+                                  Navigator.popUntil(
+                                    context,
+                                    ModalRoute.withName('/'),
+                                  ),
+                                  TabsScreen.currentIndex = 2,
+                                  // navigationBar.onTap!(2),
+
+                  Get.offAll(() => TabsScreen(selectedIndex: TabsScreen.currentIndex,))
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) =>
+                                  //           TabsScreen(
+                                  //             selectedIndex: 2,
+                                  //           )),
+                                  // )
+                                }
                             });
                   }
 

@@ -27,7 +27,23 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
     fontWeight: FontWeight.w500,
   );
 
-  // final YoutubePlayerController youtubeController = YoutubePlayerController(
+  @override
+  void didChangeDependencies() {
+    print("");
+
+  }
+
+
+  @override
+  void setState(VoidCallback fn) {
+    print("");
+
+  }
+
+  @override
+  void reassemble() {
+    print("");
+  } // final YoutubePlayerController youtubeController = YoutubePlayerController(
   //   initialVideoId: 'NG6pvXpnIso',
   //   flags: const YoutubePlayerFlags(
   //     autoPlay: false,
@@ -45,6 +61,9 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // APIRequests.doApi_getExchangePlayers().then((value) => {
+    //   list.value = value
+    // });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -115,13 +134,13 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                   ),
                 ],
               ),
-              ListView.builder(
+              Obx(() => ListView.builder(
                 itemCount: list.length,
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
                   return getItemWidget(list.value[i]);
                 },
-              ),
+              )),
               // YoutubePlayer(
               //   controller: youtubeController,
               //   showVideoProgressIndicator: true,

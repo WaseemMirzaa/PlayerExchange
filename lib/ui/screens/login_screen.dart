@@ -12,7 +12,9 @@ import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/auth/sign_in_request.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
+import 'package:player_exchange/ui/screens/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/circle-progress-bar.dart';
+import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
@@ -41,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
+      appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: SingleChildScrollView(
         child: Form(
             key: formKey,
@@ -207,7 +210,36 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             callSignInApi();
                           }),
-                    )
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(24)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Don't have an account? ", style: TextStyle(
+                              fontSize: StyleManager().smallFontSize,
+                              color: ColorManager.colorTextGray
+                            ),),
+                            TextButton(
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                    fontSize: StyleManager().smallFontSize,
+                                    color: ColorManager.greenColor),
+                              ),
+                              onPressed: () {
+                                Get.to(SignUpScreen());
+                                // *//*Get.to(ForgotPassword(),
+                                // transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*//*
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

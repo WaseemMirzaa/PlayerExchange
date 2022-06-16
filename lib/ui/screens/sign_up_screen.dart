@@ -13,6 +13,7 @@ import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/sign_up_request.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
+import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
@@ -52,6 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
+      appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: SingleChildScrollView(
         child: Form(
             key: formKey,
@@ -398,6 +400,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           onPressed: () {
                             Get.to(LoginScreen());
+                            // Get.offAll(LoginScreen());
                             /*Get.to(ForgotPassword(),
                               transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*/
                           },

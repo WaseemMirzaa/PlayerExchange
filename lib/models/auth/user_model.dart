@@ -113,7 +113,7 @@ class User {
     _password = json['password'] ?? "";
     _userType = json['userType'] ?? "";
     _fcmToken = json['fcmToken'] ?? "";
-    _createdAt = json['createdAt'] ?? new DateTime.now();
+    _createdAt = json['createdAt'] ?? new DateTime.now().toString();
     _secretKey = json['secretKey'] ?? "";
     _uniqueKey = json['uniqueKey'] ?? "";
     _isBlocked = json['isBlocked'] ?? true;

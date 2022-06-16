@@ -103,7 +103,7 @@ class APIRequests {
     try {
       var response = await client.post(Uri.parse(completeUrl),
           body:
-              jsonEncode(<String, String>{'userId': userId ?? "", 'cpoAthletesId': playerId ?? ""}),
+              jsonEncode(<String, String>{'userId': userId, 'cpoAthletesId': playerId}),
           headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
         var jsonString = response.body;

@@ -208,9 +208,9 @@ class _TabsScreenState extends State<TabsScreen> {
                   return CircleAvatar(
                     radius: 13,
                     backgroundImage: NetworkImage(Get.find<AppDrawerController>()
-                            .user
-                            .value
-                            .profilePicture ??
+                        .user
+                        .value
+                        .profilePicture ??
                         ""),
                     backgroundColor: Colors.white,
                   );
@@ -233,46 +233,46 @@ class _TabsScreenState extends State<TabsScreen> {
         body: IndexedStack(
           index: TabsScreen.currentIndex,
           children: [
-            Navigator(
+            TabsScreen.currentIndex == 0 ? Navigator(
               key: homeKey,
               onGenerateRoute: (_) {
                 return MaterialPageRoute(
                   builder: (_) => HomeScreen(),
                 );
               },
-            ),
-            Navigator(
+            ) : Container(),
+            TabsScreen.currentIndex == 1 ? Navigator(
               key: discoverKey,
               onGenerateRoute: (_) {
                 return MaterialPageRoute(
                   builder: (_) => DiscoverScreen(),
                 );
               },
-            ),
-            Navigator(
+            ): Container(),
+            TabsScreen.currentIndex == 2 ? Navigator(
               key: exchnageKey,
               onGenerateRoute: (_) {
                 return MaterialPageRoute(
                   builder: (_) => ExchangeScreen(),
                 );
               },
-            ),
-            Navigator(
+            ): Container(),
+            TabsScreen.currentIndex == 3 ? Navigator(
               key: messagesKey,
               onGenerateRoute: (_) {
                 return MaterialPageRoute(
                   builder: (_) => MessagesScreen(),
                 );
               },
-            ),
-            Navigator(
+            ): Container(),
+            TabsScreen.currentIndex == 4 ? Navigator(
               key: profileKey,
               onGenerateRoute: (_) {
                 return MaterialPageRoute(
                   builder: (_) => ProfileScreen(),
                 );
               },
-            ),
+            ): Container(),
           ],
         ),
       ),
