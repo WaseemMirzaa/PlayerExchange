@@ -229,7 +229,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                             controller: shareController,
                             textAlign: TextAlign.center,
                             // autovalidateMode: AutovalidateMode.always,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                             maxLength: 8,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
@@ -282,7 +282,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                             controller: offerAmountController,
                             textAlign: TextAlign.center,
                             // autovalidateMode: AutovalidateMode.always,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                             maxLength: 8,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),

@@ -119,7 +119,7 @@ class _BuyScreenState extends State<BuyScreen> {
                 child: TextFormField(
                   textAlign: TextAlign.center,
                   autovalidateMode: AutovalidateMode.always,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
                   maxLength: 8,
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
