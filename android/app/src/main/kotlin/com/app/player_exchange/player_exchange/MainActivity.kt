@@ -1,4 +1,4 @@
-package com.app.player_exchange.player_exchange
+package com.app.player_exchange
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

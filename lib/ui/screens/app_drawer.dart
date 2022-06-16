@@ -5,6 +5,7 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/ui/screens/auth_screen.dart';
 import 'package:player_exchange/ui/screens/login_screen.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
@@ -132,7 +133,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
               SessionManager.setUserData(new User());
-              Get.offAll(LoginScreen());
+              Get.offAll(AuthScreen());
             },
           ),
 
