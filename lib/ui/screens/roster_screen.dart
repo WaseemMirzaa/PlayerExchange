@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/roster_controller.dart';
+import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/exhange_screen_group_two.dart';
+import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/ui/widgets/roster_list_item.dart';
@@ -11,9 +14,12 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 
 class RosterScreen extends StatefulWidget {
-   RosterScreen({Key? key, bool isFromExchangeScreen = false})
+
+  RosterScreen({Key? key, this.isFromExchangeScreen = false, this.exchangePlayerModel = null})
       : super(key: key);
   RosterController rosterController =Get.put(RosterController());
+  bool isFromExchangeScreen;
+  ExchangePlayerModel? exchangePlayerModel = ExchangePlayerModel(); //This is the model againt which i will send offer to swap with my roster
 
   @override
   _RosterScreenState createState() => _RosterScreenState();
@@ -32,15 +38,18 @@ class _RosterScreenState extends State<RosterScreen> {
               delegate: SliverChildBuilderDelegate((_, index) {
             return InkWell(
                 onTap: () {
-                  Get.to(ExchangeScreenSecond());
+                  widget.isFromExchangeScreen ? Get.to(ExchangeScreenSecond()):
+                  Get.to(RosterDetailScreen(rosterModel: widget.rosterController.rosterList[index]));
                 },
                 child: RoasterListItem(isRoster: true, rosterModel: widget.rosterController.rosterList[index],
                 cpoModel: widget.rosterController.rosterList[index].cpoAthletes ?? CpoModel(),));
           }, childCount: widget.rosterController.rosterList.length)),
           SliverList(
               delegate: SliverChildListDelegate([
-            SvgPicture.asset(AssetsString().WheelImage),
-            Align(
+            // SvgPicture.asset(AssetsString().WheelImage),
+                SizedBox(height: 300),
+
+                Align(
                 alignment: Alignment.center,
                 child: Text(
                   'create_a_full_roster'.tr,

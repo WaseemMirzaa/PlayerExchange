@@ -36,6 +36,8 @@ dependencies:
 #  video_player: ^2.1.0
   flutter_stripe: ^2.4.0
   paginated_search_bar: ^1.1.2
+  cached_network_image: ^3.2.0
+#  nb_utils: ^4.6.1
 
 
 

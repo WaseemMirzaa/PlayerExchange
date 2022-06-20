@@ -8,10 +8,12 @@ import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_screen.dart';
 import 'package:player_exchange/ui/screens/exchange_player_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
+import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
+import 'package:player_exchange/ui/widgets/player_profile_widget.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -51,16 +53,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                         fontSize: StyleManager().largeFontSize,
                         fontWeight: FontWeight.bold),
                   ),
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundColor: ColorManager.placeholderGreyColor,
-                    child: CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage:
-                          NetworkImage(widget.rosterModel.cpoAthletes!.profilePicture ?? ""),
-                      backgroundColor: Colors.white,
-                    ),
-                  ),
+                  CircleAvatarNamedWidget(url: widget.rosterModel.cpoAthletes!.profilePicture ?? "", name: widget.rosterModel.cpoAthletes!.playerName ?? "", radius: 32,)
                 ],
               ),
               SizedBox(
@@ -294,7 +287,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
       return getCommentView();
     }
     if (index == 3) {
-      return getProfileVew();
+      return PlayerProfileWidget(playerId: widget.rosterModel.cpoAthletes?.playerId ?? "");
     }
   }
 
@@ -639,152 +632,4 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
     );
   }
 
-  getProfileVew() {
-    return SliverList(
-        delegate: SliverChildListDelegate([
-      Container(
-        color: ColorManager.lightGreyDivider,
-        height: 1,
-      ),
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        child: Text(
-          'JONES QBNY'.tr,
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: StyleManager().largeFontSize,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Postion',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              'QB',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Age',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              '24',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Weight',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              '220',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Height',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              '6\'5\"',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'College',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              'Duke',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Draft',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              'Round 1 Pick 6',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Team',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            )),
-            Expanded(
-                child: Text(
-              'Giants',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
-            ))
-          ],
-        ),
-      ),
-      FilledButton(
-        onTap: () {},
-        text: "More",
-        reverseColor: true,
-        isFullWidth: true,
-        color: ColorManager.blueGreyButtonColor,
-      ),
-      SizedBox(
-        height: 20,
-      )
-    ]));
-  }
 }

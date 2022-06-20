@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
+import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
+import 'package:player_exchange/ui/widgets/player_profile_widget.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -14,15 +18,17 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SelectPlayer_detailScreen extends StatefulWidget {
-  const SelectPlayer_detailScreen({Key? key}) : super(key: key);
+class SelectExchangePlayerDetailScreen extends StatefulWidget {
+  final ExchangePlayerModel exchangePlayerModel;
+
+  const SelectExchangePlayerDetailScreen({Key? key, required this.exchangePlayerModel}) : super(key: key);
 
   @override
-  _SelectPlayer_detailScreenState createState() =>
-      _SelectPlayer_detailScreenState();
+  _SelectExchangePlayerDetailScreenState createState() =>
+      _SelectExchangePlayerDetailScreenState();
 }
 
-class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
+class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerDetailScreen> {
   int activeIndex = 0;
   final YoutubePlayerController youtubeController = YoutubePlayerController(
     initialVideoId: 'NG6pvXpnIso',
@@ -47,17 +53,15 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'JONES QBNY'.tr,
+                    widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: StyleManager().largeFontSize,
                         fontWeight: FontWeight.bold),
                   ),
-                  CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage:
-                        NetworkImage('https://via.placeholder.com/150'),
-                    backgroundColor: Colors.transparent,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10, 0, 10),
+                    child: CircleAvatarNamedWidget(url: widget.exchangePlayerModel.roster?.cpoAthletes?.profilePicture ?? "", name: widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "", radius: 32,)
                   ),
                 ],
               ),
@@ -77,15 +81,16 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                           Row(
                             children: [
                               Text(
-                                '\$ 16.45',
+                                '\$ ${widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare ?? ""}',
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600),
                               ),
                               Row(
                                 children: [
+                                  //TODO
                                   Text(
-                                    '\$' + '75',
+                                    '\$' + '--',
                                     style: TextStyle(
                                         fontSize: StyleManager().smallFontSize,
                                         fontWeight: FontWeight.w600,
@@ -109,11 +114,11 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500),
-                                text: 'available_shares'.tr),
+                                text: 'available_shares'.tr + " "),
                             TextSpan(
                                 style:
                                     TextStyle(color: ColorManager.greenColor),
-                                text: ' 375 '),
+                                text: '${widget.exchangePlayerModel.roster?.cpoAthletes?.sharesAvailable ?? ""}'),
                           ]))
                         ],
                       )),
@@ -132,7 +137,7 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                             TextSpan(
                                 style:
                                     TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375 '),
+                                text: '\$ --- '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -147,7 +152,7 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                             TextSpan(
                                 style:
                                     TextStyle(color: ColorManager.greenColor),
-                                text: '\$ 375 '),
+                                text: '\$ --- '),
                           ])),
                           SizedBox(
                             height: 5,
@@ -162,7 +167,7 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                             TextSpan(
                                 style: TextStyle(
                                     color: ColorManager.lowPriceColor),
-                                text: '\$ 375 '),
+                                text: '\$ --- '),
                           ])),
                         ],
                       )),
@@ -284,7 +289,7 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
       return getCommentView();
     }
     if (index == 3) {
-      return getProfileVew();
+      return PlayerProfileWidget(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.playerId ?? "");
     }
   }
 
@@ -323,7 +328,7 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
                 width: MediaQuery.of(context).size.width * 0.35,
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(RosterScreen());
+                    Get.to(RosterScreen(isFromExchangeScreen: true));
                   },
                   child: RichText(
                     text: TextSpan(
@@ -570,162 +575,4 @@ class _SelectPlayer_detailScreenState extends State<SelectPlayer_detailScreen> {
     );
   }
 
-  getProfileVew() {
-    return SliverList(
-        delegate: SliverChildListDelegate([
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        child: Text(
-          'JONES QBNY'.tr,
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: StyleManager().largeFontSize,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Postion',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'QB',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Age',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              '24',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Weight',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              '220',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Height',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              '6\'5\"',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'College',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'Duke',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Draft',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'Round 1 Pick 6',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Team',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'Giants',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      FilledButton(
-        onTap: () {},
-        text: "More",
-        reverseColor: true,
-        isFullWidth: true,
-        color: ColorManager.blueGreyButtonColor,
-      ),
-      SizedBox(
-        height: 20,
-      )
-    ]));
-  }
 }

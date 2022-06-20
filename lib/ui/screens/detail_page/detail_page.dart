@@ -13,6 +13,7 @@ import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/ui/widgets/outline_button_with_icon_text.dart';
+import 'package:player_exchange/ui/widgets/player_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/roster_list_item.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
@@ -237,7 +238,7 @@ class _DetailScreenState extends State<DetailScreen> {
       return getCommentView();
     }
     if(index==3){
-      return getProfileVew();
+      return PlayerProfileWidget(playerId: "playerId from cpoModel",);
     }
   }
 
@@ -394,45 +395,6 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  getProfileVew(){
-    return SliverList(delegate: SliverChildListDelegate([
-      Padding(
-        padding:  EdgeInsets.symmetric(vertical: 15),
-        child: Text(
-          'JONES QBNY'.tr,
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: StyleManager().largeFontSize,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-
-      Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('Postion',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('QB',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ), Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('Age',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('24',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ), Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('Weight',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('220',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ), Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('Height',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('6\'5\"',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ), Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('College',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('Duke',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ), Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('Draft',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('Round 1 Pick 6',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ), Padding(
-        padding:  EdgeInsets.only(bottom: 10.0),
-        child: Row(children: [Expanded(child: Text('Team',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),)),Expanded(child: Text('Giants',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600),))],),
-      ),
-      FilledButton(onTap: (){},text: "More",reverseColor: true,isFullWidth: true,color: ColorManager.blueGreyButtonColor,),
-      SizedBox(height: 20,)
-    ]));
-  }
 
 
 }

@@ -5,11 +5,14 @@ import 'package:get/get.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/controllers/cpo_detail_discovery_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/models/teams/team_players_response.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
+import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
+import 'package:player_exchange/ui/widgets/player_profile_widget.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -75,15 +78,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                         fontSize: StyleManager().largeFontSize,
                         fontWeight: FontWeight.bold),
                   ),
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundColor: ColorManager.placeholderGreyColor,
-                    child: CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage: NetworkImage(widget.cpoModel.profilePicture ?? ""),
-                      backgroundColor: Colors.white,
-                    ),
-                  ),
+                  CircleAvatarNamedWidget(url: widget.cpoModel.profilePicture ?? "", name: widget.cpoModel.playerName ?? "", radius: 32,)
                 ],
               ),
               SizedBox(
@@ -288,7 +283,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
       return getCommentView();
     }
     if (index == 3) {
-      return getProfileVew();
+      return PlayerProfileWidget(playerId: widget.cpoModel.playerId ?? "",);
     }
   }
 
@@ -574,150 +569,6 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
     );
   }
 
-  getProfileVew() {
-    return SliverList(
-        delegate: SliverChildListDelegate([
-      Padding(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        child: Text(
-          widget.cpoModel.playerName ?? "",
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: StyleManager().largeFontSize,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Postion',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              widget.cpoModel.position ?? "",
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Age',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              '24',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Weight',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              '220',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Height',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              '6\'5\"',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'College',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'Duke',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Draft',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'Round 1 Pick 6',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(bottom: 10.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Text(
-              'Team',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            )),
-            Expanded(
-                child: Text(
-              'Giants',
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-            ))
-          ],
-        ),
-      ),
-      FilledButton(
-        onTap: () {},
-        text: "More",
-        reverseColor: true,
-        isFullWidth: true,
-        color: ColorManager.blueGreyButtonColor,
-      ),
-      SizedBox(
-        height: 20,
-      )
-    ]));
-  }
 
   @override
   void dispose() {
@@ -725,3 +576,4 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
     // _controller.dispose();
   }
 }
+

@@ -8,6 +8,8 @@ import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/favorite_model.dart';
 import 'package:player_exchange/models/rosters/add_to_roster_request.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
+import 'package:player_exchange/models/teams/team_players_response.dart';
+import 'package:player_exchange/models/teams/teams_response.dart';
 
 import 'api.dart';
 
@@ -48,6 +50,26 @@ class APIRequests {
     }
   }
 
+  static Future<CpoModel> doApi_getCpoAthleteWithID({String playerId = ""}) async {
+    String jsonStringFilter =
+        '?filter[where][playerId][regexp]=/^$playerId/i&[include][relation]=tiers';
+    var completeUrl = Api.baseURL + 'cpo-athletes' + jsonStringFilter;
+    var response = await client.get(Uri.parse(completeUrl));
+    try {
+      if (response.statusCode == 200) {
+            var jsonString = response.body;
+            var cpoModelList = cpoModelListFromJson(jsonString);
+            return cpoModelList.length > 0 ? cpoModelList[0] : CpoModel();
+          } else {
+            //show error message
+            Fluttertoast.showToast(msg: Api.apiErrorResponse);
+            return CpoModel();
+          }
+    } catch (e) {
+      print(e);
+      return CpoModel();
+    }
+  }
 
   static Future<List<RosterModel>> doApi_getRoster(String userId) async {
 
@@ -211,6 +233,45 @@ class APIRequests {
       //show error message
       Fluttertoast.showToast(msg: Api.apiErrorResponse);
       return <ExchangePlayerModel>[];
+    }
+  }
+
+  static Future<TeamsResponse> doApi_getTeams() async {
+   var completeUrl = Api.baseURL + 'teams';
+    var response = await client.get(Uri.parse(completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return teamsResponseFromJson(jsonString);
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return TeamsResponse();
+    }
+  }
+
+  static Future<TeamPlayersResponse> doApi_getPlayersFromTeam(String teamId) async {
+     var completeUrl = Api.baseURL + 'teams-with-players/' +teamId;
+    var response = await client.get(Uri.parse(completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return teamPlayersResponseFromJson(jsonString);
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return TeamPlayersResponse();
+    }
+  }
+
+  static Future<Players> doApi_getPlayer(String playerId) async {
+    var completeUrl = Api.baseURL + 'player/' +playerId;
+    var response = await client.get(Uri.parse(completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return playersFromJson(jsonString);
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return Players();
     }
   }
 }

@@ -19,4 +19,6 @@ class ColorManager {
   static const Color backgroundGreyColor = Color(0xffF9F9F9);
   static const Color lightGreyDivider = Color(0xffEBEDF0);
   static const Color placeholderGreyColor = Color(0xffd7d6d6);
+  static const Color placeholderBlueGreyButtonColor = Color(0xffE4E9F2);
+
 }

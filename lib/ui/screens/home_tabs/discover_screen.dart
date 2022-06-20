@@ -39,6 +39,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   @override
   void initState() {
     discoverScreenController.getWatchList();
+    discoverScreenController.getTeamsList();
+
   }
 
   @override
@@ -54,7 +56,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 horizontal: 10,
                 vertical: 10,
               ),
-              child: Column(
+              child: Obx (() => Column(
                 children: [
                   Row(
                     children: [
@@ -222,7 +224,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     ),
                   ),
                 ],
-              ),
+              )),
             ),
           ),
         ));
@@ -230,10 +232,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   List<Widget> addTeams() {
     List<Widget> myTags = <Widget>[];
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < discoverScreenController.teamsList.length; i++) {
       myTags.add(GestureDetector(
         onTap: () {
-          Get.to(() => TeamDetailScreen());
+          Get.to(() => TeamDetailScreen(team: discoverScreenController.teamsList[i]));
         },
         child: Card(
           elevation: 0,
@@ -248,7 +250,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 border: Border.all(color: ColorManager.lightGreyDivider, width: 1)),
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             child: Text(
-              "EUR ${(i + 1).toString()}",
+              // "EUR ${(i + 1).toString()}",
+              "${discoverScreenController.teamsList[i].name}",
               style: TextStyle(fontSize: 12, color: Colors.black87),
             ),
           ),

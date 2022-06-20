@@ -49,5 +49,7 @@ class AssetsString{
   final Images='assets/images.png';
   final ChartImageOne='assets/chart_image_one.png';
   final ChartImageTwo='assets/chart_image_two.png';
+  final profilePicPlaceholder='assets/profile_pic.png';
+  final placeholderAvatar='assets/placeholder_avatar.png';
 
 }

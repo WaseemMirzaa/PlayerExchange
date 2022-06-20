@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
-import 'package:player_exchange/ui/screens/select_player_detail_screen.dart';
+import 'package:player_exchange/ui/screens/select_exchange_player_detail_screen.dart';
+import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -27,23 +28,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
     fontWeight: FontWeight.w500,
   );
 
-  @override
-  void didChangeDependencies() {
-    print("");
-
-  }
-
-
-  @override
-  void setState(VoidCallback fn) {
-    print("");
-
-  }
-
-  @override
-  void reassemble() {
-    print("");
-  } // final YoutubePlayerController youtubeController = YoutubePlayerController(
+  // final YoutubePlayerController youtubeController = YoutubePlayerController(
   //   initialVideoId: 'NG6pvXpnIso',
   //   flags: const YoutubePlayerFlags(
   //     autoPlay: false,
@@ -160,7 +145,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
   Widget getItemWidget(ExchangePlayerModel exchangePlayerModel) {
     return GestureDetector(
         onTap: () {
-          Get.to(() => SelectPlayer_detailScreen());
+          Get.to(() => SelectExchangePlayerDetailScreen(exchangePlayerModel: exchangePlayerModel,));
         },
         child: Container(
             padding: EdgeInsets.symmetric(vertical: 10),
@@ -168,17 +153,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
               children: [
                 Expanded(
                   flex: 1,
-                      child:
-                      CircleAvatar(
-                        radius: 17,
-                        backgroundColor: ColorManager.placeholderGreyColor,
-                        child: CircleAvatar(
-                          radius: 15.0,
-                          backgroundImage: NetworkImage(
-                              'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
+                      child: CircleAvatarNamedWidget(url:exchangePlayerModel.roster?.cpoAthletes?.profilePicture ?? "", name: exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "", radius: 17,)
 
                 ),
 

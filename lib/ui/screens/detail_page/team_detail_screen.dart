@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:player_exchange/controllers/team_detail_screen_controller.dart';
+import 'package:player_exchange/models/teams/teams_response.dart';
 import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -18,16 +20,17 @@ import 'package:player_exchange/utils/style_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TeamDetailScreen extends StatefulWidget {
-  const TeamDetailScreen({Key? key}) : super(key: key);
+  const TeamDetailScreen({Key? key, required this.team}) : super(key: key);
+  final Teams team;
 
   @override
   _TeamDetailScreenState createState() => _TeamDetailScreenState();
 }
 
 class _TeamDetailScreenState extends State<TeamDetailScreen> {
+  TeamDetailScreenController teamDetailScreenController = Get.put(TeamDetailScreenController());
   int selectedIndex = 0;
 
-  List optionsList = ["Charts", "News", "Comments", "Profile"];
 
   final YoutubePlayerController youtubeController = YoutubePlayerController(
     initialVideoId: 'NG6pvXpnIso',
@@ -36,6 +39,12 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
       mute: true,
     ),
   );
+
+
+  @override
+  void initState() {
+    teamDetailScreenController.getTeamsList(widget.team.id ?? "");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +69,7 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Stellers',
+                                '${widget.team.name}',
                                 style: TextStyle(
                                     fontSize: StyleManager().largeFontSize,
                                     fontWeight: FontWeight.w600,
@@ -80,17 +89,17 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
                               ),
                             ],
                           ),
-                          Container(
-                            height: 300,
+                          Obx(() => Container(
+                            height: 350,
                             width: double.infinity,
                             child: ListView.separated(
                               itemBuilder: (_, index) {
-                                return TeamListItem();
+                                return TeamListItem(players: teamDetailScreenController.playerList[index],);
                               },
-                              itemCount: 7,
+                              itemCount: teamDetailScreenController.playerList.length,
                               separatorBuilder: (_, index) => CustomDivider(),
                             ),
-                          ),
+                          )),
                         ],
                       ),
                     ),

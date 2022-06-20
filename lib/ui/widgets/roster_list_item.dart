@@ -5,6 +5,7 @@ import 'package:player_exchange/controllers/roster_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
+import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -35,16 +36,8 @@ class _RoasterListItemState extends State<RoasterListItem> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(10.0, 10, 0, 10),
-            child: CircleAvatar(
-              backgroundColor: ColorManager.placeholderGreyColor,
-              radius: 22,
-              child: CircleAvatar(
-                radius:20.0,
-                foregroundImage: NetworkImage(
-                    widget.cpoModel.profilePicture ?? ""),
-                backgroundColor: Colors.white,
-              ),
-            ),
+            child: CircleAvatarNamedWidget(url: widget.cpoModel.profilePicture ?? "", name: widget.cpoModel.playerName ?? "", radius: 22,)
+
           ),
           Flexible(
               flex: 1,

@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
+import 'package:player_exchange/models/teams/team_players_response.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/screens/detail_page/detail_page.dart';
 import 'package:player_exchange/ui/screens/cpo_detail_from_discovery.dart';
 import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
+import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
 import 'package:player_exchange/utils/assets_string.dart';
+import 'package:player_exchange/utils/cached_network_image.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import 'circle_avatar_named_widget.dart';
+
 class TeamListItem extends StatefulWidget {
-  const TeamListItem({Key? key}) : super(key: key);
+  const TeamListItem({Key? key, required this.players}) : super(key: key);
+  final Players players;
 
   @override
   _TeamListItemState createState() => _TeamListItemState();
@@ -21,8 +29,15 @@ class _TeamListItemState extends State<TeamListItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.to(() => CpoDetailFromDiscovery(cpoModel: CpoModel(),));
+      onTap: () async {
+        LoadingIndicatorDialog().show(context,);
+        CpoModel cpoModel = await APIRequests.doApi_getCpoAthleteWithID(playerId: widget.players.id ?? "");
+        LoadingIndicatorDialog().dismiss();
+        if(cpoModel.playerId != null) {
+          Get.to(() => CpoDetailFromDiscovery(cpoModel: cpoModel,));
+        } else {
+          Fluttertoast.showToast(msg: "Player not available in Current Public Offerings");
+        }
       },
       child: Column(
         children: [
@@ -31,29 +46,28 @@ class _TeamListItemState extends State<TeamListItem> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CircleAvatar(
-                  radius: 20.0,
-                  backgroundImage: NetworkImage(
-                      'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-                  backgroundColor: Colors.transparent,
+                Expanded(
+                  flex: 1,
+                  child: CircleAvatarNamedWidget(name: widget.players.name ?? "", url: "",),
                 ),
-                Flexible(
-                  flex: 6,
-                  child: Expanded(
-                    child: Text(
-                      'Jones       ',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: StyleManager().mediumFontSize,
-                          fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.left,
-                    ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    '${widget.players.name}',
+                    // '',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: StyleManager().smallFontSize,
+                        fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.left,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Flexible(
+                Expanded(
                     flex: 1,
                     child: SvgPicture.asset(AssetsString().RiseChartIcon)),
-                Flexible(
+                Expanded(
                     flex: 1,
                     child: Row(
                       children: [
@@ -62,7 +76,7 @@ class _TeamListItemState extends State<TeamListItem> {
                           color: ColorManager.greenColor,
                         ),
                         Text(
-                          '\$' + '1.45',
+                          '\$' + '---',
                           style: TextStyle(
                               fontSize: StyleManager().smallFontSize,
                               fontWeight: FontWeight.w600,
@@ -82,3 +96,4 @@ class _TeamListItemState extends State<TeamListItem> {
     );
   }
 }
+

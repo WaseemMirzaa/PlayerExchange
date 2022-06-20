@@ -8,6 +8,8 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'circle_avatar_named_widget.dart';
+
 class AscendingListItem extends StatefulWidget {
   final RosterModel rosterModel;
   const AscendingListItem({Key? key, required this.rosterModel}) : super(key: key);
@@ -38,18 +40,8 @@ class _AscendingListItemState extends State<AscendingListItem> {
                 Container(
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: CircleAvatar(
-                      backgroundColor: ColorManager.placeholderGreyColor,
-                      radius: 27,
-                      child: CircleAvatar(
-                        radius: 25.0,
-                        backgroundImage: NetworkImage(
-                            widget.rosterModel.cpoAthletes?.profilePicture ?? "",
-                            // 'https://expressionengine.com/asset/images/avatars/avatar_2621.png'
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
-                    ),
+                    child: CircleAvatarNamedWidget(url: widget.rosterModel.cpoAthletes?.profilePicture ?? "", name: widget.rosterModel.cpoAthletes?.playerName ?? "", radius: 27,)
+
                   ),
                 ),
                 Text(
