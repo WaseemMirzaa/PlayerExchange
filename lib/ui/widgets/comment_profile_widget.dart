@@ -7,9 +7,11 @@ import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
+import 'package:player_exchange/utils/DateUtilsCustom.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
+import 'package:time_elapsed/time_elapsed.dart';
 
 import 'circle_avatar_named_widget.dart';
 
@@ -160,7 +162,8 @@ class CommentProfileWidget extends StatelessWidget {
                   height: 7,
                 ),
                 Text(
-                  'Just Now',
+                  // 'Just Now',
+                  DateUtilsCustom.getElapsedTime(commentModel.createdAt ?? ""),
                   style: TextStyle(color: ColorManager.colorTextGray, fontSize: 12),
                 ),
                 SizedBox(
