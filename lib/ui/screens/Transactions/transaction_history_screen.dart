@@ -1,45 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/transactions/transaction_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/screens/select_exchange_player_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
+import 'package:player_exchange/ui/widgets/custom_appbar.dart';
+import 'package:player_exchange/utils/DateUtilsCustom.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
+import 'package:player_exchange/utils/constants.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ExchangeScreen extends StatefulWidget {
-  const ExchangeScreen({Key? key}) : super(key: key);
+class TransactionHistoryScreen extends StatefulWidget {
+  const TransactionHistoryScreen({Key? key}) : super(key: key);
 
   @override
-  _ExchangeScreenState createState() => _ExchangeScreenState();
+  _TransactionHistoryScreenState createState() => _TransactionHistoryScreenState();
 }
 
-class _ExchangeScreenState extends State<ExchangeScreen> {
-  var list = <ExchangePlayerModel>[].obs;
+class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
+  var list = <TransactionModel>[].obs;
+  AppDrawerController appDrawerController = Get.find();
 
   var headingStyle = TextStyle(
     color: Colors.black45,
     fontWeight: FontWeight.w600,
   );
   var itemStyle = TextStyle(
+    fontSize: 12,
     color: Colors.black,
     fontWeight: FontWeight.w500,
   );
 
-  // final YoutubePlayerController youtubeController = YoutubePlayerController(
-  //   initialVideoId: 'NG6pvXpnIso',
-  //   flags: const YoutubePlayerFlags(
-  //     autoPlay: false,
-  //     mute: true,
-  //   ),
-  // );
 
 
   @override
   void initState() {
-    APIRequests.doApi_getExchangePlayers().then((value) => {
+    APIRequests.doApi_getTransactions(userId: appDrawerController.user.value.id ?? "").then((value) => {
       list.value = value
     });
   }
@@ -50,17 +50,19 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
     //   list.value = value
     // });
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          "eXchange",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
+      appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
+
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.transparent,
+      //   title: Text(
+      //     "Transaction History",
+      //     style: TextStyle(
+      //       color: Colors.black,
+      //       fontWeight: FontWeight.w800,
+      //     ),
+      //   ),
+      // ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 20,
@@ -68,26 +70,37 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
         ),
         child: Column(
           children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text('Transactions History',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 26)),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
             Row(
               children: [
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "",
-                    style: headingStyle,
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Text(
-                    "Name",
+                    "Type",
                     style: headingStyle,
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "Team",
+                    "Payment Type",
+                    style: headingStyle,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    "Amount",
                     style: headingStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -95,7 +108,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "Pos.",
+                    "Shares.",
                     style: headingStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -103,19 +116,12 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "Price",
+                    "Date",
                     style: headingStyle,
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    "Share",
-                    style: headingStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+
               ],
             ),
             Obx(() => Expanded(
@@ -127,50 +133,38 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 },
               ),
             )),
-            // YoutubePlayer(
-            //   controller: youtubeController,
-            //   showVideoProgressIndicator: true,
-            //   progressColors: const ProgressBarColors(
-            //     playedColor: Colors.redAccent,
-            //     handleColor: Color(0xffFF6757),
-            //   ),
-            //   onReady: () {},
-            // ),
+
           ],
         ),
       ),
     );
   }
 
-  Widget getItemWidget(ExchangePlayerModel exchangePlayerModel) {
-    return GestureDetector(
-        onTap: () {
-          Get.to(() => SelectExchangePlayerDetailScreen(exchangePlayerModel: exchangePlayerModel,));
-        },
-        child: Container(
+  Widget getItemWidget(TransactionModel transactionModel) {
+    return Column(
+      children: [
+        SizedBox(height: 1,),
+        Container(
+          color: transactionModel.type == TransactionConstants.TRANSACTION_TYPE_DEPOSIT ? ColorManager.transactionColor_Deposit:
+          transactionModel.type == TransactionConstants.TRANSACTION_TYPE_WITHDRAW ? ColorManager.transactionColor_Withdraw :
+          ColorManager.transactionColor_Purchase,
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
+
                 Expanded(
                   flex: 1,
-                      child: CircleAvatarNamedWidget(url:exchangePlayerModel.roster?.cpoAthletes?.profilePicture ?? "", name: exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "", radius: 17,)
-
-                ),
-
-                Expanded(
-                  flex: 2,
                   child: Text(
-                    exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "",
+                    transactionModel.type ?? "",
                     style: itemStyle,
-                    maxLines: 2,
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "Team Here",
-                    // item.team,
+                    transactionModel.paymentType ?? "",
                     style: itemStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -178,14 +172,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    exchangePlayerModel.roster?.cpoAthletes?.position ?? "",                    style: itemStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    exchangePlayerModel.askingAmount.toString(),
+                    transactionModel.amount?.toString() ?? "0.0",
                     style: itemStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -193,13 +180,24 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    exchangePlayerModel.shares.toString(),
+                    transactionModel.shares?.toString() ?? "0",
+                    style: itemStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Text(
+                    DateUtilsCustom.convertISO_8601_ToDateTime(transactionModel.createdAt ?? ""),
+                    // transactionModel.createdAt.toString() ?? "",
                     style: itemStyle,
                     textAlign: TextAlign.center,
                   ),
                 ),
               ],
-            )));
+            )),
+      ],
+    );
 
   }
 }

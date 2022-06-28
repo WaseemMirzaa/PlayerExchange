@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
+import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -286,7 +288,9 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
       return getNewList();
     }
     if (index == 2) {
-      return getCommentView();
+      return CommentProfileWidget(
+        cpoModel: widget.exchangePlayerModel.roster?.cpoAthletes ?? new CpoModel(),
+      );
     }
     if (index == 3) {
       return PlayerProfileWidget(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.playerId ?? "");
@@ -328,7 +332,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                 width: MediaQuery.of(context).size.width * 0.35,
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(RosterScreen(isFromExchangeScreen: true));
+                    Get.to(RosterScreen(isFromExchangeScreen: true, exchangePlayerModel:  widget.exchangePlayerModel,));
                   },
                   child: RichText(
                     text: TextSpan(
@@ -482,96 +486,6 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
           ],
         ),
       ],
-    );
-  }
-
-  getCommentView() {
-    return SliverList(
-        delegate: SliverChildListDelegate([
-      FilledButton(
-        onTap: () {},
-        text: "Post",
-        reverseColor: true,
-        isFullWidth: true,
-        color: ColorManager.blueGreyButtonColor,
-      ),
-      singleCommentItem(),
-      singleCommentItem(),
-      singleCommentItem(),
-      singleCommentItem(),
-    ]));
-  }
-
-  singleCommentItem() {
-    return Padding(
-      padding: EdgeInsets.only(top: 15.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 20.0,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-            backgroundColor: Colors.transparent,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Prince 475',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: StyleManager().mediumFontSize),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                'Just Now',
-                style: TextStyle(color: ColorManager.buttonBorderGreyColor),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                'Lorem Ipsum is simply dummy text of  ',
-                style: TextStyle(
-                    color: Colors.grey, fontSize: StyleManager().smallFontSize),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(AssetsString().ThumbsUpIcon),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    '2',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(
-                    width: 7,
-                  ),
-                  SvgPicture.asset(AssetsString().ThumbsDownIcon),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    '3',
-                    style: TextStyle(color: Colors.grey),
-                  )
-                ],
-              )
-            ],
-          )
-        ],
-      ),
     );
   }
 

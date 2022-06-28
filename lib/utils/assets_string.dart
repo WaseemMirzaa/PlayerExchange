@@ -51,5 +51,6 @@ class AssetsString{
   final ChartImageTwo='assets/chart_image_two.png';
   final profilePicPlaceholder='assets/profile_pic.png';
   final placeholderAvatar='assets/placeholder_avatar.png';
+  final masterCardLogo='assets/mastercard_logo.png';
 
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/controllers/home_screen_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/app_drawer.dart';
 import 'package:player_exchange/ui/screens/buy_and_watch/watch_screen.dart';
-import 'package:player_exchange/ui/screens/cash_screen.dart';
+import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
 import 'package:player_exchange/ui/screens/current_public_offering_screen.dart';
 import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
@@ -28,10 +29,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeScreenController homeScreenController = Get.put(HomeScreenController());
-
+  AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
 
   @override
   void initState() {
+    homeScreenController.checkAndUpdateStripeCustomerId(context);
     homeScreenController.rosterController.getRoster();
   }
 
@@ -81,7 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: [
                       Text(
-                        '\$' + '450',
+                        // '\$' + '${appDrawerController.user.value.totalValue}',
+                        '\$' + '${homeScreenController.rosterController.user.value!.totalValue}',
                         style: TextStyle(
                             fontSize: StyleManager().mediumFontSize,
                             fontWeight: FontWeight.w600,
@@ -92,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: ColorManager.greenColor,
                       ),
                       Text(
-                        '\$' + '25 Today',
+                        '\$' + '-- Today',
                         style: TextStyle(
                             fontSize: StyleManager().smallFontSize,
                             fontWeight: FontWeight.w500,
@@ -110,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'JONES QB',
+                        appDrawerController.user.value.name ?? "",
                         style: TextStyle(
                             fontSize: StyleManager().mediumFontSize,
                             fontWeight: FontWeight.w600,
@@ -194,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             children: [
                               Text(
-                                '\$' + '75',
+                                '\$${appDrawerController.user.value.walletAmount}',
                                 style: TextStyle(
                                     fontSize: StyleManager().smallFontSize,
                                     fontWeight: FontWeight.w600,

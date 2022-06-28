@@ -63,6 +63,7 @@ class UserModel {
 /// totalValue : 0.0
 /// lossGainPercentage : 0.0
 /// stripeCustomerId : ""
+/// walletAmount : 0.0
 
 User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
@@ -85,6 +86,10 @@ class User {
     num? totalValue,
     num? lossGainPercentage,
     String? stripeCustomerId,
+    num? walletAmount,
+    String? accountId,
+
+
   }){
     _id = id;
     name = name;
@@ -100,9 +105,11 @@ class User {
     _isActive = isActive;
     profilePicture = profilePicture;
     _unInvestedValue = unInvestedValue;
-    _totalValue = totalValue;
+    totalValue = totalValue;
     _lossGainPercentage = lossGainPercentage;
     stripeCustomerId = stripeCustomerId;
+    walletAmount = walletAmount;
+    accountId = accountId;
   }
 
   User.fromJson(dynamic json) {
@@ -120,9 +127,11 @@ class User {
     _isActive = json['isActive'] ?? true;
     profilePicture = json['profilePicture']  ?? "";
     _unInvestedValue = json['unInvestedValue']  ?? 0.0;
-    _totalValue = json['totalValue'] ?? 0.0;
+    totalValue = json['totalValue'] ?? 0.0;
     _lossGainPercentage = json['lossGainPercentage'] ?? 0.0;
     stripeCustomerId = json['stripeCustomerId'] ?? "";
+    walletAmount = json['walletAmount'] ?? 0.0;
+    accountId = json['accountId'] ?? "";
 
   }
   String? _id;
@@ -139,10 +148,15 @@ class User {
   bool? _isActive;
   String? profilePicture;
   num? _unInvestedValue;
-  num? _totalValue;
+  num? totalValue;
   num? _lossGainPercentage;
   String? stripeCustomerId;
+  num? walletAmount;
+  String? accountId;
 
+  String? get id => _id;
+  String? get email => _email;
+  num? get age => _age;
   User copyWith({  String? id,
     String? name,
     String? email,
@@ -160,6 +174,8 @@ class User {
     num? totalValue,
     num? lossGainPercentage,
     String? stripeCustomerId,
+    num? walletAmount,
+    String? accountId,
   }) => User(  id: id ?? _id,
     name: name ?? name,
     email: email ?? _email,
@@ -174,14 +190,14 @@ class User {
     isActive: isActive ?? _isActive,
     profilePicture: profilePicture ?? profilePicture,
     unInvestedValue: unInvestedValue ?? _unInvestedValue,
-    totalValue: totalValue ?? _totalValue,
+    totalValue: totalValue ?? totalValue,
     lossGainPercentage: lossGainPercentage ?? _lossGainPercentage,
     stripeCustomerId: stripeCustomerId ?? stripeCustomerId,
+    walletAmount: walletAmount ?? walletAmount,
+    accountId: accountId ?? accountId,
+
   );
-  String? get id => _id;
   // String? get name => name;
-  String? get email => _email;
-  num? get age => _age;
   String? get password => _password;
   String? get userType => _userType;
   String? get fcmToken => _fcmToken;
@@ -192,9 +208,11 @@ class User {
   bool? get isActive => _isActive;
   // String? get profilePicture => profilePicture;
   num? get unInvestedValue => _unInvestedValue;
-  num? get totalValue => _totalValue;
+  // num? get totalValue => totalValue;
   num? get lossGainPercentage => _lossGainPercentage;
   // String? get stripeCustomerId => stripeCustomerId;
+  // String? get walletAmount => walletAmount;
+  // String? get accountId => accountId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -212,9 +230,11 @@ class User {
     map['isActive'] = _isActive;
     map['profilePicture'] = profilePicture;
     map['unInvestedValue'] = _unInvestedValue;
-    map['totalValue'] = _totalValue;
+    map['totalValue'] = totalValue;
     map['lossGainPercentage'] = _lossGainPercentage;
     map['stripeCustomerId'] = stripeCustomerId;
+    map['walletAmount'] = walletAmount;
+    map['accountId'] = accountId;
     return map;
   }
 

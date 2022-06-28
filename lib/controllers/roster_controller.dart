@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/controllers/home_screen_controller.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
@@ -15,6 +16,8 @@ class RosterController extends GetxController {
   RxInt countRBs = 0.obs;
   RxInt countTEs = 0.obs;
   RxInt countWRs = 0.obs;
+  Rx<User?> user = User().obs;
+  // HomeScreenController homeScreenController = Get.find();
 
   void getRoster() async {
     Rx<User?> user = (await SessionManager.getUserData()).obs;
@@ -32,6 +35,7 @@ class RosterController extends GetxController {
     }
 
     countPositions();
+    setTotalValueInUser();
   }
 
   void sortAscendingList(var roster){
@@ -51,6 +55,24 @@ class RosterController extends GetxController {
       rosterModel.cpoAthletes?.position == "TE" ? countTEs.value++ : countTEs;
       rosterModel.cpoAthletes?.position == "WR" ? countWRs.value++ : countWRs;
     }
+  }
+
+  Future<void> setTotalValueInUser() async {
+    num totalValue = 0;
+    for(RosterModel rosterModel in rosterList){
+      totalValue += rosterModel.totalValue ?? 0.0;
+    }
+
+    user = (await SessionManager.getUserData()).obs;
+    // User user = appDrawerController.user.value;
+    user.value!.totalValue = totalValue;
+
+    await APIRequests.doApi_updateUserProfile(user.value?.id ?? "", user.value!);
+
+    // user.value.totalValue;
+    // SessionManager.setUserData();
+
+
   }
 }
 

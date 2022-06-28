@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -10,7 +12,9 @@ import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExchangeScreenSecond extends StatefulWidget {
-  const ExchangeScreenSecond({Key? key}) : super(key: key);
+  ExchangeScreenSecond({Key? key, required this.myRoster, required this.exchangePlayerModel}) : super(key: key);
+  RosterModel myRoster;
+  ExchangePlayerModel exchangePlayerModel;
 
   @override
   _ExchangeScreenSecondState createState() => _ExchangeScreenSecondState();
@@ -30,7 +34,7 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
           children: [
           Expanded(child: Column(children: [
             Text(
-              'JONES QBNY'.tr,
+              widget.myRoster.cpoAthletes?.playerName ?? "",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: StyleManager().largeFontSize,
@@ -38,7 +42,7 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
             ),
             SizedBox(height: 10.h,),
             Text(
-              '\$16.45 Per Share'.tr,
+              '\$${widget.myRoster.cpoAthletes?.currentPricePerShare ?? "---"} Per Share'.tr,
               style: TextStyle(
                   color: Colors.black,
                   // fontSize: StyleManager().largeFontSize,
@@ -48,11 +52,11 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [Icon(Icons.arrow_drop_up_rounded,color: ColorManager.greenColor,),
-              Text('\$'+'1.45',style: TextStyle(fontSize: StyleManager().smallFontSize,fontWeight: FontWeight.w600,color: ColorManager.greenColor),),
+              Text('\$'+'---',style: TextStyle(fontSize: StyleManager().smallFontSize,fontWeight: FontWeight.w600,color: ColorManager.greenColor),),
             ],),
             SizedBox(height: 10.h,), SizedBox(height: 10.h,),
             Text(
-              '2 Total Shares'.tr,
+              '${widget.exchangePlayerModel.shares} Total Shares'.tr,// Shares should be same
               style: TextStyle(
                 color: Colors.grey,
                 // fontSize: StyleManager().largeFontSize,
@@ -63,7 +67,7 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
           ],)) ,
           Expanded(child: Column(children: [
             Text(
-              'JONES QBNY'.tr,
+              widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: StyleManager().largeFontSize,
@@ -71,7 +75,7 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
             ),
             SizedBox(height: 10.h,),
             Text(
-              '\$16.45 Per Share'.tr,
+              '\$${widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare ?? ""} Per Share',
               style: TextStyle(
                   color: Colors.black,
                   // fontSize: StyleManager().largeFontSize,
@@ -81,11 +85,11 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [Icon(Icons.arrow_drop_down_rounded,color: ColorManager.lowPriceColor,),
-              Text('\$'+'1.45',style: TextStyle(fontSize: StyleManager().smallFontSize,fontWeight: FontWeight.w600,color: ColorManager.lowPriceColor),),
+              Text('\$'+'---',style: TextStyle(fontSize: StyleManager().smallFontSize,fontWeight: FontWeight.w600,color: ColorManager.lowPriceColor),),
             ],),
             SizedBox(height: 10.h,), SizedBox(height: 10.h,),
             Text(
-              '2 Total Shares'.tr,
+              '${widget.exchangePlayerModel.shares} Total Shares'.tr,
               style: TextStyle(
                 color: Colors.grey,
                 // fontSize: StyleManager().largeFontSize,

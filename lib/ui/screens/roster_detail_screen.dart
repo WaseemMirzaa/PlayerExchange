@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
-import 'package:player_exchange/ui/screens/cash_screen.dart';
+import 'package:player_exchange/networking/api_requests.dart';
+import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
 import 'package:player_exchange/ui/screens/exchange_player_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
+import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -53,7 +57,11 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                         fontSize: StyleManager().largeFontSize,
                         fontWeight: FontWeight.bold),
                   ),
-                  CircleAvatarNamedWidget(url: widget.rosterModel.cpoAthletes!.profilePicture ?? "", name: widget.rosterModel.cpoAthletes!.playerName ?? "", radius: 32,)
+                  CircleAvatarNamedWidget(
+                    url: widget.rosterModel.cpoAthletes!.profilePicture ?? "",
+                    name: widget.rosterModel.cpoAthletes!.playerName ?? "",
+                    radius: 32,
+                  )
                 ],
               ),
               SizedBox(
@@ -92,7 +100,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                         color: ColorManager.greenColor,
                                       ),
                                       Text(
-                                        '9\% ',
+                                        '0\% ',
                                         style: TextStyle(
                                             fontSize: StyleManager().smallFontSize,
                                             fontWeight: FontWeight.w600,
@@ -147,7 +155,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'open'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375'),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ ---'),
                           ])),
                           SizedBox(
                             height: 5,
@@ -158,7 +166,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'high'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ 375'),
+                                style: TextStyle(color: ColorManager.greenColor), text: '\$ ---'),
                           ])),
                           SizedBox(
                             height: 5,
@@ -170,7 +178,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                 text: 'low'.tr + " : "),
                             TextSpan(
                                 style: TextStyle(color: ColorManager.lowPriceColor),
-                                text: '\$ 375'),
+                                text: '\$ ---'),
                           ])),
                         ],
                       )),
@@ -284,7 +292,9 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
       return getNewList();
     }
     if (index == 2) {
-      return getCommentView();
+      return CommentProfileWidget(
+        cpoModel: widget.rosterModel.cpoAthletes ?? new CpoModel(),
+      );
     }
     if (index == 3) {
       return PlayerProfileWidget(playerId: widget.rosterModel.cpoAthletes?.playerId ?? "");
@@ -423,8 +433,8 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                       'Total Revenue',
                       ('\$' +
                           ((widget.rosterModel.cpoAthletes?.currentPricePerShare?.toDouble() ??
-                              0.0) *
-                              (widget.rosterModel.sharesBought ?? 0))
+                                      0.0) *
+                                  (widget.rosterModel.sharesBought ?? 0))
                               .toString())),
                 ],
               ),
@@ -453,7 +463,9 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
             Expanded(
                 child: FilledButton(
               onTap: () {
-                Get.to(() => ExchangePlayerScreen(rosterModel: widget.rosterModel,));
+                Get.to(() => ExchangePlayerScreen(
+                      rosterModel: widget.rosterModel,
+                    ));
               },
               text: "eXchange",
               reverseColor: true,
@@ -535,101 +547,5 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
       ],
     );
   }
-
-  getCommentView() {
-    return SliverList(
-        delegate: SliverChildListDelegate([
-      Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-        child: Container(
-          color: ColorManager.lightGreyDivider,
-          height: 1,
-        ),
-      ),
-      FilledButton(
-        onTap: () {},
-        text: "Post",
-        reverseColor: true,
-        isFullWidth: true,
-        color: ColorManager.blueGreyButtonColor,
-      ),
-      singleCommentItem(),
-      singleCommentItem(),
-      singleCommentItem(),
-      singleCommentItem(),
-    ]));
-  }
-
-  singleCommentItem() {
-    return Padding(
-      padding: EdgeInsets.only(top: 15.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 15.0,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-            backgroundColor: Colors.transparent,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Prince 475',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: StyleManager().smallFontSize),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                'Just Now',
-                style: TextStyle(color: ColorManager.colorTextGray, fontSize: 12),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Text(
-                'Lorem Ipsum is simply dummy text of  ',
-                style: TextStyle(color: Colors.black, fontSize: StyleManager().smallFontSize),
-              ),
-              SizedBox(
-                height: 7,
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(AssetsString().ThumbsUpIcon),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    '2',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(
-                    width: 7,
-                  ),
-                  SvgPicture.asset(AssetsString().ThumbsDownIcon),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    '3',
-                    style: TextStyle(color: Colors.grey),
-                  )
-                ],
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
 }
+

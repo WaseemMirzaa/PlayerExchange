@@ -13,18 +13,18 @@ class LoadingIndicatorDialog {
 
   LoadingIndicatorDialog._internal();
 
-  show(BuildContext context, {String text = 'Loading...'}) {
+  show(BuildContext context, {String text = 'Loading...', bool dismissable  =true}) {
     if(isDisplayed) {
       return;
     }
     isDisplayed = true;
     showDialog<void>(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: dismissable,
         builder: (BuildContext context) {
           _context = context;
           return WillPopScope(
-            onWillPop: () async => false,
+            onWillPop: () async => dismissable,
             child: SimpleDialog(
               backgroundColor: Colors.white,
               children: [

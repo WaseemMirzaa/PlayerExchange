@@ -4,14 +4,16 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/Networking/api.dart';
-import 'package:player_exchange/api/response/create_cutomer/CreateCustomerReponse.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/sign_up_request.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/stripe/response/create_customer/CreateCustomerReponse.dart';
+import 'package:player_exchange/stripe/stripe_payment.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
@@ -501,7 +503,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void callSignUpApi() async {
 
     if(validate()) {
-      Map<String, dynamic>? customerResponse = await getCustomerResponse();
+      Map<String, dynamic>? customerResponse = await StripePayment(context).getCustomerResponse(emailController.text);
       if(customerResponse == null) {
 
         Navigator.of(context).pop();
@@ -571,23 +573,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       }
     }
-  }
-
-
-  Future<Map<String, dynamic>>? getCustomerResponse() async {
-    Map<String, dynamic> json = {"email": "m.waseemmirzaa@gmail.com"};
-
-    final response = await http.Client().post(
-      Uri.parse(
-          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/create_customer'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(json),
-    );
-    return response.statusCode == 200
-        ? jsonDecode(response.body)
-        : null;
   }
 }
 

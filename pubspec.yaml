@@ -38,6 +38,7 @@ dependencies:
   paginated_search_bar: ^1.1.2
   cached_network_image: ^3.2.0
 #  nb_utils: ^4.6.1
+  webview_flutter: ^3.0.4
 
 
 

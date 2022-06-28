@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/controllers/buy_screen_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
-import 'package:player_exchange/stripe/Stripe.dart';
-import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
+import 'package:player_exchange/stripe/stripe_payment.dart';
+import 'package:player_exchange/ui/screens/buy_and_watch/payment_methods_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
@@ -148,6 +147,7 @@ class _BuyScreenState extends State<BuyScreen> {
                       estShare.value = int.parse(shares);
                     } else {
                       estShare.value = 0;
+                      purchaseAmt.value = 0;
                     }
                   },
                   style:
@@ -159,38 +159,42 @@ class _BuyScreenState extends State<BuyScreen> {
         ),
         bottomNavigationBar: GestureDetector(
           onTap: () {
-            // Get.to(() => const PaymentScreen());
             if (purchaseAmt.value > 0) {
-              stripePayment.makePayment(purchaseAmt.value.toString()).then((value) => {
-                    if (value)
-                      {
-                        buyScreenController
-                            .addToRosters(
-                                Get.find<AppDrawerController>().user.value.id ?? "",
-                                estShare.value,
-                                widget.cpoModel.currentPricePerShare?.toDouble() ?? 0.0,
-                                widget.cpoModel.currentPricePerShare?.toDouble() ?? 0.0,
-                                purchaseAmt.value,
-                                purchaseAmt.value,
-                                purchaseAmt.value,
-                                widget.cpoModel.id ?? "")
-                            .then((value) async => {
-                                  if (value)
-                                    {
-                                      await Get.off(() => TabsScreen(
-                                            selectedIndex: TabsScreen.currentIndex,
-                                          ))
-                                    }
-                                  else
-                                    {}
-                                })
-                      }
-                    else
-                      {Fluttertoast.showToast(msg: "Unable to purchase")}
-                  });
+              Get.to(() => PaymentMethodScreen(cpoModel: widget.cpoModel, amount: purchaseAmt.value, share: estShare.value,));
             } else {
               Fluttertoast.showToast(msg: "Amount should be greater then 0");
             }
+            // if (purchaseAmt.value > 0) {
+            //   stripePayment.makePayment(purchaseAmt.value.toString()).then((value) => {
+            //         if (value)
+            //           {
+            //             buyScreenController
+            //                 .addToRosters(
+            //                     Get.find<AppDrawerController>().user.value.id ?? "",
+            //                     estShare.value,
+            //                     widget.cpoModel.currentPricePerShare?.toDouble() ?? 0.0,
+            //                     widget.cpoModel.currentPricePerShare?.toDouble() ?? 0.0,
+            //                     purchaseAmt.value,
+            //                     purchaseAmt.value,
+            //                     purchaseAmt.value,
+            //                     widget.cpoModel.id ?? "")
+            //                 .then((value) async => {
+            //                       if (value)
+            //                         {
+            //                           await Get.off(() => TabsScreen(
+            //                                 selectedIndex: TabsScreen.currentIndex,
+            //                               ))
+            //                         }
+            //                       else
+            //                         {}
+            //                     })
+            //           }
+            //         else
+            //           {Fluttertoast.showToast(msg: "Unable to purchase")}
+            //       });
+            // } else {
+            //   Fluttertoast.showToast(msg: "Amount should be greater then 0");
+            // }
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20.0),

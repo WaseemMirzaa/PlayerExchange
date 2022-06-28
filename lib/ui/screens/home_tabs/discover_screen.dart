@@ -38,9 +38,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   void initState() {
-    discoverScreenController.getWatchList();
-    discoverScreenController.getTeamsList();
+    init();
+  }
 
+  Future<void> init() async {
+    await discoverScreenController.getWatchList();
+    await discoverScreenController.getTeamsList();
+    setState(() {
+
+    });
   }
 
   @override

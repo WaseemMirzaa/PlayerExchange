@@ -38,7 +38,8 @@ class _RosterScreenState extends State<RosterScreen> {
               delegate: SliverChildBuilderDelegate((_, index) {
             return InkWell(
                 onTap: () {
-                  widget.isFromExchangeScreen ? Get.to(ExchangeScreenSecond()):
+                  widget.isFromExchangeScreen ? Get.to(ExchangeScreenSecond(myRoster:widget.rosterController.rosterList[index] ,
+                    exchangePlayerModel: widget.exchangePlayerModel ?? ExchangePlayerModel(),)):
                   Get.to(RosterDetailScreen(rosterModel: widget.rosterController.rosterList[index]));
                 },
                 child: RoasterListItem(isRoster: true, rosterModel: widget.rosterController.rosterList[index],

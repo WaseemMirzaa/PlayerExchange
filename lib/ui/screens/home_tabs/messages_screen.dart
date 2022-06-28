@@ -71,7 +71,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
               ),
               ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5,
+                  itemCount: 0,
                   shrinkWrap: true,
                   // scrollDirection: Axis.vertical,
                   itemBuilder: (BuildContext context, int position) {
@@ -194,15 +194,15 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           ],
                         ));
                   }),
-              YoutubePlayer(
-                controller: youtubeController,
-                showVideoProgressIndicator: true,
-                progressColors: const ProgressBarColors(
-                  playedColor: Colors.redAccent,
-                  handleColor: Color(0xffFF6757),
-                ),
-                onReady: () {},
-              ),
+              // YoutubePlayer(
+              //   controller: youtubeController,
+              //   showVideoProgressIndicator: true,
+              //   progressColors: const ProgressBarColors(
+              //     playedColor: Colors.redAccent,
+              //     handleColor: Color(0xffFF6757),
+              //   ),
+              //   onReady: () {},
+              // ),
             ],
           ),
         ),

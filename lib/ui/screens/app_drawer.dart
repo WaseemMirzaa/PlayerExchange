@@ -5,14 +5,18 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
+import 'package:player_exchange/ui/screens/Transactions/transaction_history_screen.dart';
 import 'package:player_exchange/ui/screens/auth_screen.dart';
 import 'package:player_exchange/ui/screens/login_screen.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
 import 'home_tabs/tabs_screen.dart';
+import 'notification_screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
+  AppDrawerController appDrawerController = Get.find();
+  // AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +61,9 @@ class AppDrawer extends StatelessWidget {
             icon: Icons.account_balance,
             text: 'Cashier Window',
             onTap: () {
-              Navigator.of(context).pop();
+              // Navigator.of(context).pop();
+              Get.to(CashScreen());
+
             },
           ),
           _createDrawerIcon(
@@ -68,14 +74,15 @@ class AppDrawer extends StatelessWidget {
             ),
             text: 'Transactions History',
             onTap: () {
-              Navigator.of(context).pop();
+              Get.to(TransactionHistoryScreen());
+
             },
           ),
           _createDrawerItem(
             icon: Icons.notifications,
             text: 'Notification Settings',
             onTap: () {
-              Navigator.of(context).pop();
+              Get.to(NotificationSettings());
             },
           ),
           _createDrawerIcon(
@@ -156,7 +163,7 @@ class AppDrawer extends StatelessWidget {
           )
         ],
       ),
-      onTap: onTap,
+      onTap:onTap,
     );
   }
 
@@ -193,7 +200,7 @@ class AppDrawer extends StatelessWidget {
             'Account Value',
             style: TextStyle(fontSize: 18),
           ),
-          Text('\$ ' + (appDrawerController.user.value.totalValue ?? 0.0).toString()  , style: TextStyle(fontSize: 18)),
+          Text('\$' + (appDrawerController.user.value.totalValue ?? 0.0).toString()  , style: TextStyle(fontSize: 18)),
           Container(
             height: 10,
           ),
@@ -201,7 +208,7 @@ class AppDrawer extends StatelessWidget {
             'Account Balance',
             style: TextStyle(fontSize: 18),
           ),
-          Text('\$ ' + (appDrawerController.user.value.unInvestedValue ?? 0.0).toString(), style: TextStyle(fontSize: 18, color: Colors.green)),
+          Text('\$' + (appDrawerController.user.value.walletAmount ?? 0.0).toString(), style: TextStyle(fontSize: 18, color: Colors.green)),
           // )
           Container(
             height: 30,

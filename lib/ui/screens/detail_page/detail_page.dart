@@ -8,6 +8,7 @@ import 'package:player_exchange/ui/screens/buy_and_watch/buy_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
+import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -235,7 +236,9 @@ class _DetailScreenState extends State<DetailScreen> {
       return getNewList();
     }
     if(index==2){
-      return getCommentView();
+      return CommentProfileWidget(
+        cpoModel: /*widget.rosterModel.cpoAthletes ??*/ new CpoModel(),
+      );
     }
     if(index==3){
       return PlayerProfileWidget(playerId: "playerId from cpoModel",);
@@ -344,56 +347,6 @@ class _DetailScreenState extends State<DetailScreen> {
       ],);
   }
 
-
-
-  getCommentView(){
-    return SliverList(delegate: SliverChildListDelegate([
-      FilledButton(onTap: (){},text: "Post",reverseColor: true,isFullWidth: true,color: ColorManager.blueGreyButtonColor,),
-      singleCommentItem(),
-      singleCommentItem(),
-      singleCommentItem(),
-      singleCommentItem(),
-    ]));
-
-
-  }
-
-  singleCommentItem(){
-    return Padding(
-      padding:  EdgeInsets.only(top: 15.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            radius: 20.0,
-            backgroundImage:
-            NetworkImage('https://via.placeholder.com/150'),
-            backgroundColor: Colors.transparent,
-          ),
-          SizedBox(width: 10,),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Prince 475',style: TextStyle(color: Colors.black,fontWeight: FontWeight.w600,fontSize: StyleManager().mediumFontSize),),
-              SizedBox(height: 7,),
-              Text('Just Now',style: TextStyle(color: ColorManager.buttonBorderGreyColor),),
-              SizedBox(height: 7,),
-              Text('Lorem Ipsum is simply dummy text of  ',style: TextStyle(color: Colors.grey,fontSize: StyleManager().smallFontSize),),
-              SizedBox(height: 7,),
-              Row(children: [
-                SvgPicture.asset(AssetsString().ThumbsUpIcon),
-                SizedBox(height: 3,),
-                Text('2',style: TextStyle(color: Colors.grey),),
-                SizedBox(width: 7,),
-                SvgPicture.asset(AssetsString().ThumbsDownIcon),
-                SizedBox(height: 3,),
-                Text('3',style: TextStyle(color: Colors.grey),)
-              ],)
-            ],)
-        ],),
-    );
-  }
 
 
 

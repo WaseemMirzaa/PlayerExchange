@@ -1,15 +1,18 @@
 import 'dart:convert';
 
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
+import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/favorite_model.dart';
 import 'package:player_exchange/models/rosters/add_to_roster_request.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/models/teams/team_players_response.dart';
 import 'package:player_exchange/models/teams/teams_response.dart';
+import 'package:player_exchange/models/transactions/transaction_model.dart';
 
 import 'api.dart';
 
@@ -97,7 +100,7 @@ class APIRequests {
     }
   }
 
-  static Future<String?> doApi_updateUserProfile(String id, User user) async {
+  static Future<String> doApi_updateUserProfile(String id, User user) async {
     var completeUrl = Api.baseURL + 'users/' + id;
     try {
       var response = await client.patch(Uri.parse(completeUrl),
@@ -112,11 +115,12 @@ class APIRequests {
       } else {
         //show error message
         Fluttertoast.showToast(msg: "Could not update profile.");
-        return null;
       }
     } catch (e) {
       print(e);
     }
+    return Api.ERROR;
+
   }
 
   //playerId is CpoModel.id not CpoModel.playerId
@@ -274,4 +278,120 @@ class APIRequests {
       return Players();
     }
   }
+
+
+  static Future<List<TransactionModel>> doApi_getTransactions({String userId = ""}) async {
+    String jsonStringFilter =
+        '?filter[where][userId][regexp]=/^$userId/i';
+    // filter[where][name][regexp]=^n/i
+    var completeUrl = Api.baseURL + 'transactions' + jsonStringFilter;
+    var response = await client.get(Uri.parse(completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return transactionModelListFromJson(jsonString);
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return <TransactionModel>[];
+    }
+  }
+
+  static Future <TransactionModel?> doApi_addTransaction(TransactionModel transactionModel) async {
+    var completeUrl = Api.baseURL + 'transactions';
+    try {
+
+      var response = await client.post(Uri.parse(completeUrl),
+          body:
+          // jsonEncode(transactionModel),
+          jsonEncode(
+              {
+                "userId": transactionModel.userId,
+                "type": transactionModel.type,
+                "paymentType": transactionModel.paymentType,
+                "amount": transactionModel.amount,
+                "shares": transactionModel.shares,
+                "playerId": transactionModel.playerId,
+                "playerName": transactionModel.playerId,
+
+              }
+          ),
+          headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        return await transactionModelFromJson(jsonString);
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Unable to create a Transaction.");
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  static Future <String?> doApi_removeTransaction(String transactionId) async {
+    var completeUrl = Api.baseURL + 'transactions/' + transactionId;
+    try {
+      var response = await client.delete(Uri.parse(completeUrl),
+          headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        return await jsonString;//It should be transaction id
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Unable to create a Transaction.");
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+
+  static Future <CommentModel?> doApi_addComment(String senderId, String text, String cpoAthletesId, String senderName, String senderProfile) async {
+    var completeUrl = Api.baseURL + 'comments';
+    try {
+
+      var response = await client.post(Uri.parse(completeUrl),
+          body:
+          jsonEncode(
+              {
+                "senderId": senderId,
+                "text": text,
+                "cpoAthletesId": cpoAthletesId,
+                "senderName": senderName,
+                "senderProfile": senderProfile,
+              }
+          ),
+          headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        return await commentModelFromJson(jsonString);
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Unable to post your comment.");
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  static Future<List<CommentModel>> doApi_getComments({String userId = "", String cpoAthletesId = ""}) async {
+    String jsonStringFilter =
+        '?filter[where][cpoAthletesId][regexp]=/^$cpoAthletesId/i';
+
+    var completeUrl = Api.baseURL + 'comments/' + userId + jsonStringFilter;
+    var response = await client.get(Uri.parse(completeUrl));
+    if (response.statusCode == 200) {
+      var jsonString = response.body;
+      return commentModelListFromJson(jsonString);
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return <CommentModel>[];
+    }
+  }
+
+
 }
