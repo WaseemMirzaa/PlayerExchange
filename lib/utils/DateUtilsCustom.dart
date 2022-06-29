@@ -29,8 +29,8 @@ class DateUtilsCustom{
 
     // to calculate from DateTime
     // String timeStamp = TimeElapsed.fromDateTime(timeDate);
-    if(timeStamp == "1m")
-      timeStamp = "Just Now";
+    // if(timeStamp == "1m")
+    //   timeStamp = "Just Now";
 
     return timeStamp;
   }
