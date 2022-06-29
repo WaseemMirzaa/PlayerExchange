@@ -378,8 +378,9 @@ class APIRequests {
   }
 
   static Future<List<CommentModel>> doApi_getComments({String userId = "", String cpoAthletesId = ""}) async {
+
     String jsonStringFilter =
-        '?filter[where][cpoAthletesId][regexp]=/^$cpoAthletesId/i';
+        '?filter[where][cpoAthletesId][regexp]=/^$cpoAthletesId/i&filter[order]=createdAt ASC';
 
     var completeUrl = Api.baseURL + 'comments/' + userId + jsonStringFilter;
     var response = await client.get(Uri.parse(completeUrl));
