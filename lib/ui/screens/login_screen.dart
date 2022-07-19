@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             horizontal: ScreenUtil().setWidth(20)),
                         child: TextButton(
                           child: Text(
-                            'Forget password',
+                            'Forget Password',
                             style: TextStyle(
                                 fontSize: StyleManager().smallFontSize,
                                 color: ColorManager.greenColor),

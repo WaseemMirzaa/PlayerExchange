@@ -34,6 +34,7 @@ class OfferHeading extends StatelessWidget {
           title!.tr,
           style: TextStyle(
               fontSize: 14,
+              fontWeight: FontWeight.bold,
               color: isEnable!
                   ? textColor == null
                       ? Colors.white

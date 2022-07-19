@@ -128,12 +128,14 @@ class _CurrentPublicOfferingScreenState
                   SizedBox(
                     height: 15,
                   ),
-                  Text(
-                    'price_per_share'.tr,
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: StyleManager().smallFontSize,
-                        fontWeight: FontWeight.w500),
+                  Center(
+                    child: Text(
+                      'Price per Share',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: StyleManager().smallFontSize,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
@@ -193,9 +195,10 @@ class CpoHeadingItem implements CpoListItem {
               fontWeight: FontWeight.w500),
         ),
         Text(
-          'Shares Available',
+          'Shares\nAvailable',
           style: TextStyle(
               color: Colors.grey, fontSize: StyleManager().smallFontSize),
+          textAlign: TextAlign.center,
         ),
       ],
     );

@@ -111,7 +111,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    "Share",
+                    "Shares",
                     style: headingStyle,
                     textAlign: TextAlign.center,
                   ),
@@ -185,7 +185,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                 Expanded(
                   flex: 1,
                   child: Text(
-                    exchangePlayerModel.askingAmount.toString(),
+                    "\$" + exchangePlayerModel.askingAmount.toString(),
                     style: itemStyle,
                     textAlign: TextAlign.center,
                   ),

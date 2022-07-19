@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Align(
                           alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            'you_are_up'.tr,
+                            "You're Up",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.black),
                       ),
                       Icon(
-                        Icons.arrow_drop_down_outlined,
+                        Icons.arrow_drop_up_rounded,
                         color: ColorManager.greenColor,
                       ),
                       Text(
@@ -154,10 +154,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: StyleManager().smallFontSize),
                       ),
                       SizedBox(
-                        width: 3,
+                        width: 50,
                       ),
                       Text(
                         '1Q'.tr,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: StyleManager().smallFontSize),
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        '2Q'.tr,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: StyleManager().smallFontSize),
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        '3Q'.tr,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: StyleManager().smallFontSize),
+                      ),
+                      SizedBox(
+                        width: 50,
+                      ),
+                      Text(
+                        '4Q'.tr,
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
@@ -247,39 +277,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.to(RosterScreen());
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Text(
-                              'roster'.tr,
-                              style: TextStyle(
-                                  fontSize: StyleManager().mediumFontSize,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black),
-                            ),
-                            SizedBox(
-                              width: 3,
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              color: Colors.black,
-                              size: 12,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 16, right: 16),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       InkWell(
+                //         onTap: () {
+                //           Get.to(RosterScreen());
+                //         },
+                //         child: Row(
+                //           mainAxisSize: MainAxisSize.max,
+                //           children: [
+                //             Text(
+                //               'roster'.tr,
+                //               style: TextStyle(
+                //                   fontSize: StyleManager().mediumFontSize,
+                //                   fontWeight: FontWeight.w600,
+                //                   color: Colors.black),
+                //             ),
+                //             SizedBox(
+                //               width: 3,
+                //             ),
+                //             Icon(
+                //               Icons.arrow_forward_ios_rounded,
+                //               color: Colors.black,
+                //               size: 12,
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(
                   height: 15,
                 ),
@@ -305,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
-                    itemCount: homeScreenController.rosterController.rosterList.length > 3
+                    itemCount: homeScreenController.rosterController.rosterList.length > 4
                         ? 3
                         : homeScreenController.rosterController.rosterList.length,
                     separatorBuilder: (_, index) => CustomDivider(),

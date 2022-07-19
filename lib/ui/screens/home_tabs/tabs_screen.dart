@@ -153,7 +153,7 @@ class _TabsScreenState extends State<TabsScreen> {
                   width: bottomNavIconSize(1),
                 ),
                 // ignore: deprecated_member_use
-                label: "exchange".tr,
+                label: "eXchange".tr,
 
               ),
               BottomNavigationBarItem(

@@ -553,7 +553,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } on DioError catch (e) {
 
         LoadingIndicatorDialog().dismiss();
-
+        //
         if(e.response != null) {
 
           print('has response');
