@@ -566,7 +566,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
         } else {
 
-          Fluttertoast.showToast(msg: e.response.toString());
+          Fluttertoast.showToast(msg: e.response.toString(), toastLength: Toast.LENGTH_LONG, timeInSecForIosWeb: 5);
 
 
         }

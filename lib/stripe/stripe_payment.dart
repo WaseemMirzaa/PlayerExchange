@@ -10,9 +10,9 @@ import 'package:player_exchange/utils/session_manager.dart';
 
 class StripePayment {
   //Renovision Test key
-  static final String primaryKey = 'pk_test_51KehMQGOzjebkLdAlkU4aJTvqoPkBfexDTDNjlzIiSdAFlXdbytudxQiZPUI0NbXChO3KHOuV1me1BhtWNcgoXRm000Rw07IIS';
+  // static final String primaryKey = 'pk_test_51KehMQGOzjebkLdAlkU4aJTvqoPkBfexDTDNjlzIiSdAFlXdbytudxQiZPUI0NbXChO3KHOuV1me1BhtWNcgoXRm000Rw07IIS';
   //Player Exchange TEST KEY
-  // static final String primaryKey = 'pk_test_51LD9YUF4ui5DHbUROFlf0BZnjORIhXcXoCUbmpYLOMkz0Cg8oUSS2RZpUVakikIvskQPRAFZ843tNcsQbqo9DaaS00YegsG5r7';
+  static final String primaryKey = 'pk_test_51LD9YUF4ui5DHbUROFlf0BZnjORIhXcXoCUbmpYLOMkz0Cg8oUSS2RZpUVakikIvskQPRAFZ843tNcsQbqo9DaaS00YegsG5r7';
 
 
 
@@ -110,7 +110,7 @@ class StripePayment {
   }
 
   //Convert Usd to Cents
-  convertUsdToCent(String amount) {
+  static convertUsdToCent(String amount) {
     final a = ((double.parse(amount)) * 100).toInt();
     return a.toString();
   }
@@ -122,7 +122,7 @@ class StripePayment {
 
     final response = await http.Client().post(
       Uri.parse(
-          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/createPaymentIntent'),
+          "https://us-central1-player-exchange-ad78f.cloudfunctions.net/app/createPaymentIntent"),
       headers: <String, String>{
         "Content-Type": "application/json; charset=UTF-8",
       },
@@ -151,7 +151,7 @@ class StripePayment {
 
     final response = await http.post(
       Uri.parse(
-          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/create_customer'),
+          'https://us-central1-player-exchange-ad78f.cloudfunctions.net/app/create_customer'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -164,7 +164,9 @@ class StripePayment {
 
   // CASHOUT in BANK
   //Example:      payoutOrder(stripeId, dollarToCents(double.parse(budget)));
-  payoutOrder(String stripId, String amount) async {
+  Future<bool> payoutOrder(String stripId, String amount) async {
+    bool isSuccess = false;
+
     Map<String, dynamic> json =
     {
       "stripe_account_id": stripId,
@@ -173,15 +175,22 @@ class StripePayment {
 
     final response = await http.post(
       Uri.parse(
-          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/payout'),
+          'https://us-central1-player-exchange-ad78f.cloudfunctions.net/app/payout'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(json),
     );
-    response.statusCode == 200
-        ? debugPrint("Operation Successful")
-        : debugPrint("Operation failed");
+
+    if(response.statusCode == 200){
+      isSuccess = true;
+      debugPrint("Operation Successful");
+    } else{
+      isSuccess = false;
+      debugPrint("Operation failed");
+    }
+    return isSuccess;
+
   }
 
   //REFUND
@@ -197,7 +206,7 @@ class StripePayment {
 
     final response = await http.post(
       Uri.parse(
-          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/refund'),
+          'https://us-central1-player-exchange-ad78f.cloudfunctions.net/app/refund'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -217,15 +226,21 @@ class StripePayment {
   //               stripeUrl: stripe.link.url,
   //               accountId: stripe.account.id,
   //             ),
-  Future<Map<String, dynamic>>? createStripeAccount() async {
+  Future<Map<String, dynamic>?> createStripeAccount() async {
     final response = await http.get(
       Uri.parse(
-          'https://us-central1-flutter-sync-8b6cb.cloudfunctions.net/app/account'),
+          'https://us-central1-player-exchange-ad78f.cloudfunctions.net/app/account'),
       // headers: <String, String>{
       //   'Content-Type': 'application/json; charset=UTF-8',
       // },
     );
-    return response.statusCode == 200 ? jsonDecode(response.body) : null;
+    if(response.statusCode == 200 || response.statusCode == 201){
+      return jsonDecode(response.body);
+    }else{
+      Fluttertoast.showToast(msg: "Unable to create Account, please contact with Admin");
+      return null;
+    }
+    // return response.statusCode == 200 ? jsonDecode(response.body) : null;
   }
 
 }

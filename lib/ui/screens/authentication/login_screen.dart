@@ -12,7 +12,7 @@ import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/auth/sign_in_request.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
-import 'package:player_exchange/ui/screens/sign_up_screen.dart';
+import 'package:player_exchange/ui/screens/authentication/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/circle-progress-bar.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
@@ -22,6 +22,8 @@ import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
+
+import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -188,16 +190,16 @@ class _LoginScreenState extends State<LoginScreen> {
                             horizontal: ScreenUtil().setWidth(20)),
                         child: TextButton(
                           child: Text(
-                            'Forget Password',
+                            'Forgot Password',
                             style: TextStyle(
                                 fontSize: StyleManager().smallFontSize,
                                 color: ColorManager.greenColor),
                           ),
                           onPressed: () {
-                            // Get.to(ForgetPassword());
-                            // *//*Get.to(ForgotPassword(),
-                            // transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*//*
-                          },
+                            // Get.to(ForgotPasswordScreen());
+
+
+                            },
                         ),
                       ),
                     ),

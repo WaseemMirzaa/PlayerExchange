@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
-import 'package:player_exchange/ui/screens/auth_screen.dart';
+import 'package:player_exchange/ui/screens/authentication/auth_screen.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 

@@ -395,4 +395,30 @@ class APIRequests {
   }
 
 
+  static Future <CommentModel?> doApi_ForgotPassword(String email,) async {
+    var completeUrl = Api.baseURL + 'user/forget-password-email';
+    try {
+
+      var response = await client.post(Uri.parse(completeUrl),
+          body:
+          jsonEncode(
+              {
+                "email": email,
+              }
+          ),
+          headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        return await commentModelFromJson(jsonString);
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Unable to send verification Email");
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+
 }
