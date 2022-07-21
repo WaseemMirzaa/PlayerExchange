@@ -71,111 +71,111 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              // Container(
-              //   height: 1,
-              //   width: double.infinity,
-              //   color: ColorManager.lightGreyDivider,
-              // ),
-              // SizedBox(
-              //   height: 15,
-              // ),
-              // CustomDivider(),
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              //   child: SizedBox(
-              //     height: 30.h,
-              //   ),
-              // ),
-              // SvgPicture.asset(AssetsString().ProfileStatCircleImage),
-              // SizedBox(
-              //   height: 30.h,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Expanded(
-              //         child: Row(
-              //           children: [
-              //             SvgPicture.asset(AssetsString().SkyColorCircleImage),
-              //             SizedBox(
-              //               width: 5.w,
-              //             ),
-              //             Text(
-              //               'MLB-25\%',
-              //               style: TextStyle(
-              //                   color: Colors.black,
-              //                   fontSize: StyleManager().mediumFontSize),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //       Expanded(
-              //         child: Row(
-              //           children: [
-              //             SvgPicture.asset(
-              //                 AssetsString().PurpleColorCircleImage),
-              //             SizedBox(
-              //               width: 5.w,
-              //             ),
-              //             Text(
-              //               'NFL-25\%',
-              //               style: TextStyle(
-              //                   color: Colors.black,
-              //                   fontSize: StyleManager().mediumFontSize),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 15,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Expanded(
-              //         child: Row(
-              //           children: [
-              //             SvgPicture.asset(
-              //                 AssetsString().YellowColorCircleImage),
-              //             SizedBox(
-              //               width: 5.w,
-              //             ),
-              //             Text(
-              //               'NHL-25\%',
-              //               style: TextStyle(
-              //                   color: Colors.black,
-              //                   fontSize: StyleManager().mediumFontSize),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //       Expanded(
-              //         child: Row(
-              //           children: [
-              //             SvgPicture.asset(
-              //                 AssetsString().OrangeColorCircleImage),
-              //             SizedBox(
-              //               width: 5.w,
-              //             ),
-              //             Text(
-              //               'NBA-25\%',
-              //               style: TextStyle(
-              //                   color: Colors.black,
-              //                   fontSize: StyleManager().mediumFontSize),
-              //             )
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              Container(
+                height: 1,
+                width: double.infinity,
+                color: ColorManager.lightGreyDivider,
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              CustomDivider(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: SizedBox(
+                  height: 30.h,
+                ),
+              ),
+              SvgPicture.asset(AssetsString().ProfileStatCircleImage),
+              SizedBox(
+                height: 30.h,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(AssetsString().SkyColorCircleImage),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            'MLB-25\%',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: StyleManager().mediumFontSize),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                              AssetsString().PurpleColorCircleImage),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            'NFL-25\%',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: StyleManager().mediumFontSize),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                              AssetsString().YellowColorCircleImage),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            'NHL-25\%',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: StyleManager().mediumFontSize),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                              AssetsString().OrangeColorCircleImage),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            'NBA-25\%',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: StyleManager().mediumFontSize),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

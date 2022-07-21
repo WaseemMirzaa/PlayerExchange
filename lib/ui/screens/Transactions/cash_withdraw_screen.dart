@@ -11,10 +11,12 @@ import 'package:player_exchange/networking/api.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/stripe/stripe_payment.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
+import 'package:player_exchange/utils/alert_dialog_custom.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/number_utils.dart';
+import 'package:player_exchange/utils/session_manager.dart';
 
 class CashWithdrawScreen extends StatefulWidget {
   CashWithdrawScreen({Key? key}) : super(key: key);
@@ -24,7 +26,7 @@ class CashWithdrawScreen extends StatefulWidget {
 }
 
 class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
-  RxDouble purchaseAmt = 0.0.obs;
+  RxDouble withdrawAmount = 0.0.obs;
   RxInt estShare = 0.obs;
 
   late StripePayment stripePayment;
@@ -45,6 +47,8 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
     User user = appDrawerController.user.value;
     num total = 0;
 
+    num availCashoutBalance = (appDrawerController.user.value.walletAmount ?? 0) - Constants.INITIAL_WALLET_AMOUNT;
+
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Container(
@@ -62,11 +66,13 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold, fontSize: 26)),
                   ),
+
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
+
                   Text(
-                      'This amount will be added in your personal wallet and will be available for purchasing.',
+                      'This amount will be transfered to your personal account.',
                       style: TextStyle(
                           color: ColorManager.colorTextDarkGray,
                           fontWeight: FontWeight.normal,
@@ -74,8 +80,28 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                 ],
               ),
             ),
+
             SizedBox(
               height: 150,
+            ),
+
+
+            Text('Available Cashout Balance',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20)),
+            SizedBox(
+              height: 10,
+            ),
+            Text('\$${availCashoutBalance}',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26)),
+
+            SizedBox(
+              height: 20,
             ),
             SizedBox(
               width: 200,
@@ -106,9 +132,9 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                 // },
                 onChanged: (String? amount) {
                   if (NumberUtils.isNumeric(amount)) {
-                    purchaseAmt.value = double.parse(amount ?? "0");
+                    withdrawAmount.value = double.parse(amount ?? "0");
                   } else {
-                    purchaseAmt.value = 0;
+                    withdrawAmount.value = 0;
                   }
                 },
                 style: TextStyle(color: Colors.black54, fontSize: 22, fontWeight: FontWeight.bold),
@@ -119,18 +145,23 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
       ),
       bottomNavigationBar: InkWell(
         onTap: () async {
-          if (purchaseAmt.value > 0) {
+          if(withdrawAmount.value > availCashoutBalance){
+            showMessageDialog("Withdraw amount can not be greater than Available Balance", context,  () =>{
+
+            });
+          }
+          else if (withdrawAmount.value > 0) {
             if (!stripePayInProgress) {
-              if (purchaseAmt.value > 0) {
+              if (withdrawAmount.value > 0) {
                 stripePayInProgress = true;
 
                 //Add transaction record in database
                 transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
                   userId: appDrawerController.user.value.id,
-                  amount: purchaseAmt.value,
+                  amount: withdrawAmount.value,
                   playerName: "",
                   playerId: "",
-                  type: TransactionConstants.TRANSACTION_TYPE_DEPOSIT,
+                  type: TransactionConstants.TRANSACTION_TYPE_WITHDRAW,
                   shares: 0,
                   paymentType: TransactionConstants.PAYMENT_TYPE_STRIPE,
                 ));
@@ -139,7 +170,7 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                   stripePayInProgress = false;
                   Fluttertoast.showToast(msg: "Unable to add Transaction.");
                 } else {
-                  total = purchaseAmt.value + (user.walletAmount ?? 0.0);
+                  total =  (user.walletAmount ?? 0.0) - withdrawAmount.value;
 
                   user.walletAmount = total;
 
@@ -153,28 +184,35 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                       await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
                   } else {
                     //Database transaction is recorded now try Stripe Payment
+                    User? user = await SessionManager.getUserData();
 
-                    stripePayment.makePayment(purchaseAmt.toString()).then((value) async => {
-                          stripePayInProgress = false,
-                          if (value)
-                            {
-                              Get.back(result: "back deposit")
-                            }
-                          else
-                            {
-                              Fluttertoast.showToast(msg: "Unable to purchase"),
-                              //Revert transaction
-                              if (transactionModel != null)
-                                await APIRequests.doApi_removeTransaction(
-                                    transactionModel?.id ?? ""),
 
-                              //Revert Wallet
-                              total = (user.walletAmount ?? 0.0) - purchaseAmt.value,
-                              user.walletAmount = total,
-                              await APIRequests.doApi_updateUserProfile(user.id!, user),
+                    String accoountId = user!.accountId ?? "";
+                    StripePayment(context).payoutOrder(accoountId, StripePayment.convertUsdToCent(withdrawAmount.value.toString())).then((value) async => {
+                      stripePayInProgress = false,
+                      if (value)
+                        {
+                        showMessageDialog("You have successfully withdrew \$${withdrawAmount}", context,  () =>{
+                          Get.back(result: "back withdraw")
 
-                            }
-                        });
+                        }),
+                        }
+                      else
+                        {
+                          Fluttertoast.showToast(msg: "Unable to withdraw, please contact with Admin."),
+                          //Revert transaction
+                          if (transactionModel != null)
+                            await APIRequests.doApi_removeTransaction(
+                            transactionModel?.id ?? ""),
+
+                          //Revert Wallet
+                          total = (user.walletAmount ?? 0.0) + withdrawAmount.value,
+                          user.walletAmount = total,
+                          await APIRequests.doApi_updateUserProfile(user.id!, user),
+
+                        }
+                    });
+
                   }
                 }
               } else {

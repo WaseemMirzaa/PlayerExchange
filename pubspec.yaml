@@ -40,6 +40,7 @@ dependencies:
 #  nb_utils: ^4.6.1
   webview_flutter: ^3.0.4
   time_elapsed: ^0.2.6
+  advance_pdf_viewer: any
 
 
 

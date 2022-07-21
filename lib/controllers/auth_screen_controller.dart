@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
-import 'package:player_exchange/ui/screens/login_screen.dart';
+import 'package:player_exchange/ui/screens/authentication/login_screen.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
 class AuthScreenController extends GetxController {
