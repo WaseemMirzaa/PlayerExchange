@@ -9,7 +9,7 @@ import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
 import 'package:player_exchange/ui/screens/Transactions/transaction_history_screen.dart';
 import 'package:player_exchange/ui/screens/authentication/auth_screen.dart';
 import 'package:player_exchange/ui/screens/authentication/login_screen.dart';
-import 'package:player_exchange/ui/screens/pdf_viewer_screen.dart';
+import 'package:player_exchange/ui/screens/pdf_viewer_screen_backup.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
 import 'home_tabs/tabs_screen.dart';
@@ -120,7 +120,7 @@ class AppDrawer extends StatelessWidget {
             icon: Icons.help,
             text: 'Help & Support',
             onTap: () {
-              Get.to(PdfViewerScreen(pdfPath: 'assets/support.pdf',));
+              Get.to(PdfViewerScreen(pdfPath: 'assets/pdfs/support.pdf',));
             },
           ),
           _createDrawerIcon(
