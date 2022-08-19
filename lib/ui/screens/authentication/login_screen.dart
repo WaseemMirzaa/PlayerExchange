@@ -196,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: ColorManager.greenColor),
                           ),
                           onPressed: () {
-                            // Get.to(ForgotPasswordScreen());
+                            Get.to(ForgotPasswordScreen());
 
 
                             },

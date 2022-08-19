@@ -12,6 +12,7 @@ import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/auth/sign_in_request.dart';
 import 'package:player_exchange/networking/api_requests.dart';
+import 'package:player_exchange/ui/screens/authentication/reset_password_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/screens/authentication/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/circle-progress-bar.dart';
@@ -134,7 +135,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
                       child: FilledButton(
-                          text: "Verify Email",
+                          text: "Send Otp",
                           onTap: () {
                             callForgotApi();
                           }),
@@ -168,9 +169,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
       LoadingIndicatorDialog().show(context, text: "Sending Email...");
 
-      await APIRequests.doApi_ForgotPassword(emailController.text);
+      bool isSuccess = await APIRequests.doApi_ForgotPassword_SendEmail(emailController.text.trim());
 
       LoadingIndicatorDialog().dismiss();
+
+      if(isSuccess)
+        Get.to(ResetPasswordScreen(email: emailController.text.trim(),));
 
     }
   }
