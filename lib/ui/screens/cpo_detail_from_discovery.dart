@@ -129,7 +129,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                                 text: 'available_shares'.tr),
                             TextSpan(
                                 style: TextStyle(color: ColorManager.greenColor),
-                                text: " " + widget.cpoModel.sharesAvailable.toString() ?? ""),
+                                text: " " + widget.cpoModel.sharesAvailable.toString() ),
                           ]))
                         ],
                       )),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/controllers/home_screen_controller.dart';
@@ -59,7 +58,7 @@ class _CashScreenState extends State<CashScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Cash',
+            const Text('Cash',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -67,20 +66,20 @@ class _CashScreenState extends State<CashScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Text('\$${appDrawerController.user.value.walletAmount}',
-                style: TextStyle(
+             Text('\$${appDrawerController.user.value.walletAmount}',
+                style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 26)),
             SizedBox(
               height: 10.h,
             ),
-            Text('Cash represents the total account balance which can be used to purchase or withdraw.',
+            const Text('Cash represents the total account balance which can be used to purchase or withdraw.',
                 style: TextStyle(color: Colors.black, fontSize: 16)),
             SizedBox(
               height: 10.h,
             ),
-            Text('Learn More',
+            const Text('Learn More',
                 style: TextStyle(color: ColorManager.greenColor, fontSize: 16)),
             SizedBox(
               height: 60.h,
@@ -92,13 +91,13 @@ class _CashScreenState extends State<CashScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Cash',
+                    const Text('Cash',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.w600)),
                     Text('\$${appDrawerController.user.value.walletAmount}',
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.w600)),
@@ -190,7 +189,7 @@ class _CashScreenState extends State<CashScreen> {
         LoadingIndicatorDialog().show(context);
         Map<String, dynamic>? stripeAccountID = await StripePayment(context).createStripeAccount();
         if(stripeAccountID != null){
-          var stripe = AutoGenerate.fromJson(stripeAccountID!);
+          var stripe = AutoGenerate.fromJson(stripeAccountID);
           LoadingIndicatorDialog().dismiss();
           // Fluttertoast.showToast(msg: "Loading...");
           Get.to(WebViewCustom( stripeUrl: stripe.link.url,

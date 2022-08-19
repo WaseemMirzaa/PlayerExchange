@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       // AscendingListItem()
                       SizedBox(
-                        height: 190,
+                        height: 180,
                         child: ListView.builder(
                           itemBuilder: (_, index) {
                             return AscendingListItem(
