@@ -208,14 +208,31 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                         SizedBox(
                           width: 15,
                         ),
-                        Container(width: 50, child: OfferHeading(title: '1Q', isEnable: false))
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '1Q', isEnable: false)),
+
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '2Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '3Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '4Q', isEnable: false)),
                       ],
                     ),
-                    Text(
-                      '2 Q'.tr,
-                      style:
-                          TextStyle(color: ColorManager.colorTextGray, fontWeight: FontWeight.w600),
-                    ),
+
                   ],
                 ),
               ),

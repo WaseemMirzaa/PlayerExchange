@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/auth_screen_controller.dart';
-import 'package:player_exchange/ui/screens/login_screen.dart';
-import 'package:player_exchange/ui/screens/sign_up_screen.dart';
+import 'package:player_exchange/ui/screens/authentication/login_screen.dart';
+import 'package:player_exchange/ui/screens/authentication/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

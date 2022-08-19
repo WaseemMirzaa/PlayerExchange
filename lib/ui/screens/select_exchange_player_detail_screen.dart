@@ -202,15 +202,33 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                         ),
                         Container(
                             width: 50,
-                            child: OfferHeading(title: '1Q', isEnable: false))
+                            child: OfferHeading(title: '1Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '2Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '3Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '4Q', isEnable: false)),
                       ],
                     ),
-                    Text(
-                      '2 Q'.tr,
-                      style: TextStyle(
-                          color: ColorManager.buttonBorderGreyColor,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    // Text(
+                    //   '2 Q'.tr,
+                    //   style: TextStyle(
+                    //       color: ColorManager.buttonBorderGreyColor,
+                    //       fontWeight: FontWeight.w600),
+                    // ),
                   ],
                 ),
               ),
@@ -340,7 +358,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                       style: TextStyle(
                           color: ColorManager.colorTextGray,
                           fontWeight: FontWeight.w700,
-                          fontSize: 17),
+                          fontSize: 16),
                       /*defining default style is optional */
                       children: <TextSpan>[
                         TextSpan(
@@ -348,7 +366,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                             style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.w700,
-                                fontSize: 17)),
+                                fontSize: 16)),
                       ],
                     ),
                   ),
@@ -362,7 +380,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                 style: TextStyle(
                     color: ColorManager.colorTextGray,
                     fontWeight: FontWeight.w700,
-                    fontSize: 17),
+                    fontSize: 15),
               ),
             ),
             GestureDetector(
@@ -379,7 +397,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                       style: TextStyle(
                           color: ColorManager.colorTextGray,
                           fontWeight: FontWeight.w700,
-                          fontSize: 17),
+                          fontSize: 16),
                       /*defining default style is optional */
                       children: <TextSpan>[
                         TextSpan(
@@ -387,7 +405,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                             style: TextStyle(
                                 color: Colors.green,
                                 fontWeight: FontWeight.w700,
-                                fontSize: 17)),
+                                fontSize: 16)),
                       ],
                     ),
                   ),

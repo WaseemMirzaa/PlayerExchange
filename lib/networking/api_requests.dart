@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
@@ -60,14 +59,14 @@ class APIRequests {
     var response = await client.get(Uri.parse(completeUrl));
     try {
       if (response.statusCode == 200) {
-            var jsonString = response.body;
-            var cpoModelList = cpoModelListFromJson(jsonString);
-            return cpoModelList.length > 0 ? cpoModelList[0] : CpoModel();
-          } else {
-            //show error message
-            Fluttertoast.showToast(msg: Api.apiErrorResponse);
-            return CpoModel();
-          }
+        var jsonString = response.body;
+        var cpoModelList = cpoModelListFromJson(jsonString);
+        return cpoModelList.length > 0 ? cpoModelList[0] : CpoModel();
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: Api.apiErrorResponse);
+        return CpoModel();
+      }
     } catch (e) {
       print(e);
       return CpoModel();
@@ -75,8 +74,8 @@ class APIRequests {
   }
 
   static Future<List<RosterModel>> doApi_getRoster(String userId) async {
-
-    String jsonStringFilter = '?filter={"where": {"userId": "$userId"}, "include": [{"relation": "cpoAthletes"}]}';
+    String jsonStringFilter =
+        '?filter={"where": {"userId": "$userId"}, "include": [{"relation": "cpoAthletes"}]}';
     var completeUrl = Api.baseURL + 'rosters' + jsonStringFilter;
     var response = await client.get(Uri.parse(completeUrl));
     if (response.statusCode == 200) {
@@ -120,7 +119,6 @@ class APIRequests {
       print(e);
     }
     return Api.ERROR;
-
   }
 
   //playerId is CpoModel.id not CpoModel.playerId
@@ -128,8 +126,7 @@ class APIRequests {
     var completeUrl = Api.baseURL + 'favorites';
     try {
       var response = await client.post(Uri.parse(completeUrl),
-          body:
-              jsonEncode(<String, String>{'userId': userId, 'cpoAthletesId': playerId}),
+          body: jsonEncode(<String, String>{'userId': userId, 'cpoAthletesId': playerId}),
           headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
         var jsonString = response.body;
@@ -201,14 +198,14 @@ class APIRequests {
     }
   }
 
-
-  static Future<bool> doApi_addExchangePlayer(num shares, num asking, String rosterId, String userId) async {
+  static Future<bool> doApi_addExchangePlayer(
+      num shares, num asking, String rosterId, String userId) async {
     var completeUrl = Api.baseURL + 'exchange-players';
     try {
       var response = await client.post(Uri.parse(completeUrl),
           body: jsonEncode(
-              {'shares': shares, 'askingAmount': asking,'rosterId': rosterId,'userId': userId}
-          ), headers: header);
+              {'shares': shares, 'askingAmount': asking, 'rosterId': rosterId, 'userId': userId}),
+          headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
         var jsonString = response.body;
         Fluttertoast.showToast(msg: "Successfully added");
@@ -241,7 +238,7 @@ class APIRequests {
   }
 
   static Future<TeamsResponse> doApi_getTeams() async {
-   var completeUrl = Api.baseURL + 'teams';
+    var completeUrl = Api.baseURL + 'teams';
     var response = await client.get(Uri.parse(completeUrl));
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -254,7 +251,7 @@ class APIRequests {
   }
 
   static Future<TeamPlayersResponse> doApi_getPlayersFromTeam(String teamId) async {
-     var completeUrl = Api.baseURL + 'teams-with-players/' +teamId;
+    var completeUrl = Api.baseURL + 'teams-with-players/' + teamId;
     var response = await client.get(Uri.parse(completeUrl));
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -267,7 +264,7 @@ class APIRequests {
   }
 
   static Future<Players> doApi_getPlayer(String playerId) async {
-    var completeUrl = Api.baseURL + 'player/' +playerId;
+    var completeUrl = Api.baseURL + 'player/' + playerId;
     var response = await client.get(Uri.parse(completeUrl));
     if (response.statusCode == 200) {
       var jsonString = response.body;
@@ -279,10 +276,8 @@ class APIRequests {
     }
   }
 
-
   static Future<List<TransactionModel>> doApi_getTransactions({String userId = ""}) async {
-    String jsonStringFilter =
-        '?filter[where][userId][regexp]=/^$userId/i';
+    String jsonStringFilter = '?filter[where][userId][regexp]=/^$userId/i';
     // filter[where][name][regexp]=^n/i
     var completeUrl = Api.baseURL + 'transactions' + jsonStringFilter;
     var response = await client.get(Uri.parse(completeUrl));
@@ -296,25 +291,21 @@ class APIRequests {
     }
   }
 
-  static Future <TransactionModel?> doApi_addTransaction(TransactionModel transactionModel) async {
+  static Future<TransactionModel?> doApi_addTransaction(TransactionModel transactionModel) async {
     var completeUrl = Api.baseURL + 'transactions';
     try {
-
       var response = await client.post(Uri.parse(completeUrl),
           body:
-          // jsonEncode(transactionModel),
-          jsonEncode(
-              {
-                "userId": transactionModel.userId,
-                "type": transactionModel.type,
-                "paymentType": transactionModel.paymentType,
-                "amount": transactionModel.amount,
-                "shares": transactionModel.shares,
-                "playerId": transactionModel.playerId,
-                "playerName": transactionModel.playerId,
-
-              }
-          ),
+              // jsonEncode(transactionModel),
+              jsonEncode({
+            "userId": transactionModel.userId,
+            "type": transactionModel.type,
+            "paymentType": transactionModel.paymentType,
+            "amount": transactionModel.amount,
+            "shares": transactionModel.shares,
+            "playerId": transactionModel.playerId,
+            "playerName": transactionModel.playerId,
+          }),
           headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
         var jsonString = response.body;
@@ -329,14 +320,13 @@ class APIRequests {
     return null;
   }
 
-  static Future <String?> doApi_removeTransaction(String transactionId) async {
+  static Future<String?> doApi_removeTransaction(String transactionId) async {
     var completeUrl = Api.baseURL + 'transactions/' + transactionId;
     try {
-      var response = await client.delete(Uri.parse(completeUrl),
-          headers: header);
+      var response = await client.delete(Uri.parse(completeUrl), headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
         var jsonString = response.body;
-        return await jsonString;//It should be transaction id
+        return await jsonString; //It should be transaction id
       } else {
         //show error message
         Fluttertoast.showToast(msg: "Unable to create a Transaction.");
@@ -347,22 +337,18 @@ class APIRequests {
     return null;
   }
 
-
-  static Future <CommentModel?> doApi_addComment(String senderId, String text, String cpoAthletesId, String senderName, String senderProfile) async {
+  static Future<CommentModel?> doApi_addComment(String senderId, String text, String cpoAthletesId,
+      String senderName, String senderProfile) async {
     var completeUrl = Api.baseURL + 'comments';
     try {
-
       var response = await client.post(Uri.parse(completeUrl),
-          body:
-          jsonEncode(
-              {
-                "senderId": senderId,
-                "text": text,
-                "cpoAthletesId": cpoAthletesId,
-                "senderName": senderName,
-                "senderProfile": senderProfile,
-              }
-          ),
+          body: jsonEncode({
+            "senderId": senderId,
+            "text": text,
+            "cpoAthletesId": cpoAthletesId,
+            "senderName": senderName,
+            "senderProfile": senderProfile,
+          }),
           headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
         var jsonString = response.body;
@@ -377,8 +363,8 @@ class APIRequests {
     return null;
   }
 
-  static Future<List<CommentModel>> doApi_getComments({String userId = "", String cpoAthletesId = ""}) async {
-
+  static Future<List<CommentModel>> doApi_getComments(
+      {String userId = "", String cpoAthletesId = ""}) async {
     String jsonStringFilter =
         '?filter[where][cpoAthletesId][regexp]=/^$cpoAthletesId/i&filter[order]=createdAt ASC';
 
@@ -394,5 +380,52 @@ class APIRequests {
     }
   }
 
+  static Future<bool> doApi_ForgotPassword_SendEmail(
+    String email,
+  ) async {
+    var completeUrl = Api.baseURL + 'user/forget-password-email';
+    try {
+      var response = await client.post(Uri.parse(completeUrl),
+          body: jsonEncode({
+            "email": email,
+          }),
+          headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        return true;
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Unable to send verification Email");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Unable to send verification Email");
+      print(e);
+    }
+    return false;
+  }
 
+  static Future<bool> doApi_ResetPassword(
+  String email, String newPass, String otp) async {
+    var completeUrl = Api.baseURL + 'user/forget-password';
+    try {
+      var response = await client.post(Uri.parse(completeUrl),
+          body: jsonEncode({
+            "email": email,
+            "password": newPass,
+            "secretKey": otp,
+          }),
+          headers: header);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        var jsonString = response.body;
+        return true;
+      } else {
+        //show error message
+        Fluttertoast.showToast(msg: "Invalid Otp Entered");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Unable to validate Otp");
+      print(e);
+    }
+    return false;
+  }
 }

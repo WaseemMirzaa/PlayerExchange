@@ -75,7 +75,7 @@ class _CashScreenState extends State<CashScreen> {
             SizedBox(
               height: 10.h,
             ),
-            Text('Cash represents the total value of stock you can purchase from wallet.',
+            Text('Cash represents the total account balance which can be used to purchase or withdraw.',
                 style: TextStyle(color: Colors.black, fontSize: 16)),
             SizedBox(
               height: 10.h,
@@ -189,21 +189,14 @@ class _CashScreenState extends State<CashScreen> {
         Navigator.pop(context, true);
         LoadingIndicatorDialog().show(context);
         Map<String, dynamic>? stripeAccountID = await StripePayment(context).createStripeAccount();
-        var stripe = AutoGenerate.fromJson(stripeAccountID!);
-        LoadingIndicatorDialog().dismiss();
-        // Fluttertoast.showToast(msg: "Loading...");
-        Get.to(WebViewCustom( stripeUrl: stripe.link.url,
-          accountId: stripe.account.id,));
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => WebViewCustom(
-        //       stripeUrl: stripe.link.url,
-        //       accountId: stripe.account.id,
-        //     ),
-        //   ),
-        // );
-      },
+        if(stripeAccountID != null){
+          var stripe = AutoGenerate.fromJson(stripeAccountID!);
+          LoadingIndicatorDialog().dismiss();
+          // Fluttertoast.showToast(msg: "Loading...");
+          Get.to(WebViewCustom( stripeUrl: stripe.link.url,
+            accountId: stripe.account.id,));
+        }
+      }
     );
     Widget cancel = TextButton(
       child: Text("Cancel"),

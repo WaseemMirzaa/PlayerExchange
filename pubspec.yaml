@@ -40,8 +40,9 @@ dependencies:
 #  nb_utils: ^4.6.1
   webview_flutter: ^3.0.4
   time_elapsed: ^0.2.6
-
-
+#  syncfusion_flutter_pdfviewer: ^20.2.39-beta
+  flutter_pdfview: ^1.2.1
+#  advance_pdf_viewer: any
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,8 @@ flutter:
     - assets/
     - assets/logo/
     - assets/tabs_icons/
+    - assets/pdfs/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

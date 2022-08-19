@@ -11,8 +11,10 @@ import 'package:player_exchange/controllers/login_screen_controller.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/auth/sign_in_request.dart';
+import 'package:player_exchange/networking/api_requests.dart';
+import 'package:player_exchange/ui/screens/authentication/login_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
-import 'package:player_exchange/ui/screens/sign_up_screen.dart';
+import 'package:player_exchange/ui/screens/authentication/sign_up_screen.dart';
 import 'package:player_exchange/ui/widgets/circle-progress-bar.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
@@ -23,20 +25,20 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({Key? key, required this.email}) : super(key: key);
+  final email;
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController emailController = new TextEditingController();
+  TextEditingController otpController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  TextEditingController confirmPasswordController = new TextEditingController();
 
-  LoginScreenController loginScreenController = Get.put(LoginScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
 
                       Text(
-                        "Sign In",
+                        "Reset Password",
                         style: TextStyle(
-                            fontSize: ScreenUtil().setSp(30),
+                            fontSize: ScreenUtil().setSp(24),
                             fontWeight: FontWeight.w600,
                             color: ColorManager.greenColor),
                       ),
@@ -84,6 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Column(
                   children: [
+                    //OTP
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
@@ -93,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onChanged: (value) {
                             setState(() {});
                           },
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.number,
                           // controller: signUpController.emailEditingController,
                           style: TextStyle(
                               color: ColorManager.greenColor,
@@ -108,29 +111,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                   right: ScreenUtil().setWidth(10),
                                   left: ScreenUtil().setWidth(10)),
                               child: Icon(
-                                Icons.email_outlined,
+                                Icons.radar,
                                 color: ColorManager.greenColor,
                               ),
                             ),
                             prefixIconConstraints: BoxConstraints(
                                 maxHeight: ScreenUtil().setHeight(23)),
-                            labelText: 'Email',
+                            labelText: 'OTP - 6 digit',
                             labelStyle: TextStyle(
                                 color: ColorManager.greenColor,
                                 fontSize: StyleManager().mediumFontSize),
                           ),
-                          controller: emailController,
+                          controller: otpController,
                           validator: (txt) {
-                            // if (EmailValidator.validate(
-                            //     signUpController.emailEditingController.text))
-                            //   return null;
-                            // else
-                            return 'Enter Valid Email';
+                            if (otpController.text.isNum && otpController.text.length == 6)
+                              return null;
+                            else
+                              return 'Enter Valid OTP';
                           },
                         ),
+
+
                       ),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(10)),
+                    //PASSWORD
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
@@ -150,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide:
-                                  BorderSide(color: ColorManager.greenColor),
+                              BorderSide(color: ColorManager.greenColor),
                             ),
                             prefixIcon: Padding(
                               padding: EdgeInsets.only(
@@ -170,75 +175,73 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           controller: passwordController,
                           validator: (txt) {
-                            // if (signUpController
-                            //     .passwordEditingController.text.length >
-                            //     5)
-                            //   return null;
-                            // else
-                            //   return 'Enter Valid Password';
+                            if (passwordController.text.length > 6)
+                              return null;
+                            else
+                              return 'Enter Valid Password. Minimum length is 6 digit';
                           },
                         ),
                       ),
                     ),
                     SizedBox(height: ScreenUtil().setHeight(10)),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(20)),
-                        child: TextButton(
-                          child: Text(
-                            'Forget password',
-                            style: TextStyle(
-                                fontSize: StyleManager().smallFontSize,
-                                color: ColorManager.greenColor),
+                    //CONFIRM PASSWORD
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(25)),
+                      child: Theme(
+                        data: DefaultStyleConfigs().textFieldTheme(),
+                        child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          keyboardType: TextInputType.visiblePassword,
+                          // controller:
+                          // signUpController.passwordEditingController,
+                          obscureText: true,
+                          style: TextStyle(
+                              color: ColorManager.greenColor,
+                              fontSize: StyleManager().mediumFontSize),
+                          decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                              BorderSide(color: ColorManager.greenColor),
+                            ),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(
+                                  right: ScreenUtil().setWidth(10),
+                                  left: ScreenUtil().setWidth(10)),
+                              child: Icon(
+                                Icons.lock,
+                                color: ColorManager.greenColor,
+                              ),
+                            ),
+                            prefixIconConstraints: BoxConstraints(
+                                maxHeight: ScreenUtil().setHeight(23)),
+                            labelText: 'Confirm Password',
+                            labelStyle: TextStyle(
+                                color: ColorManager.greenColor,
+                                fontSize: StyleManager().mediumFontSize),
                           ),
-                          onPressed: () {
-                            // Get.to(ForgetPassword());
-                            // *//*Get.to(ForgotPassword(),
-                            // transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*//*
+                          controller: confirmPasswordController,
+                          validator: (txt) {
+                            // if (passwordController.text == confirmPasswordController.text)
+                            //   return null;
+                            // else
+                            //   return 'Password Mismatch';
                           },
                         ),
                       ),
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(20)),
+
+                    SizedBox(height: ScreenUtil().setHeight(10)),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
                       child: FilledButton(
-                          text: "Sign In",
+                          text: "Reset",
                           onTap: () {
-                            callSignInApi();
+                            callForgotApi();
                           }),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(24)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Don't have an account? ", style: TextStyle(
-                              fontSize: StyleManager().smallFontSize,
-                              color: ColorManager.colorTextGray
-                            ),),
-                            TextButton(
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    fontSize: StyleManager().smallFontSize,
-                                    color: ColorManager.greenColor),
-                              ),
-                              onPressed: () {
-                                Get.to(SignUpScreen());
-                                // *//*Get.to(ForgotPassword(),
-                                // transition: languageService.isLtrOrRtl == TextDirection.ltr ? Transition.rightToLeft : Transition.leftToRight);*//*
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -249,95 +252,42 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   bool validate() {
-    if (emailController.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Email Required');
-
+    if (otpController.text.isEmpty) {
+      Fluttertoast.showToast(msg: 'OTP Required');
+      return false;
+    }
+    if (otpController.text.length != 6) {
+      Fluttertoast.showToast(msg: 'Invalid OTP');
+      return false;
+    }
+    if (passwordController.text.length < 6){
+      Fluttertoast.showToast(msg: 'Enter Valid Password. Minimum length is 6 digit');
+      return false;
+    }
+    if (passwordController.text != confirmPasswordController.text) {
+      Fluttertoast.showToast(msg: 'Password Mismatch');
       return false;
     }
 
-    if (!emailController.text.isEmail) {
-      Fluttertoast.showToast(msg: 'Invalid Email');
 
-      return false;
-    }
-
-    if (passwordController.text.isEmpty) {
-      Fluttertoast.showToast(msg: 'Password Required');
-
-      return false;
-    }
     return true;
   }
 
-  void callSignInApi() async {
+  void callForgotApi() async {
     if (validate()) {
-      SignInRequest signInRequest = SignInRequest();
-      signInRequest.email = emailController.text;
-      signInRequest.password = passwordController.text;
-      signInRequest.fcmToken = '';
 
-      LoadingIndicatorDialog().show(context, text: "Logging in...");
+      LoadingIndicatorDialog().show(context, text: "Updating Password...");
 
-      var dio = Dio();
-      try {
-        final response = await dio.post(Api.baseURL + 'user/login',
-            data: signInRequest.toJson(),
-            options: Options(headers: {
-              HttpHeaders.contentTypeHeader: "application/json",
-            }));
+      bool isSuccess = await APIRequests.doApi_ResetPassword(widget.email, confirmPasswordController.text, otpController.text);
 
-        LoadingIndicatorDialog().dismiss();
-        print ("login response: " + response.toString());
-        if (response.data != null) {
-          UserModel userResponse;
-          try {
-            UserModel userResponse = UserModel.fromJson(response.data);
+      LoadingIndicatorDialog().dismiss();
 
-          //  if(userResponse.user == null){
-          //    Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      if(isSuccess){
+        Fluttertoast.showToast(msg: "Successfully updated");
+        Get.offAll(LoginScreen());
 
-          //   return;
-          // }
-
-          if (userResponse.message != null &&
-              userResponse.message == 'Successfully logged in') {
-
-            if(userResponse.user != null) {
-              SessionManager.setUserData(userResponse.user!);
-            }
-            TabsScreen.currentIndex = 0;
-
-            Get.off(() => TabsScreen(
-                  selectedIndex: TabsScreen.currentIndex,
-                ));
-          } else {
-            if (userResponse.message == null) {
-              Fluttertoast.showToast(msg: Api.apiErrorResponse);
-            } else {
-              Fluttertoast.showToast(msg: userResponse.message.toString());
-            }
-          }
-          } catch (e) {
-            print(e);
-          }
-        }
-      } on DioError catch (e) {
-        e.printError();
-
-        LoadingIndicatorDialog().dismiss();
-        if (e.response != null) {
-          print('has response');
-
-          AuthErrorResponse resp = AuthErrorResponse.fromJson(e.response!.data);
-
-          print('has error ${resp.toString()}');
-
-          Fluttertoast.showToast(
-              msg: resp.error?.message ?? "Invalid Credentials");
-        } else {
-          Fluttertoast.showToast(msg: e.response.toString());
-        }
       }
+
     }
   }
 }

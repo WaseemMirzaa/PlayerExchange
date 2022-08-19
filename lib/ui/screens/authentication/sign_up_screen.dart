@@ -553,7 +553,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       } on DioError catch (e) {
 
         LoadingIndicatorDialog().dismiss();
-
+        //
         if(e.response != null) {
 
           print('has response');
@@ -566,7 +566,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
         } else {
 
-          Fluttertoast.showToast(msg: e.response.toString());
+          Fluttertoast.showToast(msg: e.response.toString(), toastLength: Toast.LENGTH_LONG, timeInSecForIosWeb: 5);
 
 
         }

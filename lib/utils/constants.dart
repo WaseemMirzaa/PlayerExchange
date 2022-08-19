@@ -14,6 +14,9 @@ class Constants{
 
   GlobalKey<NavigatorState>? navigatorKey=GlobalKey<NavigatorState>();
   GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey=GlobalKey<ScaffoldMessengerState>();
+
+  static final int INITIAL_WALLET_AMOUNT = 10;
+
 }
 
 class TransactionConstants{

@@ -129,7 +129,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                                 text: 'available_shares'.tr),
                             TextSpan(
                                 style: TextStyle(color: ColorManager.greenColor),
-                                text: widget.cpoModel.sharesAvailable.toString() ?? ""),
+                                text: " " + widget.cpoModel.sharesAvailable.toString() ?? ""),
                           ]))
                         ],
                       )),
@@ -197,14 +197,28 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                         SizedBox(
                           width: 15,
                         ),
-                        Container(width: 50, child: OfferHeading(title: '1Q', isEnable: false))
+                        Container(width: 50, child: OfferHeading(title: '1Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '2Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '3Q', isEnable: false)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Container(
+                            width: 50,
+                            child: OfferHeading(title: '4Q', isEnable: false)),
                       ],
                     ),
-                    Text(
-                      '2 Q'.tr,
-                      style: TextStyle(
-                          color: ColorManager.buttonBorderGreyColor, fontWeight: FontWeight.w600),
-                    ),
+
                   ],
                 ),
               ),
