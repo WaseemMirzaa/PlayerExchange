@@ -183,9 +183,13 @@ class StripePayment {
     );
 
     if(response.statusCode == 200){
+
+      debugPrint(response.statusCode.toString() + response.body.toString()  + "<Error>");
       isSuccess = true;
       debugPrint("Operation Successful");
     } else{
+
+      debugPrint(response.statusCode.toString() + response.body.toString()  + "<Error>" + json.toString());
       isSuccess = false;
       debugPrint("Operation failed");
     }

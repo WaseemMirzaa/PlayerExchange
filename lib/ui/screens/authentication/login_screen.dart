@@ -332,7 +332,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           AuthErrorResponse resp = AuthErrorResponse.fromJson(e.response!.data);
 
-          print('has error ${resp.toString()}');
+          print('has error ${resp.error?.statusCode.toString()}');
 
           Fluttertoast.showToast(
               msg: resp.error?.message ?? "Invalid Credentials");
