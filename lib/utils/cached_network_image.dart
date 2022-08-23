@@ -9,7 +9,7 @@ Widget cachedImage(String? url, {double? height, double? width, BoxFit? fit, Ali
     return placeHolderWidget(height: height, width: width, fit: fit, alignment: alignment, radius: radius);
   } else if (url.startsWith('http')) {
     return CachedNetworkImage(
-      imageUrl: url!,
+      imageUrl: url,
       height: height,
       width: width,
       fit: fit,
@@ -27,8 +27,8 @@ Widget cachedImage(String? url, {double? height, double? width, BoxFit? fit, Ali
     );
   } else {
     return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      child: Image.asset(url!, height: height, width: width, fit: fit, alignment: alignment ?? Alignment.center, color: color),
+      borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+      child: Image.asset(url, height: height, width: width, fit: fit, alignment: alignment ?? Alignment.center, color: color),
       clipBehavior: Clip.antiAliasWithSaveLayer,
     );
   }

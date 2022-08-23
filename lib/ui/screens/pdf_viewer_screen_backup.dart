@@ -1,15 +1,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/models/auth/user_model.dart';
-import 'package:player_exchange/ui/screens/authentication/auth_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/utils/assets_string.dart';
-import 'package:player_exchange/utils/session_manager.dart';
-// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:flutter/foundation.dart';
 
 
 class PdfViewerScreen extends StatefulWidget {
@@ -21,7 +17,11 @@ class PdfViewerScreen extends StatefulWidget {
   _PdfViewerScreenState createState() => _PdfViewerScreenState();
 }
 
-class _PdfViewerScreenState extends State<PdfViewerScreen> {
+class _PdfViewerScreenState extends State<PdfViewerScreen> with WidgetsBindingObserver {
+
+
+
+  String pathPDF = "https://firebasestorage.googleapis.com/v0/b/player-exchange-ad78f.appspot.com/o/support.pdf?alt=media&token=5f7b1b5a-1618-44ef-80bd-0f7dc3835d21";
 
 
   @override
@@ -33,53 +33,35 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   }
 
   init() async{
-    // Load from assets
+
 
   }
 
 
-  @override
-  void setState(VoidCallback fn) {
 
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(
-      BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width,
-          maxHeight: MediaQuery.of(context).size.height),
-      designSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height),
-    );
+
+
     return Scaffold(
       appBar: customAppBar(Get.context,
           title: 'Support'.tr, leadingIcon: AssetsString().BackArrowIcon),
-      body:
-      PDFView(
-        filePath: widget.pdfPath,
-        enableSwipe: true,
-        swipeHorizontal: true,
-        autoSpacing: false,
-        pageFling: false,
-        onRender: (_pages) {
-          setState(() {
-            // pages = _pages;
-            // isReady = true;
-          });
-        },
-        onError: (error) {
-          print(error.toString());
-        },
-        onPageError: (page, error) {
-          print('$page: ${error.toString()}');
-        },
-        onViewCreated: (PDFViewController pdfViewController) {
-          // _controller.complete(pdfViewController);
-        },
-        // onPageChanged: (int page, int total) {
-        //   print('page change: $page/$total');
-        // },
-      ),
+      body: const PDF().cachedFromUrl(pathPDF,
+          placeholder: (progress) => Center(
+            child: Text("Loading - $progress %"),
+          ),
+          errorWidget: (error) => const Center(
+            child: Text("An error occurred while opening bill PDF"),
+          )),
+
+
     );
+
+
   }
+
+
 }
