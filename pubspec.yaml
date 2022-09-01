@@ -43,6 +43,7 @@ dependencies:
 #  syncfusion_flutter_pdfviewer: ^20.2.39-beta
   flutter_pdfview: ^1.2.1
   flutter_cached_pdfview: ^0.4.1
+  firebase_core: ^1.10.2
 #  advance_pdf_viewer: any
 
 dev_dependencies:
