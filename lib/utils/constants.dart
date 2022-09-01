@@ -18,6 +18,13 @@ class Constants{
   static final int INITIAL_WALLET_AMOUNT = 10;
 
 }
+class FirestoreCollections{
+  static const String users = "users";
+  static const String chats = "chats";
+}
+
+
+
 
 class TransactionConstants{
   static final String TRANSACTION_TYPE_DEPOSIT = "DEPOSIT";

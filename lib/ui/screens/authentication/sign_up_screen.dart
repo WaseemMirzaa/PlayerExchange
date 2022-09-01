@@ -19,11 +19,13 @@ import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
+import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../../main.dart';
 import 'login_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -538,6 +540,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           UserModel userResponse = UserModel.fromJson(response.data);
 
           if(userResponse.user != null && userResponse.user?.id != null) {
+
+            await fireStore.collection(FirestoreCollections.users)
+                .doc(userResponse.token)
+                .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
+
 
             SessionManager.setUserData(userResponse.user!);
 
