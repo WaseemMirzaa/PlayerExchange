@@ -46,8 +46,8 @@ dependencies:
   firebase_core: ^1.21.1
   cloud_firestore: ^3.4.6
   firebase_storage: ^10.3.7
-  firebase_messaging: ^13.0.0
-  flutter_local_notifications: ^9.9.0
+  firebase_messaging: ^11.4.0
+  flutter_local_notifications: ^8.2.0
 #  advance_pdf_viewer: any
 
 dev_dependencies:

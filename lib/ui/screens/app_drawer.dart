@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/instance_manager.dart';
+import 'package:player_exchange/chat/firebase_cloud_messaging.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
@@ -15,10 +16,29 @@ import 'package:player_exchange/utils/session_manager.dart';
 import 'home_tabs/tabs_screen.dart';
 import 'notification_screen.dart';
 
-class AppDrawer extends StatelessWidget {
-  AppDrawerController appDrawerController = Get.find();
-  // AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
+class AppDrawer extends StatefulWidget {
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
 
+class _AppDrawerState extends State<AppDrawer> {
+  AppDrawerController appDrawerController = Get.find();
+  String? userId= "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    Future<User?> user = SessionManager.getUserData();
+    await user.then((value) => {userId = value?.id?? "" });
+    debugPrint("user id : " + userId.toString() );
+  }
+
+  // AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -140,6 +160,8 @@ class AppDrawer extends StatelessWidget {
             text: 'Logout',
             onTap: () {
               Navigator.of(context).pop();
+
+              FirebaseCloudMessaging.stopNotificationService(userId: userId ?? "");
               SessionManager.setUserData(new User());
               Get.offAll(AuthScreen());
             },

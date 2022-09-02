@@ -1,15 +1,18 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:player_exchange/utils/constants.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    importance: Importance.high,
-    playSound: true);
+ AndroidNotificationChannel channel = const AndroidNotificationChannel(
+     'high_importance_channel',
+     'High Importance Notifications',
+     'Android Notifications',
+     importance: Importance.high,
+     playSound: true);
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
@@ -33,6 +36,20 @@ class FirebaseCloudMessaging {
     );
   }
 
+  static Future<void> startNotificationService ({required String userId}) async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    await FirebaseFirestore.instance
+        .collection(FirestoreCollections.users)
+        .doc(userId)
+        .update({'fcmToken': token});
+  }
+  static Future<void> stopNotificationService ({required String userId}) async {
+    await FirebaseFirestore.instance
+        .collection(FirestoreCollections.users)
+        .doc(userId)
+        .update({'fcmToken': ''});
+  }
+
   static showNotification() async{
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -46,6 +63,7 @@ class FirebaseCloudMessaging {
               android: AndroidNotificationDetails(
                 channel.id,
                 channel.name,
+                'Android Notifications',
                 color: Colors.blue,
                 playSound: true,
                 icon: '@mipmap/ic_launcher',
@@ -82,7 +100,10 @@ class FirebaseCloudMessaging {
         "Testing ",
         "How you doing ?",
         NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
+            android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                'Android Notifications',
                 importance: Importance.high,
                 color: Colors.blue,
                 playSound: true,

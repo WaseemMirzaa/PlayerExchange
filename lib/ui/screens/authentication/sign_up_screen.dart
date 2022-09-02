@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/chat/firebase_cloud_messaging.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/sign_up_request.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
@@ -541,10 +543,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           if(userResponse.user != null && userResponse.user?.id != null) {
 
-            await fireStore.collection(FirestoreCollections.users)
-                .doc(userResponse.token)
-                .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
 
+
+
+            await fireStore.collection(FirestoreCollections.users)
+                .doc(userResponse.user?.id ?? "")
+                .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
+            await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id ?? "");
 
             SessionManager.setUserData(userResponse.user!);
 

@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/Networking/api.dart';
+import 'package:player_exchange/chat/firebase_cloud_messaging.dart';
 import 'package:player_exchange/controllers/login_screen_controller.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
@@ -308,8 +309,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
+
+
             if(userResponse.user != null) {
               SessionManager.setUserData(userResponse.user!);
+
+              await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id  ?? "");
             }
             TabsScreen.currentIndex = 0;
 
