@@ -27,7 +27,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: 'Message', trailing: [
-        FlatButton(
+        TextButton(
             onPressed: () {}, child: SvgPicture.asset(AssetsString().EditIcon))
       ]),
       body: Container(
