@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_utils/src/extensions/dynamic_extensions.dart';
 import 'package:http/http.dart' as http;
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/Exchange/offer.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
@@ -472,5 +473,60 @@ class APIRequests {
 
   }
 
+
+  static Future<Offer?> doApi_postOffer(Offer offer) async {
+    var completeUrl = Api.baseURL + 'offers';
+
+    var dio = Dio();
+    try {
+      final response = await dio.post(completeUrl,
+          data: offer.toJson(),
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }));
+
+      print ("offer response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return Offer.fromJson(response.data);
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not update profile.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return null;
+
+  }
+
+
+  static Future<List<Offer?>> doApi_getOffer(Offer offer) async {
+    var completeUrl = Api.baseURL + 'offers';
+
+    var dio = Dio();
+    try {
+      final response = await dio.get(completeUrl,);
+
+      print ("offer response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return offerModelListFromJson(response.data);
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not update profile.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return [];
+
+  }
 
 }

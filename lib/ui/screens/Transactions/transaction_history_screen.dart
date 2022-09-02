@@ -5,7 +5,7 @@ import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/transactions/transaction_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
-import 'package:player_exchange/ui/screens/select_exchange_player_detail_screen.dart';
+import 'package:player_exchange/ui/screens/exchange_player/select_exchange_player_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/utils/DateUtilsCustom.dart';

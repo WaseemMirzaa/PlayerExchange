@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_text_field.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -109,44 +110,57 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                 height: 100,
                 width: double.infinity,
                 // color: Colors.red,
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                      controller: shareController,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                child: GestureDetector(
+                  onTap: (){
+                    DatePicker.showDatePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime.now(),
+                        maxTime: DateTime(2050, 1, 1),
+                        onChanged: (date) {
+                          print('change $date');
+                        }, onConfirm: (date) {
+                          print('confirm $date');
+                        }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  },
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextFormField(
+                        controller: shareController,
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.grey, width: 0.0),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.grey, width: 0.0),
+                          ),
+                          hintText: "3 Hours",
+                          label: Text('Valid For'),
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
-                        ),
-                        hintText: "3 Hours",
-                        label: Text('Valid For'),
+                      )),
+                      SizedBox(
+                        width: 20,
                       ),
-                    )),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: TextFormField(
-                      controller: shareController,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
+                      Expanded(
+                          child: TextFormField(
+                        controller: shareController,
+                        decoration: InputDecoration(
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.grey, width: 0.0),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.grey, width: 0.0),
+                          ),
+                          hintText: "No",
+                          label: Text('Negotiable'),
                         ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 0.0),
-                        ),
-                        hintText: "No",
-                        label: Text('Negotiable'),
-                      ),
-                    )),
-                  ],
+                      )),
+                    ],
+                  ),
                 ),
               ),
               Container(

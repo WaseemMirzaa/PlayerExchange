@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
-import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
+import 'package:player_exchange/ui/screens/exchange_player/cash_offer_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
@@ -13,6 +14,7 @@ import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/ui/widgets/player_profile_widget.dart';
+import 'package:player_exchange/utils/alert_dialog_custom.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -39,6 +41,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
       mute: true,
     ),
   );
+  AppDrawerController appDrawerController = Get.find<AppDrawerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -350,7 +353,11 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                 width: MediaQuery.of(context).size.width * 0.35,
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(RosterScreen(isFromExchangeScreen: true, exchangePlayerModel:  widget.exchangePlayerModel,));
+                    if(widget.exchangePlayerModel.userId != appDrawerController.user.value.id)
+                      Get.to(RosterScreen(isFromExchangeScreen: true, exchangePlayerModel:  widget.exchangePlayerModel,));
+                    else
+                      showMessageDialog("You cannot send an offer to yourself.", context, () => {
+                      });
                   },
                   child: RichText(
                     text: TextSpan(
@@ -385,7 +392,12 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
             ),
             GestureDetector(
               onTap: () {
-                Get.to(CashOfferScreen());
+                if(widget.exchangePlayerModel.userId != appDrawerController.user.value.id)
+                  Get.to(CashOfferScreen());
+                else
+                  showMessageDialog("You cannot send an offer to yourself.", context, () => {
+
+                  });
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

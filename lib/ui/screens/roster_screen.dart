@@ -5,7 +5,7 @@ import 'package:player_exchange/controllers/roster_controller.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
-import 'package:player_exchange/ui/screens/home_tabs/exhange_screen_group_two.dart';
+import 'package:player_exchange/ui/screens/home_tabs/exchange_player_offer_screen.dart';
 import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
@@ -38,7 +38,7 @@ class _RosterScreenState extends State<RosterScreen> {
               delegate: SliverChildBuilderDelegate((_, index) {
             return InkWell(
                 onTap: () {
-                  widget.isFromExchangeScreen ? Get.to(ExchangeScreenSecond(myRoster:widget.rosterController.rosterList[index] ,
+                  widget.isFromExchangeScreen ? Get.to(ExchangePlayerOfferScreen(myRoster:widget.rosterController.rosterList[index] ,
                     exchangePlayerModel: widget.exchangePlayerModel ?? ExchangePlayerModel(),)):
                   Get.to(RosterDetailScreen(rosterModel: widget.rosterController.rosterList[index]));
                 },

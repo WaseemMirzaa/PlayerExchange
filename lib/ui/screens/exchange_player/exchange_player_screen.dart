@@ -8,7 +8,7 @@ import 'package:player_exchange/controllers/app_drawer_controller.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
-import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
+import 'package:player_exchange/ui/screens/exchange_player/cash_offer_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
@@ -22,7 +22,7 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/number_utils.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
-import 'home_tabs/exchange_screen.dart';
+import '../home_tabs/exchange_screen.dart';
 
 class ExchangePlayerScreen extends StatefulWidget {
   final RosterModel rosterModel;
@@ -358,7 +358,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
 
                   // Navigator.of(context).pushNamed('')
                 },
-                text: 'Send to Exchange Market'.tr,
+                text: 'Send to exchange Market'.tr,
               ),
             ])),
           ],

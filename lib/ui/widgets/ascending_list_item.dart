@@ -26,7 +26,7 @@ class _AscendingListItemState extends State<AscendingListItem> {
           Get.to(() => CpoDetailFromDiscovery(cpoModel: widget.rosterModel.cpoAthletes ?? CpoModel()));
         },
         child: Container(
-          height: 180,
+          height: 190,
           width: 170,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
