@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
-import 'package:player_exchange/ui/widgets/custom_text_field.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:get/get.dart';
