@@ -41,7 +41,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: customAppBar(context,
           leadingIcon: AssetsString().BackArrowIcon,
           trailing: [
-            FlatButton(
+            TextButton(
                 onPressed: () {
                   editProfileScreenController
                       .saveProfile(image, nameController.value.text, context)

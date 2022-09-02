@@ -18,11 +18,13 @@ import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
+import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../../main.dart';
 import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -304,6 +306,8 @@ class _LoginScreenState extends State<LoginScreen> {
           if (userResponse.message != null &&
               userResponse.message == 'Successfully logged in') {
 
+
+
             if(userResponse.user != null) {
               SessionManager.setUserData(userResponse.user!);
             }
@@ -332,7 +336,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           AuthErrorResponse resp = AuthErrorResponse.fromJson(e.response!.data);
 
-          print('has error ${resp.toString()}');
+          print('has error ${resp.error?.statusCode.toString()}');
 
           Fluttertoast.showToast(
               msg: resp.error?.message ?? "Invalid Credentials");
