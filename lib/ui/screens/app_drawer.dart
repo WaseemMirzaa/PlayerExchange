@@ -11,6 +11,7 @@ import 'package:player_exchange/ui/screens/Transactions/transaction_history_scre
 import 'package:player_exchange/ui/screens/authentication/auth_screen.dart';
 import 'package:player_exchange/ui/screens/authentication/login_screen.dart';
 import 'package:player_exchange/ui/screens/pdf_viewer_screen_backup.dart';
+import 'package:player_exchange/ui/screens/splash_screen.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
 import 'home_tabs/tabs_screen.dart';
@@ -163,7 +164,13 @@ class _AppDrawerState extends State<AppDrawer> {
 
               FirebaseCloudMessaging.stopNotificationService(userId: userId ?? "");
               SessionManager.setUserData(new User());
-              Get.offAll(AuthScreen());
+              Get.delete<AppDrawerController>();
+              Get.deleteAll();
+
+
+
+              Get.offAll(SplashScreen());
+             
             },
           ),
 

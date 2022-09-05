@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
@@ -8,10 +9,14 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../chat/chat_page.dart';
 import '../../../models/Exchange/exchange_player_model.dart';
+import '../../../models/auth/user_model.dart';
+import '../../../utils/session_manager.dart';
 
 class CashOfferScreen extends StatefulWidget {
   final ExchangePlayerModel exchangePlayerModel;
+
 
   const CashOfferScreen({Key? key, required this.exchangePlayerModel}) : super(key: key);
 
@@ -27,6 +32,10 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
 
   DateTime selectedDate = DateTime.now();
   String validTill = "Valid Till";
+  String? userId= "";
+  String? userName= "";
+  User? exchangeUser;
+
 
 
 
@@ -76,6 +85,21 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
     //     validTill = selectedDate.day.toString() +"-"+ selectedDate.month.toString() +"-"+ selectedDate.year.toString()  ;
     //
     //   });
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    Future<User?> user = SessionManager.getUserData();
+    await user.then((value) => {userId = value?.id?? "" , userName = value?.name ?? "" });
+
+    exchangeUser = await APIRequests.doApi_getUserProfile(widget.exchangePlayerModel.userId ?? "");
+    debugPrint(exchangeUser?.name ?? "" + "ASDA");
 
   }
 
@@ -256,7 +280,20 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                     ),
                     Expanded(
                         child: FilledButton(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  peerId: exchangeUser?.id ?? "",
+                                  currentUserId: userId ?? "",
+                                  currentUserName: userName ?? "",
+                                  peerAvatar: "",
+                                  peerNickname: exchangeUser?.name ?? "",
+                                  userAvatar: "",
+                                )));
+
+                      },
                       text: "Contact Seller",
                       reverseColor: true,
                       isFullWidth: false,

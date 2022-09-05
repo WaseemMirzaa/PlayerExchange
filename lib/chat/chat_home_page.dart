@@ -322,6 +322,8 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(
                     builder: (context) => ChatPage(
                           peerId: userChat.user?.id ?? "",
+                          currentUserId: "",
+                          currentUserName: "",
                           peerAvatar: userChat.user?.profilePicture ?? "",
                           peerNickname: userChat.user?.name ?? "",
                           userAvatar: userChat.user?.profilePicture ?? "",

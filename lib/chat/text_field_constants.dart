@@ -4,9 +4,7 @@ import 'package:player_exchange/chat/size_constants.dart';
 import 'color_constants.dart';
 
 const kTextInputDecoration = InputDecoration(
-  labelStyle: TextStyle(
-    color: AppColors.indyBlue,
-  ),
+
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(color: AppColors.indyBlue, width: 1.5),
     borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_10)),

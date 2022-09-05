@@ -9,14 +9,18 @@ import 'package:player_exchange/chat/size_constants.dart';
 import 'package:player_exchange/chat/text_field_constants.dart';
 import 'package:provider/provider.dart';
 
+import '../models/auth/user_model.dart';
 import '../utils/color_manager.dart';
 import '../utils/constants.dart';
+import '../utils/session_manager.dart';
 import 'chat_message_model.dart';
 import 'chat_provider.dart';
 import 'color_constants.dart';
 import 'common_widgets.dart';
 
 class ChatPage extends StatefulWidget {
+  final String currentUserId;
+  final String currentUserName;
   final String peerId;
   final String peerAvatar;
   final String peerNickname;
@@ -27,6 +31,8 @@ class ChatPage extends StatefulWidget {
       required this.peerNickname,
       required this.peerAvatar,
       required this.peerId,
+        required this.currentUserId,
+        required this.currentUserName,
       required this.userAvatar})
       : super(key: key);
 
@@ -35,7 +41,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  late String currentUserId;
+
 
   List<QueryDocumentSnapshot> listMessages = [];
 
@@ -54,6 +60,7 @@ class _ChatPageState extends State<ChatPage> {
 
   late ChatProvider chatProvider;
 
+
   //late AuthProvider authProvider;
 
   @override
@@ -62,10 +69,13 @@ class _ChatPageState extends State<ChatPage> {
     chatProvider = context.read<ChatProvider>();
     //authProvider = context.read<AuthProvider>();
 
+
+
     focusNode.addListener(onFocusChanged);
     scrollController.addListener(_scrollListener);
     readLocal();
   }
+
 
   _scrollListener() {
     if (scrollController.offset >= scrollController.position.maxScrollExtent &&
@@ -86,19 +96,19 @@ class _ChatPageState extends State<ChatPage> {
 
   void readLocal() {
     // if (authProvider.getFirebaseUserId()?.isNotEmpty == true) {
-       currentUserId = widget.peerId;
+    //    currentUserId = widget.peerId;
     // } else {
     //   Navigator.of(context).pushAndRemoveUntil(
     //       MaterialPageRoute(builder: (context) => const LoginPage()),
     //           (Route<dynamic> route) => false);
     // }
-    if (currentUserId.compareTo(widget.peerId) > 0) {
-      groupChatId = '$currentUserId - ${widget.peerId}';
+    if (widget.currentUserId.compareTo(widget.peerId) > 0) {
+      groupChatId = '${widget.currentUserId} - ${widget.peerId}';
     } else {
-      groupChatId = '${widget.peerId} - $currentUserId';
+      groupChatId = '${widget.peerId} - ${widget.currentUserId}';
     }
     chatProvider.updateFirestoreData(FirestoreCollections.pathUserCollection,
-        currentUserId, {FirestoreCollections.chattingWith: widget.peerId});
+        widget.currentUserId, {FirestoreCollections.chattingWith: widget.peerId});
   }
 
   Future getImage() async {
@@ -130,7 +140,7 @@ class _ChatPageState extends State<ChatPage> {
       });
     } else {
       chatProvider.updateFirestoreData(FirestoreCollections.pathUserCollection,
-          currentUserId, {FirestoreCollections.chattingWith: null});
+          widget.currentUserId, {FirestoreCollections.chattingWith: null});
     }
     return Future.value(false);
   }
@@ -159,7 +169,7 @@ class _ChatPageState extends State<ChatPage> {
     if (content.trim().isNotEmpty) {
       textEditingController.clear();
       chatProvider.sendChatMessage(
-          content, type, groupChatId, currentUserId, widget.peerId,"","");
+          content, type, groupChatId, widget.currentUserId, widget.peerId,widget.currentUserName,widget.peerNickname);
       scrollController.animateTo(0,
           duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
@@ -172,7 +182,7 @@ class _ChatPageState extends State<ChatPage> {
   bool isMessageReceived(int index) {
     if ((index > 0 &&
             listMessages[index - 1].get(FirestoreCollections.idFrom) ==
-                currentUserId) ||
+                widget.currentUserId) ||
         index == 0) {
       return true;
     } else {
@@ -184,7 +194,7 @@ class _ChatPageState extends State<ChatPage> {
   bool isMessageSent(int index) {
     if ((index > 0 &&
             listMessages[index - 1].get(FirestoreCollections.idFrom) !=
-                currentUserId) ||
+                widget.currentUserId) ||
         index == 0) {
       return true;
     } else {
@@ -197,7 +207,7 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Chatting with ${widget.peerNickname}'.trim()),
+        title: Text('${widget.peerNickname}'.trim()),
         backgroundColor: ColorManager.greenColor,
 
       ),
@@ -243,11 +253,12 @@ class _ChatPageState extends State<ChatPage> {
               child: TextField(
             focusNode: focusNode,
             textInputAction: TextInputAction.send,
+            style: TextStyle(color: Colors.black),
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.sentences,
             controller: textEditingController,
             decoration:
-                kTextInputDecoration.copyWith(hintText: 'write here...'),
+                kTextInputDecoration.copyWith(hintText: 'Message', hintStyle: TextStyle(color: Colors.black.withOpacity(0.5))),
             onSubmitted: (value) {
               onSendMessage(textEditingController.text, MessageType.text);
             },
@@ -274,7 +285,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget buildItem(int index, DocumentSnapshot? documentSnapshot) {
     if (documentSnapshot != null) {
       ChatMessages chatMessages = ChatMessages.fromDocument(documentSnapshot);
-      if (chatMessages.idFrom == currentUserId) {
+      if (chatMessages.idFrom == widget.currentUserId) {
         // right side (my message)
         return Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -285,7 +296,7 @@ class _ChatPageState extends State<ChatPage> {
                 chatMessages.type == MessageType.text
                     ? messageBubble(
                         chatContent: chatMessages.content,
-                        color: AppColors.spaceLight,
+                        color: ColorManager.greenColor,
                         textColor: AppColors.white,
                         margin: EdgeInsets.symmetric(vertical: Sizes.dimen_6),
                       )
@@ -371,7 +382,7 @@ class _ChatPageState extends State<ChatPage> {
                     ? Container(
                         clipBehavior: Clip.hardEdge,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                          borderRadius: BorderRadius.circular(Sizes.dimen_6),
                         ),
                         child: Image.network(
                           widget.peerAvatar,
@@ -408,10 +419,10 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                 chatMessages.type == MessageType.text
                     ? messageBubble(
-                        color: AppColors.burgundy,
-                        textColor: AppColors.white,
+                        color: ColorManager.buttonGreyColor.withOpacity(0.6),
+                        textColor: Colors.black,
                         chatContent: chatMessages.content,
-                        margin: EdgeInsets.only(left: Sizes.dimen_10),
+                        margin: EdgeInsets.symmetric(vertical: Sizes.dimen_10),
                       )
                     : chatMessages.type == MessageType.image
                         ? Container(

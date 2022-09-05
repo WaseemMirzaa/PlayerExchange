@@ -35,7 +35,7 @@ class ChatProvider {
     return firebaseFirestore
         .collection(FirestoreCollections.pathMessageCollection)
         .doc(groupChatId)
-        .collection(groupChatId)
+        .collection(FirestoreCollections.chatConservations)
         .orderBy(FirestoreCollections.timestamp, descending: true)
         .limit(limit)
         .snapshots();
@@ -44,7 +44,6 @@ class ChatProvider {
   Future<void> sendChatMessage(String content, int type, String groupChatId,
       String currentUserId, String peerId, String currentUserName, String peerName) async {
 
-
     Map<String, dynamic> message = <String, dynamic>{
       'senderId': currentUserId,
       'receiverId': peerId,
@@ -52,13 +51,11 @@ class ChatProvider {
       'timeStamp': DateTime.now().millisecondsSinceEpoch,
     };
 
-
-
     Map<String, dynamic> participants = <String, dynamic>{
       "senderId": currentUserId,
-      "senderName":"",
+      "senderName":currentUserName,
       "receiverId": peerId,
-      "receiverName":""
+      "receiverName":peerName
     };
 
     Map<String, dynamic> map = <String, dynamic>{
@@ -66,12 +63,12 @@ class ChatProvider {
       'lastMessage': message
     };
 
-    await FirebaseFirestore.instance.collection(FirestoreCollections.pathMessageCollection).doc(currentUserId +" - "+ peerId).set(map);
+    await FirebaseFirestore.instance.collection(FirestoreCollections.pathMessageCollection).doc(groupChatId).set(map);
 
     DocumentReference documentReference = firebaseFirestore
         .collection(FirestoreCollections.pathMessageCollection)
         .doc(groupChatId)
-        .collection(groupChatId)
+        .collection(FirestoreCollections.chatConservations)
         .doc(DateTime.now().millisecondsSinceEpoch.toString());
     ChatMessages chatMessages = ChatMessages(
         idFrom: currentUserId,

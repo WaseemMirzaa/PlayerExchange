@@ -16,6 +16,7 @@ import '../../../chat/size_constants.dart';
 import '../../../main.dart';
 import '../../../models/auth/user_model.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/session_manager.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
@@ -31,6 +32,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
   final int _limitIncrement = 20;
   String _textSearch = "";
   bool isLoading = false;
+
+  String? userId= "";
+  String? userName= "";
 
   //late String currentUserId;
 
@@ -59,8 +63,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    init();
 
     scrollController.addListener(scrollListener);
+  }
+  init() async {
+    Future<User?> user = SessionManager.getUserData();
+    await user.then((value) => {userId = value?.id?? "" , userName = value?.name ?? "" });
   }
 
   @override
@@ -137,22 +146,19 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot? documentSnapshot) {
+
+    Map<String, dynamic> data =
+    documentSnapshot?.data() as Map<String, dynamic>;
+    Map<String, dynamic> participents =
+    data['participants'] as Map<String, dynamic>;
     //final firebaseAuth = FirebaseAuth.instance;
-    if (documentSnapshot != null) {
-      Map<String, dynamic> data =
-          documentSnapshot.data() as Map<String, dynamic>;
+    if (participents["senderId"] == userId ||  participents["receiverId"] == userId) {
+
 
       Map<String, dynamic> lastMessageMap =
       data['lastMessage'] as Map<String, dynamic>;
-      Map<String, dynamic> participents =
-      data['participants'] as Map<String, dynamic>;
 
-      UserModel userChat = UserModel.fromJson(data);
-      debugPrint(userChat.user?.name ?? "");
-      // ChatUser userChat = ChatUser.fromDocument(documentSnapshot);
-      if (userChat.user?.id == "currentUserId") {
-        return const SizedBox.shrink();
-      } else {
+
         return TextButton(
           onPressed: () {
             // onPressed if (KeyboardUtils.isKeyboardShowing()) {
@@ -162,18 +168,20 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChatPage(
-                          peerId: userChat.user?.id ?? "",
-                          peerAvatar: userChat.user?.profilePicture ?? "",
-                          peerNickname: userChat.user?.name ?? "",
-                          userAvatar: userChat.user?.profilePicture ?? "",
+                          peerId: participents["senderId"],
+                          currentUserId: participents["receiverId"],
+                          currentUserName:userId  == participents["senderId"]  ? participents["senderName"]: userName,
+                          peerAvatar: "",
+                          peerNickname:userId  == participents["senderId"]  ? participents["receiverName"]: userName,
+                          userAvatar: "",
                         )));
           },
           child: ListTile(
-            leading: userChat.user?.profilePicture != null
+            leading: "".isNotEmpty
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(Sizes.dimen_30),
                     child: Image.network(
-                      userChat.user?.profilePicture ?? "",
+                      "",
                       fit: BoxFit.cover,
                       width: 50,
                       height: 50,
@@ -205,7 +213,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     size: 50,
                   ),
             title: Text(
-              participents["receiverId"] ?? "",
+              participents["senderName"] ?? "",
               style: const TextStyle(color: Colors.black),
             ),
             subtitle:Text(
@@ -214,7 +222,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             ) ,
           ),
         );
-      }
+
     } else {
       return const SizedBox.shrink();
     }
