@@ -4,9 +4,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:player_exchange/chat/size_constants.dart';
 import 'package:player_exchange/chat/text_field_constants.dart';
+import 'package:provider/provider.dart';
 
+import '../utils/color_manager.dart';
 import '../utils/constants.dart';
 import 'chat_message_model.dart';
 import 'chat_provider.dart';
@@ -21,10 +24,10 @@ class ChatPage extends StatefulWidget {
 
   const ChatPage(
       {Key? key,
-        required this.peerNickname,
-        required this.peerAvatar,
-        required this.peerId,
-        required this.userAvatar})
+      required this.peerNickname,
+      required this.peerAvatar,
+      required this.peerId,
+      required this.userAvatar})
       : super(key: key);
 
   @override
@@ -50,12 +53,13 @@ class _ChatPageState extends State<ChatPage> {
   final FocusNode focusNode = FocusNode();
 
   late ChatProvider chatProvider;
+
   //late AuthProvider authProvider;
 
   @override
   void initState() {
     super.initState();
-    //chatProvider = context.read<ChatProvider>();
+    chatProvider = context.read<ChatProvider>();
     //authProvider = context.read<AuthProvider>();
 
     focusNode.addListener(onFocusChanged);
@@ -82,7 +86,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void readLocal() {
     // if (authProvider.getFirebaseUserId()?.isNotEmpty == true) {
-    //   currentUserId = authProvider.getFirebaseUserId()!;
+       currentUserId = widget.peerId;
     // } else {
     //   Navigator.of(context).pushAndRemoveUntil(
     //       MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -131,14 +135,7 @@ class _ChatPageState extends State<ChatPage> {
     return Future.value(false);
   }
 
-  void _callPhoneNumber(String phoneNumber) async {
-    // var url = 'tel://$phoneNumber';
-    // if (await canLaunch(url)) {
-    //   await launch(url);
-    // } else {
-    //   throw 'Error Occurred';
-    // }
-  }
+
 
   void uploadImageFile() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -162,7 +159,7 @@ class _ChatPageState extends State<ChatPage> {
     if (content.trim().isNotEmpty) {
       textEditingController.clear();
       chatProvider.sendChatMessage(
-          content, type, groupChatId, currentUserId, widget.peerId);
+          content, type, groupChatId, currentUserId, widget.peerId,"","");
       scrollController.animateTo(0,
           duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {
@@ -174,8 +171,8 @@ class _ChatPageState extends State<ChatPage> {
   // checking if received message
   bool isMessageReceived(int index) {
     if ((index > 0 &&
-        listMessages[index - 1].get(FirestoreCollections.idFrom) ==
-            currentUserId) ||
+            listMessages[index - 1].get(FirestoreCollections.idFrom) ==
+                currentUserId) ||
         index == 0) {
       return true;
     } else {
@@ -186,8 +183,8 @@ class _ChatPageState extends State<ChatPage> {
   // checking if sent message
   bool isMessageSent(int index) {
     if ((index > 0 &&
-        listMessages[index - 1].get(FirestoreCollections.idFrom) !=
-            currentUserId) ||
+            listMessages[index - 1].get(FirestoreCollections.idFrom) !=
+                currentUserId) ||
         index == 0) {
       return true;
     } else {
@@ -201,27 +198,19 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Chatting with ${widget.peerNickname}'.trim()),
-        actions: [
-          IconButton(
-            onPressed: () {
-              // ProfileProvider profileProvider;
-              // profileProvider = context.read<ProfileProvider>();
-              // String callPhoneNumber =
-              //     profileProvider.getPrefs(FirestoreCollections.phoneNumber) ??
-              //         "";
-              // _callPhoneNumber(callPhoneNumber);
-            },
-            icon: const Icon(Icons.phone),
-          ),
-        ],
+        backgroundColor: ColorManager.greenColor,
+
       ),
       body: SafeArea(
         child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
+          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
           child: Column(
             children: [
               buildListMessage(),
               buildMessageInput(),
+              const SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
@@ -236,9 +225,9 @@ class _ChatPageState extends State<ChatPage> {
       child: Row(
         children: [
           Container(
-            margin:  EdgeInsets.only(right: Sizes.dimen_4),
+            margin: const EdgeInsets.only(right: Sizes.dimen_4),
             decoration: BoxDecoration(
-              color: AppColors.burgundy,
+              color: ColorManager.greenColor,
               borderRadius: BorderRadius.circular(Sizes.dimen_30),
             ),
             child: IconButton(
@@ -252,21 +241,21 @@ class _ChatPageState extends State<ChatPage> {
           ),
           Flexible(
               child: TextField(
-                focusNode: focusNode,
-                textInputAction: TextInputAction.send,
-                keyboardType: TextInputType.text,
-                textCapitalization: TextCapitalization.sentences,
-                controller: textEditingController,
-                decoration:
+            focusNode: focusNode,
+            textInputAction: TextInputAction.send,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.sentences,
+            controller: textEditingController,
+            decoration:
                 kTextInputDecoration.copyWith(hintText: 'write here...'),
-                onSubmitted: (value) {
-                  onSendMessage(textEditingController.text, MessageType.text);
-                },
-              )),
+            onSubmitted: (value) {
+              onSendMessage(textEditingController.text, MessageType.text);
+            },
+          )),
           Container(
-            margin:  EdgeInsets.only(left: Sizes.dimen_4),
+            margin: EdgeInsets.only(left: Sizes.dimen_4),
             decoration: BoxDecoration(
-              color: AppColors.burgundy,
+              color:ColorManager.greenColor,
               borderRadius: BorderRadius.circular(Sizes.dimen_30),
             ),
             child: IconButton(
@@ -295,78 +284,78 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 chatMessages.type == MessageType.text
                     ? messageBubble(
-                  chatContent: chatMessages.content,
-                  color: AppColors.spaceLight,
-                  textColor: AppColors.white,
-                  margin:  EdgeInsets.only(right: Sizes.dimen_10),
-                )
+                        chatContent: chatMessages.content,
+                        color: AppColors.spaceLight,
+                        textColor: AppColors.white,
+                        margin: EdgeInsets.symmetric(vertical: Sizes.dimen_6),
+                      )
                     : chatMessages.type == MessageType.image
-                    ? Container(
-                  margin:  EdgeInsets.only(
-                      right: Sizes.dimen_10, top: Sizes.dimen_10),
-                  child: chatImage(
-                      imageSrc: chatMessages.content, onTap: () {}),
-                )
-                    : const SizedBox.shrink(),
+                        ? Container(
+                            margin: EdgeInsets.only(
+                                right: Sizes.dimen_10, top: Sizes.dimen_10),
+                            child: chatImage(
+                                imageSrc: chatMessages.content, onTap: () {}),
+                          )
+                        : const SizedBox.shrink(),
                 isMessageSent(index)
                     ? Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Sizes.dimen_20),
-                  ),
-                  child: Image.network(
-                    widget.userAvatar,
-                    width: Sizes.dimen_40,
-                    height: Sizes.dimen_40,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext ctx, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.burgundy,
-                          value: loadingProgress.expectedTotalBytes !=
-                              null &&
-                              loadingProgress.expectedTotalBytes !=
-                                  null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                              : null,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Sizes.dimen_20),
                         ),
-                      );
-                    },
-                    errorBuilder: (context, object, stackTrace) {
-                      return const Icon(
-                        Icons.account_circle,
-                        size: 35,
-                        color: AppColors.greyColor,
-                      );
-                    },
-                  ),
-                )
+                        child: Image.network(
+                          widget.userAvatar,
+                          width: Sizes.dimen_40,
+                          height: Sizes.dimen_40,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext ctx, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.burgundy,
+                                value: loadingProgress.expectedTotalBytes !=
+                                            null &&
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, object, stackTrace) {
+                            return const Icon(
+                              Icons.account_circle,
+                              size: 35,
+                              color: AppColors.greyColor,
+                            );
+                          },
+                        ),
+                      )
                     : Container(
-                  width: 35,
-                ),
+                        width: 35,
+                      ),
               ],
             ),
             isMessageSent(index)
                 ? Container(
-              margin: const EdgeInsets.only(
-                  right: Sizes.dimen_50,
-                  top: Sizes.dimen_6,
-                  bottom: Sizes.dimen_8),
-              child: Text(
-               """ DateFormat('dd MMM yyyy, hh:mm a').format(
+                    margin: const EdgeInsets.only(
+                        right: Sizes.dimen_50,
+                        top: Sizes.dimen_6,
+                        bottom: Sizes.dimen_8),
+                    child: Text(
+                       DateFormat('dd MMM yyyy, hh:mm a').format(
                   DateTime.fromMillisecondsSinceEpoch(
                     int.parse(chatMessages.timestamp),
                   ),
-                )""",
-                style: const TextStyle(
-                    color: AppColors.lightGrey,
-                    fontSize: Sizes.dimen_12,
-                    fontStyle: FontStyle.italic),
-              ),
-            )
+                ),
+                      style: const TextStyle(
+                          color: AppColors.lightGrey,
+                          fontSize: Sizes.dimen_12,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  )
                 : const SizedBox.shrink(),
           ],
         );
@@ -378,81 +367,80 @@ class _ChatPageState extends State<ChatPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 isMessageReceived(index)
-                // left side (received message)
+                    // left side (received message)
                     ? Container(
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Sizes.dimen_20),
-                  ),
-                  child: Image.network(
-                    widget.peerAvatar,
-                    width: Sizes.dimen_40,
-                    height: Sizes.dimen_40,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext ctx, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.burgundy,
-                          value: loadingProgress.expectedTotalBytes !=
-                              null &&
-                              loadingProgress.expectedTotalBytes !=
-                                  null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                              : null,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Sizes.dimen_20),
                         ),
-                      );
-                    },
-                    errorBuilder: (context, object, stackTrace) {
-                      return const Icon(
-                        Icons.account_circle,
-                        size: 35,
-                        color: AppColors.greyColor,
-                      );
-                    },
-                  ),
-                )
+                        child: Image.network(
+                          widget.peerAvatar,
+                          width: Sizes.dimen_40,
+                          height: Sizes.dimen_40,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext ctx, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.burgundy,
+                                value: loadingProgress.expectedTotalBytes !=
+                                            null &&
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, object, stackTrace) {
+                            return const Icon(
+                              Icons.account_circle,
+                              size: 35,
+                              color: AppColors.greyColor,
+                            );
+                          },
+                        ),
+                      )
                     : Container(
-                  width: 35,
-                ),
+                        width: 35,
+                      ),
                 chatMessages.type == MessageType.text
                     ? messageBubble(
-                  color: AppColors.burgundy,
-                  textColor: AppColors.white,
-                  chatContent: chatMessages.content,
-                  margin:  EdgeInsets.only(left: Sizes.dimen_10),
-                )
+                        color: AppColors.burgundy,
+                        textColor: AppColors.white,
+                        chatContent: chatMessages.content,
+                        margin: EdgeInsets.only(left: Sizes.dimen_10),
+                      )
                     : chatMessages.type == MessageType.image
-                    ? Container(
-                  margin:  EdgeInsets.only(
-                      left: Sizes.dimen_10, top: Sizes.dimen_10),
-                  child: chatImage(
-                      imageSrc: chatMessages.content, onTap: () {}),
-                )
-                    : const SizedBox.shrink(),
+                        ? Container(
+                            margin: EdgeInsets.only(
+                                left: Sizes.dimen_10, top: Sizes.dimen_10),
+                            child: chatImage(
+                                imageSrc: chatMessages.content, onTap: () {}),
+                          )
+                        : const SizedBox.shrink(),
               ],
             ),
             isMessageReceived(index)
                 ? Container(
-              margin:  EdgeInsets.only(
-                  left: Sizes.dimen_50,
-                  top: Sizes.dimen_6,
-                  bottom: Sizes.dimen_8),
-              child: Text(
-                //TODO set date format
-                """DateFormat('dd MMM yyyy, hh:mm a').format(
+                    margin: EdgeInsets.only(
+                        left: Sizes.dimen_50,
+                        top: Sizes.dimen_6,
+                        bottom: Sizes.dimen_8),
+                    child: Text(
+                      DateFormat('dd MMM yyyy, hh:mm a').format(
                   DateTime.fromMillisecondsSinceEpoch(
                     int.parse(chatMessages.timestamp),
                   ),
-                )""",
-                style: const TextStyle(
-                    color: AppColors.lightGrey,
-                    fontSize: Sizes.dimen_12,
-                    fontStyle: FontStyle.italic),
-              ),
-            )
+                ),
+                      style: const TextStyle(
+                          color: AppColors.lightGrey,
+                          fontSize: Sizes.dimen_12,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  )
                 : const SizedBox.shrink(),
           ],
         );
@@ -466,37 +454,37 @@ class _ChatPageState extends State<ChatPage> {
     return Flexible(
       child: groupChatId.isNotEmpty
           ? StreamBuilder<QuerySnapshot>(
-          stream: chatProvider.getChatMessage(groupChatId, _limit),
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
-              listMessages = snapshot.data!.docs;
-              if (listMessages.isNotEmpty) {
-                return ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: snapshot.data?.docs.length,
-                    reverse: true,
-                    controller: scrollController,
-                    itemBuilder: (context, index) =>
-                        buildItem(index, snapshot.data?.docs[index]));
-              } else {
-                return const Center(
-                  child: Text('No messages...'),
-                );
-              }
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.burgundy,
-                ),
-              );
-            }
-          })
+              stream: chatProvider.getChatMessage(groupChatId, _limit),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  listMessages = snapshot.data!.docs;
+                  if (listMessages.isNotEmpty) {
+                    return ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: snapshot.data?.docs.length,
+                        reverse: true,
+                        controller: scrollController,
+                        itemBuilder: (context, index) =>
+                            buildItem(index, snapshot.data?.docs[index]));
+                  } else {
+                    return const Center(
+                      child: Text('No messages...'),
+                    );
+                  }
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.burgundy,
+                    ),
+                  );
+                }
+              })
           : const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.burgundy,
-        ),
-      ),
+              child: CircularProgressIndicator(
+                color: AppColors.burgundy,
+              ),
+            ),
     );
   }
 }

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:player_exchange/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utils/constants.dart';
 import 'chat_message_model.dart';
 
 class ChatProvider {
@@ -14,8 +14,8 @@ class ChatProvider {
 
   ChatProvider(
       {required this.prefs,
-        required this.firebaseStorage,
-        required this.firebaseFirestore});
+      required this.firebaseStorage,
+      required this.firebaseFirestore});
 
   UploadTask uploadImageFile(File image, String filename) {
     Reference reference = firebaseStorage.ref().child(filename);
@@ -41,8 +41,33 @@ class ChatProvider {
         .snapshots();
   }
 
-  void sendChatMessage(String content, int type, String groupChatId,
-      String currentUserId, String peerId) {
+  Future<void> sendChatMessage(String content, int type, String groupChatId,
+      String currentUserId, String peerId, String currentUserName, String peerName) async {
+
+
+    Map<String, dynamic> message = <String, dynamic>{
+      'senderId': currentUserId,
+      'receiverId': peerId,
+      'messageContent': content,
+      'timeStamp': DateTime.now().millisecondsSinceEpoch,
+    };
+
+
+
+    Map<String, dynamic> participants = <String, dynamic>{
+      "senderId": currentUserId,
+      "senderName":"",
+      "receiverId": peerId,
+      "receiverName":""
+    };
+
+    Map<String, dynamic> map = <String, dynamic>{
+      'participants': participants,
+      'lastMessage': message
+    };
+
+    await FirebaseFirestore.instance.collection(FirestoreCollections.pathMessageCollection).doc(currentUserId +" - "+ peerId).set(map);
+
     DocumentReference documentReference = firebaseFirestore
         .collection(FirestoreCollections.pathMessageCollection)
         .doc(groupChatId)
