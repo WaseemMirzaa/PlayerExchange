@@ -11,7 +11,7 @@ import 'package:player_exchange/utils/session_manager.dart';
 class StripePayment {
   //Renovision Test key
   // static final String primaryKey = 'pk_test_51KehMQGOzjebkLdAlkU4aJTvqoPkBfexDTDNjlzIiSdAFlXdbytudxQiZPUI0NbXChO3KHOuV1me1BhtWNcgoXRm000Rw07IIS';
-  //Player Exchange TEST KEY
+  //Player exchange TEST KEY
   static final String primaryKey = 'pk_test_51LD9YUF4ui5DHbUROFlf0BZnjORIhXcXoCUbmpYLOMkz0Cg8oUSS2RZpUVakikIvskQPRAFZ843tNcsQbqo9DaaS00YegsG5r7';
 
 

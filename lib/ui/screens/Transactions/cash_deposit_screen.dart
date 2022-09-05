@@ -154,8 +154,12 @@ class _CashDepositScreenState extends State<CashDepositScreen> {
                     Fluttertoast.showToast(msg: "Unable to update wallet.");
                     LoadingIndicatorDialog().dismiss();
                     //Revert transaction
-                    if (transactionModel != null)
+                    if (transactionModel != null) {
                       await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
+                      //Revert Wallet
+                      total = (user.walletAmount ?? 0.0) - purchaseAmt.value;
+                      user.walletAmount = total;
+                    }
                   } else {
                     //Database transaction is recorded now try Stripe Payment
 

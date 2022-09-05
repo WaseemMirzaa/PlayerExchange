@@ -9,7 +9,7 @@ import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
-import 'package:player_exchange/ui/screens/exchange_player_screen.dart';
+import 'package:player_exchange/ui/screens/exchange_player/exchange_player_screen.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';

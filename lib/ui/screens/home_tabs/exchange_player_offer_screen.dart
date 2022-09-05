@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
-import 'package:player_exchange/ui/screens/cash_offer_screen.dart';
+import 'package:player_exchange/ui/screens/exchange_player/cash_offer_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
@@ -11,16 +11,16 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ExchangeScreenSecond extends StatefulWidget {
-  ExchangeScreenSecond({Key? key, required this.myRoster, required this.exchangePlayerModel}) : super(key: key);
+class ExchangePlayerOfferScreen extends StatefulWidget {
+  ExchangePlayerOfferScreen({Key? key, required this.myRoster, required this.exchangePlayerModel}) : super(key: key);
   RosterModel myRoster;
   ExchangePlayerModel exchangePlayerModel;
 
   @override
-  _ExchangeScreenSecondState createState() => _ExchangeScreenSecondState();
+  _ExchangePlayerOfferScreenState createState() => _ExchangePlayerOfferScreenState();
 }
 
-class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
+class _ExchangePlayerOfferScreenState extends State<ExchangePlayerOfferScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon,title: 'eXchange'),
@@ -101,7 +101,7 @@ class _ExchangeScreenSecondState extends State<ExchangeScreenSecond> {
         ],),
         Expanded(child: Container()),
         FilledButton(onTap: (){
-          Get.to(CashOfferScreen());
+          Get.to(CashOfferScreen(exchangePlayerModel: widget.exchangePlayerModel,));
         },text: 'send',isFullWidth:false),
         SizedBox(height: 20.h,),
         Text(

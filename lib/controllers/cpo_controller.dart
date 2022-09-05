@@ -55,7 +55,16 @@ class CPOController extends GetxController {
       }
     }
 
+    var sortMapByValue;
+    try {
+      sortMapByValue = Map.fromEntries(
+          tierAthletesMap.value.entries.toList()
+            ..sort((e1, e2) => e1.key.compareTo(e2.key)));
 
+      tierAthletesMap.value = sortMapByValue;
+    } catch (e) {
+      print(e);
+    }
     for(String key in tierAthletesMap.keys){
       bool keyChanged = true;
       for(CpoModel cpoModel in tierAthletesMap[key]){

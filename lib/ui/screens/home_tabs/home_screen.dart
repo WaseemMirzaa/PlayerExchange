@@ -133,69 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 23,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
-                  child: Container(
-                    height: 150,
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-                    color: ColorManager.chartBackgroundColor,
-                    child: Chart(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
-                  child: Row(
-                    children: [
-                      Text(
-                        'live'.tr,
-                        style: TextStyle(
-                            color: ColorManager.greenColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: StyleManager().smallFontSize),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        '1Q'.tr,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: StyleManager().smallFontSize),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        '2Q'.tr,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: StyleManager().smallFontSize),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        '3Q'.tr,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: StyleManager().smallFontSize),
-                      ),
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        '4Q'.tr,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: StyleManager().smallFontSize),
-                      ),
-                    ],
-                  ),
-                ),
+                HeaderChartWidget(),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                   child: CustomDivider(
@@ -360,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       // AscendingListItem()
                       SizedBox(
-                        height: 180,
+                        height: 190,
                         child: ListView.builder(
                           itemBuilder: (_, index) {
                             return AscendingListItem(
@@ -380,5 +318,88 @@ class _HomeScreenState extends State<HomeScreen> {
             ]),
           ));
     });
+  }
+}
+
+class HeaderChartWidget extends StatelessWidget {
+  const HeaderChartWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 16, right: 16),
+          child: Container(
+            height: 150,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            color: ColorManager.chartBackgroundColor,
+            child: Chart(),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
+          child: Row(
+            children: [
+              // Text(
+              //   'live'.tr,
+              //   style: TextStyle(
+              //       color: ColorManager.greenColor,
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: StyleManager().smallFontSize),
+              // ),
+              // SizedBox(
+              //   width: 50,
+              // ),
+              InkWell(
+                onTap: ((){
+
+                }),
+                child: Text(
+                  'Days'.tr,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: StyleManager().smallFontSize),
+                ),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              Text(
+                'Weeks'.tr,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: StyleManager().smallFontSize),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              Text(
+                'Months'.tr,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: StyleManager().smallFontSize),
+              ),
+              SizedBox(
+                width: 50,
+              ),
+              Text(
+                'Years'.tr,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: StyleManager().smallFontSize),
+              ),
+            ],
+          ),
+        ),
+
+      ],
+    );
   }
 }

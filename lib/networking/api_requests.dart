@@ -1,8 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get_utils/src/extensions/dynamic_extensions.dart';
 import 'package:http/http.dart' as http;
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/Exchange/offer.dart';
+import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
@@ -99,27 +104,30 @@ class APIRequests {
     }
   }
 
-  static Future<String> doApi_updateUserProfile(String id, User user) async {
-    var completeUrl = Api.baseURL + 'users/' + id;
-    try {
-      var response = await client.patch(Uri.parse(completeUrl),
-          //   body: jsonEncode(<String, String>{
-          // 'name': user.name ?? "",
-          body: jsonEncode(user),
-          headers: header);
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        var jsonString = response.body;
-        // Fluttertoast.showToast(msg: "Profile Updated");
-        return Api.SUCCESS;
-      } else {
-        //show error message
-        Fluttertoast.showToast(msg: "Could not update profile.");
-      }
-    } catch (e) {
-      print(e);
-    }
-    return Api.ERROR;
-  }
+
+
+
+  // static Future<String> doApi_updateUserProfile(String id, User user) async {
+  //   var completeUrl = Api.baseURL + 'users/' + id;
+  //   try {
+  //     var response = await client.patch(Uri.parse(completeUrl),
+  //         //   body: jsonEncode(<String, String>{
+  //         // 'name': user.name ?? "",
+  //         body: jsonEncode(user),
+  //         headers: header);
+  //     if (response.statusCode == 200 || response.statusCode == 204) {
+  //       var jsonString = response.body;
+  //       // Fluttertoast.showToast(msg: "Profile Updated");
+  //       return Api.SUCCESS;
+  //     } else {
+  //       //show error message
+  //       Fluttertoast.showToast(msg: "Could not update profile.");
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return Api.ERROR;
+  // }
 
   //playerId is CpoModel.id not CpoModel.playerId
   static Future<FavoriteModel?> doApi_addToWatchList(String userId, String playerId) async {
@@ -428,4 +436,97 @@ class APIRequests {
     }
     return false;
   }
+
+
+
+
+
+
+
+  static Future<String> doApi_updateUserProfile(String id, User user) async {
+    var completeUrl = Api.baseURL + 'users/' + id;
+
+
+      var dio = Dio();
+      try {
+        final response = await dio.patch(completeUrl,
+            data: user.toJson(),
+            options: Options(headers: {
+              HttpHeaders.contentTypeHeader: "application/json",
+            }));
+
+        print ("updateUserProfile response: " + response.toString());
+        if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+          return Api.SUCCESS;
+        }
+      } on DioError catch (e) {
+        e.printError();
+
+        if (e.response != null) {
+          print('has response' + e.response?.data ?? "");
+          Fluttertoast.showToast(msg: "Could not update profile.");
+        } else {
+          Fluttertoast.showToast(msg: e.response.toString());
+        }
+      }
+    return Api.ERROR;
+
+  }
+
+
+  static Future<Offer?> doApi_postOffer(Offer offer) async {
+    var completeUrl = Api.baseURL + 'offers';
+
+    var dio = Dio();
+    try {
+      final response = await dio.post(completeUrl,
+          data: offer.toJson(),
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }));
+
+      print ("offer response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return Offer.fromJson(response.data);
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not update profile.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return null;
+
+  }
+
+
+  static Future<List<Offer?>> doApi_getOffer(Offer offer) async {
+    var completeUrl = Api.baseURL + 'offers';
+
+    var dio = Dio();
+    try {
+      final response = await dio.get(completeUrl,);
+
+      print ("offer response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return offerModelListFromJson(response.data);
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not update profile.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return [];
+
+  }
+
 }

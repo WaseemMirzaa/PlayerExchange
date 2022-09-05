@@ -173,21 +173,22 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                   total =  (user.walletAmount ?? 0.0) - withdrawAmount.value;
 
                   user.walletAmount = total;
-
                   String value = await APIRequests.doApi_updateUserProfile(user.id!, user);
 
                   if (value == Api.ERROR) {
                     stripePayInProgress = false;
                     Fluttertoast.showToast(msg: "Unable to update wallet.");
                     //Revert transaction
-                    if (transactionModel != null)
+                    if (transactionModel != null) {
                       await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
+                      //Revert Wallet
+                      total = (user.walletAmount ?? 0.0) + withdrawAmount.value;
+                      user.walletAmount = total;
+                    }
                   } else {
                     //Database transaction is recorded now try Stripe Payment
-                    User? user = await SessionManager.getUserData();
 
-
-                    String accoountId = user!.accountId ?? "";
+                    String accoountId = user.accountId ?? "";
                     StripePayment(context).payoutOrder(accoountId, StripePayment.convertUsdToCent(withdrawAmount.value.toString())).then((value) async => {
                       stripePayInProgress = false,
                       if (value)
@@ -208,6 +209,8 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                           //Revert Wallet
                           total = (user.walletAmount ?? 0.0) + withdrawAmount.value,
                           user.walletAmount = total,
+                          // await Future<void>.delayed(Duration(seconds: 1)),
+
                           await APIRequests.doApi_updateUserProfile(user.id!, user),
 
                         }
