@@ -101,7 +101,7 @@ class _ExchangePlayerOfferScreenState extends State<ExchangePlayerOfferScreen> {
         ],),
         Expanded(child: Container()),
         FilledButton(onTap: (){
-          Get.to(CashOfferScreen());
+          Get.to(CashOfferScreen(exchangePlayerModel: widget.exchangePlayerModel,));
         },text: 'send',isFullWidth:false),
         SizedBox(height: 20.h,),
         Text(

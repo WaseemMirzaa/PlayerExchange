@@ -88,6 +88,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                               Text(
                                 '\$ ${widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare ?? ""}',
                                 style: TextStyle(
+                                    fontSize: StyleManager().mediumFontSize,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -392,8 +393,9 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
             ),
             GestureDetector(
               onTap: () {
-                if(widget.exchangePlayerModel.userId != appDrawerController.user.value.id)
-                  Get.to(CashOfferScreen());
+                if(widget.exchangePlayerModel.userId != appDrawerController.user.value.id){
+                  Get.to(CashOfferScreen(exchangePlayerModel: widget.exchangePlayerModel,));
+                }
                 else
                   showMessageDialog("You cannot send an offer to yourself.", context, () => {
 
