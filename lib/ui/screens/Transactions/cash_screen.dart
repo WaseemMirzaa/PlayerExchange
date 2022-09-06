@@ -34,6 +34,7 @@ class _CashScreenState extends State<CashScreen> {
   @override
   void initState() {
     getTransactions();
+
   }
 
   Future<void> getUserData() async {
@@ -47,7 +48,11 @@ class _CashScreenState extends State<CashScreen> {
     for(TransactionModel transactionModel in transactionsList){
       totalCashout.value += transactionModel.type == TransactionConstants.TRANSACTION_TYPE_WITHDRAW ? transactionModel.amount ?? 0 : 0;
     }
+    setState(() {
+
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -193,8 +193,7 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                       stripePayInProgress = false,
                       if (value)
                         {
-                          setState(() {
-                          }),
+
                         showMessageDialog("You have successfully withdrew \$${withdrawAmount}", context,  () =>{
                           Get.back(result: "back withdraw")
 
