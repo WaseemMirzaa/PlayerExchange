@@ -164,13 +164,8 @@ class _AppDrawerState extends State<AppDrawer> {
 
               FirebaseCloudMessaging.stopNotificationService(userId: userId ?? "");
               SessionManager.setUserData(new User());
-              Get.delete<AppDrawerController>();
-              Get.deleteAll();
+              Get.offAll(AuthScreen());
 
-
-
-              Get.offAll(SplashScreen());
-             
             },
           ),
 

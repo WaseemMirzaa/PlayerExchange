@@ -95,13 +95,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void readLocal() {
-    // if (authProvider.getFirebaseUserId()?.isNotEmpty == true) {
-    //    currentUserId = widget.peerId;
-    // } else {
-    //   Navigator.of(context).pushAndRemoveUntil(
-    //       MaterialPageRoute(builder: (context) => const LoginPage()),
-    //           (Route<dynamic> route) => false);
-    // }
+
     if (widget.currentUserId.compareTo(widget.peerId) > 0) {
       groupChatId = '${widget.currentUserId} - ${widget.peerId}';
     } else {

@@ -51,8 +51,6 @@ class StripePayment {
           .initPaymentSheet(
               paymentSheetParameters: SetupPaymentSheetParameters(
                   paymentIntentClientSecret: intentData.data!.clientSecret!,
-                  applePay: true,
-                  googlePay: true,
                   customerId: user!.stripeCustomerId ?? "",
                   testEnv: true,
                   style: ThemeMode.dark,

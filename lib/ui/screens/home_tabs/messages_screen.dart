@@ -151,12 +151,27 @@ class _MessagesScreenState extends State<MessagesScreen> {
     documentSnapshot?.data() as Map<String, dynamic>;
     Map<String, dynamic> participents =
     data['participants'] as Map<String, dynamic>;
-    //final firebaseAuth = FirebaseAuth.instance;
     if (participents["senderId"] == userId ||  participents["receiverId"] == userId) {
-
 
       Map<String, dynamic> lastMessageMap =
       data['lastMessage'] as Map<String, dynamic>;
+      String? senderId;
+      String? receiverId;
+      String? senderName;
+      String? receiverName;
+      receiverId = participents["receiverId"];
+      senderId = participents["senderId"];
+      senderName = participents["senderName"];
+      receiverName = participents["receiverName"];
+
+
+      if (receiverId == userId) {
+        receiverId = senderId;
+        senderId = userId;
+        receiverName = senderName;
+        senderName = userName;
+
+      }
 
 
         return TextButton(
@@ -168,11 +183,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChatPage(
-                          peerId: participents["senderId"],
-                          currentUserId: participents["receiverId"],
-                          currentUserName:userId  == participents["senderId"]  ? participents["senderName"]: userName,
+                          peerId: receiverId ?? "",
+                          currentUserId: senderId ?? "",
+                          currentUserName:senderName ?? "",
                           peerAvatar: "",
-                          peerNickname:userId  == participents["senderId"]  ? participents["receiverName"]: userName,
+                          peerNickname: receiverName ?? "",
                           userAvatar: "",
                         )));
           },
@@ -213,7 +228,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     size: 50,
                   ),
             title: Text(
-              participents["senderName"] ?? "",
+              receiverName.toString(),
               style: const TextStyle(color: Colors.black),
             ),
             subtitle:Text(
