@@ -18,6 +18,7 @@ import 'package:player_exchange/models/teams/team_players_response.dart';
 import 'package:player_exchange/models/teams/teams_response.dart';
 import 'package:player_exchange/models/transactions/transaction_model.dart';
 
+import '../models/chart_response_model.dart';
 import 'api.dart';
 
 class APIRequests {
@@ -504,7 +505,7 @@ class APIRequests {
   }
 
 
-  static Future<List<Offer?>> doApi_getOffer(Offer offer) async {
+  static Future<List<Offer?>> doApi_getOffers(Offer offer) async {
     var completeUrl = Api.baseURL + 'offers';
 
     var dio = Dio();
@@ -521,6 +522,60 @@ class APIRequests {
       if (e.response != null) {
         print('has response' + e.response?.data );
         Fluttertoast.showToast(msg: "Could not update profile.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return [];
+
+  }
+
+  static Future<List<ChartResponseModel?>> doApi_getChartData_Player(String playerId, String duration,int count) async {
+    //duration = day, week, month, year
+    //count is number of any duration
+    var completeUrl = Api.baseURL + 'cpo-athletes/${playerId}/athlete-share-price-trends-data?duration=${duration}&count=${count}';
+
+    var dio = Dio();
+    try {
+      final response = await dio.get(completeUrl,);
+
+      print ("response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return chartModelListFromJson(response.data);
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not update chart.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return [];
+
+  }
+
+  static Future<List<ChartResponseModel?>> doApi_getChartData_User(String userId, String duration,int count) async {
+    //duration = day, week, month, year
+    //count is number of any duration
+    var completeUrl = Api.baseURL + 'cpo-athletes/${userId}/athlete-share-price-trends-data?duration=${duration}&count=${count}';
+
+    var dio = Dio();
+    try {
+      final response = await dio.get(completeUrl,);
+
+      print ("response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return chartModelListFromJson(response.data);
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not update chart.");
       } else {
         Fluttertoast.showToast(msg: e.response.toString());
       }

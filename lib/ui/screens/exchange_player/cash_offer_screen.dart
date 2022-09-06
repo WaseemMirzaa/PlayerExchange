@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
-import 'package:get/get.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../chat/chat_page.dart';
 import '../../../models/Exchange/exchange_player_model.dart';
+import '../../../models/Exchange/offer.dart';
 import '../../../models/auth/user_model.dart';
 import '../../../utils/session_manager.dart';
 
@@ -31,61 +34,30 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
   var isNegotiableController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
-  String validTill = "Valid Till";
+  String validTill = "";
   String? userId= "";
   String? userName= "";
   User? exchangeUser;
 
 
-
-
-
+  List<String> list = <String>["No", "Yes"];
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked;
-    DatePicker.showDatePicker(context,
-        showTitleActions: true,
-        minTime: DateTime.now(),
-        maxTime: DateTime(2050, 1, 1),
-        onChanged: (date) {
-          print('change $date');
-        }, onConfirm: (date) {
-          print('confirm $date');
-          picked = date;
-          if (picked != null && picked != selectedDate) {
-            //   setState(() {
-            //     selectedDate = picked;
-            //     validTill = selectedDate.day.toString() +"-"+ selectedDate.month.toString() +"-"+ selectedDate.year.toString()  ;
-            //
-            //   });
-          }
+    DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {
+      print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+    }, onConfirm: (date) {
+      print('confirm $date');
 
-        }, currentTime: DateTime.now(), locale: LocaleType.en);
-
-
-    // final DateTime? picked = await showDatePicker(
-    //     context: context,
-    //     builder: (context, child){
-    //       return Theme(
-    //           data: Theme.of(context).copyWith(
-    //             colorScheme: ColorScheme.light(
-    //
-    //               onSurface: Colors.black, // body text color
-    //             ),
-    //           ), child: child!);
-    //     },
-    //
-    //     initialDate: selectedDate,
-    //     firstDate: DateTime.now(),
-    //     lastDate: DateTime(2101));
-    //
-    // if (picked != null && picked != selectedDate) {
-    //   setState(() {
-    //     selectedDate = picked;
-    //     validTill = selectedDate.day.toString() +"-"+ selectedDate.month.toString() +"-"+ selectedDate.year.toString()  ;
-    //
-    //   });
-
+      picked = date;
+      if (picked != null && picked != selectedDate) {
+        setState(() {
+          selectedDate = picked!;
+          validTill = date.toString();
+          // validTill = selectedDate.day.toString() +"-"+ selectedDate.month.toString() +"-"+ selectedDate.year.toString()  ;
+        });
+      }
+    }, currentTime: DateTime.now(), locale: LocaleType.en);
   }
   @override
   void initState() {
@@ -105,6 +77,10 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = list.first;
+    shareController.text = widget.exchangePlayerModel.shares.toString();
+    offerAmountController.text = widget.exchangePlayerModel.askingAmount.toString();
+
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Padding(
@@ -127,17 +103,18 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                   children: [
                     Expanded(
                         child: TextFormField(
+                          readOnly: true,
+
+                          style: const TextStyle(color: Colors.black),
                       controller: shareController,
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        hintText: "2",
+                        hintText: "100",
                         label: Text('Total Share'),
                       ),
                     )),
@@ -146,18 +123,17 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                     ),
                     Expanded(
                         child: TextFormField(
-                      controller: shareController,
+                      style: const TextStyle(color: Colors.black),
+                      controller: offerAmountController,
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
                         focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
+                          borderSide: const BorderSide(color: Colors.grey, width: 1.0),
                         ),
-                        hintText: "\$45",
-                        label: Text('Offer Amount'),
+                        // hintText: "\0",
+                        label: Text('Offer Amount (USD)'),
                       ),
                     )),
                     // Expanded(child: CustomTextField(textEditingController: shareController,hint: '2',title: 'Total Shares',)),
@@ -168,53 +144,76 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
               SizedBox(
                 height: 25.h,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  Text(
-                    'Per Share',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Text(
-                    '\$22.50',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: StyleManager().mediumFontSize),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Per Share (Current Value)',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        SizedBox(
+                          height: 10.h,
+                        ),
+                        Text(
+                          "\$" + (widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare.toString() ?? ""),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: StyleManager().mediumFontSize),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 20.h,
               ),
               Container(
                 height: 100,
                 width: double.infinity,
                 // color: Colors.red,
-                child:
-                Row(
+                child: Row(
                   children: [
                     Expanded(
-                      child: GestureDetector(
-                          onTap: (){
-                            _selectDate(context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: Container(
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color:  Colors.grey)
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Valid For',
+                            style: TextStyle(color: Colors.grey),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                _selectDate(context);
+                              },
                               child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(validTill, style: TextStyle(fontSize: 15, color: Colors.grey),)),
-                              ),
-                            ),
-                          )
+                                padding: const EdgeInsets.all(0.0),
+                                child: Container(
+                                  height: 64,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(color: Colors.grey)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          validTill,
+                                          // "",
+                                          style: TextStyle(fontSize: 15, color: Colors.black),
+                                        )),
+                                  ),
+                                ),
+                              )),
+                        ],
                       ),
                     ),
 
@@ -238,21 +237,78 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                       width: 20,
                     ),
                     Expanded(
-                        child: TextFormField(
-                      controller: shareController,
-                      decoration: InputDecoration(
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide:
-                              const BorderSide(color: Colors.grey, width: 1.0),
-                        ),
-                        hintText: "No",
-                        label: Text('Negotiable'),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Negotiable',
+                            style: TextStyle(color: Colors.grey),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          DropdownButtonFormField(
+                            hint: Text('Negotiable'),
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                dropdownValue = value!;
+                              });
+                            },
+                            items: list.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            value: dropdownValue,
+                          ),
+                        ],
                       ),
-                    )),
+
+                      // DropdownButton<String>(
+                      //   icon: const Icon(Icons.keyboard_arrow_down),
+                      //   elevation: 16,
+                      //   style: const TextStyle(color: Colors.black),
+                      //   // underline: Container(
+                      //   //   height: 2,
+                      //   //   color: Colors.deepPurpleAccent,
+                      //   // ),
+                      //   onChanged: (String? value) {
+                      //     // This is called when the user selects an item.
+                      //     setState(() {
+                      //       dropdownValue = value!;
+                      //     });
+                      //   },
+                      //   items: list.map<DropdownMenuItem<String>>((String value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Text(value),
+                      //     );
+                      //   }).toList(),
+                      // ),
+
+                      //     TextFormField(
+                      //   controller: shareController,
+                      //   decoration: InputDecoration(
+                      //     enabledBorder: const OutlineInputBorder(
+                      //       borderSide:
+                      //           const BorderSide(color: Colors.grey, width: 1.0),
+                      //     ),
+                      //     focusedBorder: const OutlineInputBorder(
+                      //       borderSide:
+                      //           const BorderSide(color: Colors.grey, width: 1.0),
+                      //     ),
+                      //     hintText: "No",
+                      //     label: Text('Negotiable'),
+                      //   ),
+                      // )
+                    ),
                   ],
                 ),
               ),
@@ -265,8 +321,19 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                     Expanded(
                         child: FilledButton(
                       onTap: () {
-                        int count = 2;
-                        Navigator.of(context).popUntil((_) => count-- <= 0);
+                        // int count = 2;
+                        // Navigator.of(context).popUntil((_) => count-- <= 0);
+                        if(offerAmountController.text.isEmpty){
+                          Fluttertoast.showToast(msg: "Offer Amount cannot be empty.");
+                          return;
+                        }
+                        if(validForController.text.isEmpty){
+                          Fluttertoast.showToast(msg: "Please select Valid For.");
+                          return;
+                        }
+
+                        APIRequests.doApi_postOffer(new Offer());
+
                       },
                       text: "Send Offer",
                       reverseColor: true,
@@ -305,7 +372,9 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.h,),
+              SizedBox(
+                height: 20.h,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -319,7 +388,9 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 40.h,),
+              SizedBox(
+                height: 40.h,
+              ),
             ],
           ),
         ),
