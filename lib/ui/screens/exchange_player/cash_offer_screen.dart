@@ -34,13 +34,11 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
   var isNegotiableController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
-  String validTill = "Valid Till";
+  String validTill = "";
   String? userId= "";
   String? userName= "";
   User? exchangeUser;
 
-
-  String validTill = "";
 
   List<String> list = <String>["No", "Yes"];
 
