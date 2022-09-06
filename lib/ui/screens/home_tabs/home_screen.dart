@@ -20,6 +20,8 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../widgets/graph.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -322,85 +324,4 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HeaderChartWidget extends StatelessWidget {
-  const HeaderChartWidget({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Container(
-            height: 150,
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            color: ColorManager.chartBackgroundColor,
-            child: Chart(),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
-          child: Row(
-            children: [
-              // Text(
-              //   'live'.tr,
-              //   style: TextStyle(
-              //       color: ColorManager.greenColor,
-              //       fontWeight: FontWeight.w500,
-              //       fontSize: StyleManager().smallFontSize),
-              // ),
-              // SizedBox(
-              //   width: 50,
-              // ),
-              InkWell(
-                onTap: ((){
-
-                }),
-                child: Text(
-                  'Days'.tr,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: StyleManager().smallFontSize),
-                ),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Text(
-                'Weeks'.tr,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: StyleManager().smallFontSize),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Text(
-                'Months'.tr,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: StyleManager().smallFontSize),
-              ),
-              SizedBox(
-                width: 50,
-              ),
-              Text(
-                'Years'.tr,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: StyleManager().smallFontSize),
-              ),
-            ],
-          ),
-        ),
-
-      ],
-    );
-  }
-}
