@@ -14,6 +14,8 @@ import 'package:player_exchange/ui/screens/home_tabs/profile_screen.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 
+import '../../../chat/chat_home_page.dart';
+
 class TabsScreen extends StatefulWidget {
   static final String BottomNavigationSelectionKey =
       'BottomNavigationSelectionKey';

@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(360, 690));
+    ScreenUtil.init(context, designSize:  Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height));
     // ScreenUtil.init(
     //   BoxConstraints(
     //       maxWidth: MediaQuery.of(context).size.width,
@@ -53,8 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // );
     return Scaffold(
       body: Container(
-        width: 200,
-        height: 100,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: InkWell(
           onTap: () {
             // if (Get.isDarkMode)

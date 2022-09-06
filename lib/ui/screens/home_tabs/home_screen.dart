@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     homeScreenController.checkAndUpdateStripeCustomerId(context);
     homeScreenController.rosterController.getRoster();
+    appDrawerController.getUserData();
   }
 
   @override
@@ -281,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 230,
+                  height: 240,
                   // width: MediaQuery.of(context).size.width,
                   color: ColorManager.chartBackgroundColor,
                   child: Column(

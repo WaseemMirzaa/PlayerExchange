@@ -9,20 +9,28 @@ class UserModel {
   UserModel({
     String? message,
     String? token,
+    String? fcmToken,
+
     User? user,}){
     _message = message;
     _token = token;
     _user = user;
+    _fcmToken = fcmToken;
+
   }
+
+  String? get fcmToken => _fcmToken;
 
   UserModel.fromJson(dynamic json) {
     _message = json['message'];
     _token = json['token'];
+    _fcmToken = json['_fcmToken'];
     _user = json['user'] != null ? User.fromJson(json['user']) : null;
   }
   String? _message;
   String? _token;
   User? _user;
+  String? _fcmToken;
   UserModel copyWith({  String? message,
     String? token,
     User? user,
@@ -38,6 +46,7 @@ class UserModel {
     final map = <String, dynamic>{};
     map['message'] = _message;
     map['token'] = _token;
+    map['fcmToken'] = _fcmToken;
     if (_user != null) {
       map['user'] = _user?.toJson();
     }

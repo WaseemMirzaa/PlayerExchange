@@ -1,11 +1,22 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_text_field.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../chat/chat_page.dart';
+import '../../../chat/size_constants.dart';
+import '../../../main.dart';
+import '../../../models/auth/user_model.dart';
+import '../../../utils/constants.dart';
+import '../../../utils/session_manager.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
@@ -15,6 +26,22 @@ class MessagesScreen extends StatefulWidget {
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
+  final ScrollController scrollController = ScrollController();
+
+  int _limit = 20;
+  final int _limitIncrement = 20;
+  String _textSearch = "";
+  bool isLoading = false;
+
+  String? userId= "";
+  String? userName= "";
+
+  //late String currentUserId;
+
+  Debouncer searchDebouncer = Debouncer();
+  StreamController<bool> buttonClearController = StreamController<bool>();
+  TextEditingController searchTextEditingController = TextEditingController();
+
   final YoutubePlayerController youtubeController = YoutubePlayerController(
     initialVideoId: 'NG6pvXpnIso',
     flags: const YoutubePlayerFlags(
@@ -22,6 +49,28 @@ class _MessagesScreenState extends State<MessagesScreen> {
       mute: true,
     ),
   );
+
+  void scrollListener() {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      setState(() {
+        _limit += _limitIncrement;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+
+    scrollController.addListener(scrollListener);
+  }
+  init() async {
+    Future<User?> user = SessionManager.getUserData();
+    await user.then((value) => {userId = value?.id?? "" , userName = value?.name ?? "" });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,29 +86,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              /*Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,vertical: 10.h
-                ),
-                height: 40.h,
-                decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(100)
-                ),
-                child : const TextField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.search,color: Colors.black,),
-                    hintText: "Search",
-                    hintStyle: TextStyle(
-                        color: Colors.black
-                    ),
-                    contentPadding: EdgeInsets.symmetric(vertical:5.0),
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                ),
-              ),*/
               CustomTextField(
                 hintText: 'Search',
                 controller: TextEditingController(),
@@ -69,144 +95,151 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 ),
                 isRoundedCorner: true,
               ),
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 0,
-                  shrinkWrap: true,
-                  // scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, int position) {
-                    return Container(
-                        // decoration: BoxDecoration(
-                        //     border: Border(
-                        //         bottom: BorderSide(color: HexToColor(MyConstants.borderClr))
-                        //     )
-                        // ),
-                        height: 80,
-                        child: Row(
-                          children: [
-                            Stack(
-                              children: [
-                                CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundImage: NetworkImage(
-                                      'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                // chatUserModel.data[position].chat!=null && chatUserModel.data[position].chat.length>0?
-                                Positioned(
-                                  bottom: -3,
-                                  right: 0,
-                                  child:
-                                      // chatUserModel.data[position].chat[0].senderId==MyConstants.id?
-                                      // Container():
-                                      // chatUserModel.data[position].chat[0].totalunread!=null &&chatUserModel.data[position].chat[0].totalunread=="0"?
-                                      // Container()
-                                      //     :
-                                      Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: ColorManager.greenColor,
-                                      shape: BoxShape.circle,
-                                      // borderRadius: BorderRadius.circular(width)
-                                    ),
-                                    child: Text(
-                                      "5",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                )
-                                // :
-                                // Container()
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(top: 5, bottom: 5),
-                              width: 150,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "John Doe",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'poppins',
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 18),
-                                      ),
-                                      Icon(
-                                        Icons.check,
-                                        color: Colors.blue,
-                                        size: 15,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    "Hi",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontFamily: 'poppins',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16,
-                                        color: ColorManager.colorTextGray),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            /*Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                // SizedBox(height: 10,),
-                                Row(
-                                  children: [
-                                    // chatUserModel.data[position].chat==null || chatUserModel.data[position].chat.length<=0?
-                                    // Container(width: 24,):
-                                    // chatUserModel.data[position].chat[0].receiverId==MyConstants.id?
-                                    // Container(width: 24,)
-                                    //     :
-                                    // chatUserModel.data[position].chat[0].smsAlertStatus=="0"?
-                                    Icon(Icons.check,color: ColorManager.buttonGreyColor,),
-                                        // :
-                                    // Image.asset('assets/d_tick.png',width: 24,color: Colors.blueAccent),
-                                    // chatUserModel.data[position].chat==null || chatUserModel.data[position].chat.length<=0?
-                                    // Container():
-                                    Text("1 day ago",style: TextStyle(fontFamily: 'poppins',color:ColorManager.buttonGreyColor,))
-                                  ],
-                                ),
-                              ],
-                            ),*/
-                          ],
-                        ));
-                  }),
-              // YoutubePlayer(
-              //   controller: youtubeController,
-              //   showVideoProgressIndicator: true,
-              //   progressColors: const ProgressBarColors(
-              //     playedColor: Colors.redAccent,
-              //     handleColor: Color(0xffFF6757),
-              //   ),
-              //   onReady: () {},
-              // ),
+              StreamBuilder<QuerySnapshot>(
+                stream: getFirestoreData(
+                    FirestoreCollections.pathMessageCollection,
+                    _limit,
+                    _textSearch),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    if ((snapshot.data?.docs.length ?? 0) > 0) {
+                      return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) =>
+                            buildItem(context, snapshot.data?.docs[index]),
+                        controller: scrollController,
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(),
+                      );
+                    } else {
+                      return const Center(
+                        child: Text('No user found...'),
+                      );
+                    }
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Stream<QuerySnapshot> getFirestoreData(
+      String collectionPath, int limit, String? textSearch) {
+    if (textSearch?.isNotEmpty == true) {
+      return fireStore
+          .collection(collectionPath)
+          .limit(limit)
+          .where(FirestoreCollections.displayName, isEqualTo: textSearch)
+          .snapshots();
+    } else {
+      return fireStore.collection(collectionPath).limit(limit).snapshots();
+    }
+  }
+
+  Widget buildItem(BuildContext context, DocumentSnapshot? documentSnapshot) {
+
+    Map<String, dynamic> data =
+    documentSnapshot?.data() as Map<String, dynamic>;
+    Map<String, dynamic> participents =
+    data['participants'] as Map<String, dynamic>;
+    if (participents["senderId"] == userId ||  participents["receiverId"] == userId) {
+
+      Map<String, dynamic> lastMessageMap =
+      data['lastMessage'] as Map<String, dynamic>;
+      String? senderId;
+      String? receiverId;
+      String? senderName;
+      String? receiverName;
+      receiverId = participents["receiverId"];
+      senderId = participents["senderId"];
+      senderName = participents["senderName"];
+      receiverName = participents["receiverName"];
+
+
+      if (receiverId == userId) {
+        receiverId = senderId;
+        senderId = userId;
+        receiverName = senderName;
+        senderName = userName;
+
+      }
+
+
+        return TextButton(
+          onPressed: () {
+            // onPressed if (KeyboardUtils.isKeyboardShowing()) {
+            //    KeyboardUtils.closeKeyboard(context);
+            //  }
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatPage(
+                          peerId: receiverId ?? "",
+                          currentUserId: senderId ?? "",
+                          currentUserName:senderName ?? "",
+                          peerAvatar: "",
+                          peerNickname: receiverName ?? "",
+                          userAvatar: "",
+                        )));
+          },
+          child: ListTile(
+            leading: "".isNotEmpty
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(Sizes.dimen_30),
+                    child: Image.network(
+                      "",
+                      fit: BoxFit.cover,
+                      width: 50,
+                      height: 50,
+                      loadingBuilder: (BuildContext ctx, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return SizedBox(
+                            width: 50,
+                            height: 50,
+                            child: CircularProgressIndicator(
+                                color: Colors.grey,
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null),
+                          );
+                        }
+                      },
+                      errorBuilder: (context, object, stackTrace) {
+                        return const Icon(Icons.account_circle, size: 50);
+                      },
+                    ),
+                  )
+                : const Icon(
+                    Icons.account_circle,
+                    size: 50,
+                  ),
+            title: Text(
+              receiverName.toString(),
+              style: const TextStyle(color: Colors.black),
+            ),
+            subtitle:Text(
+              lastMessageMap["messageContent"] ?? "",
+              style: const TextStyle(color: Colors.black),
+            ) ,
+          ),
+        );
+
+    } else {
+      return const SizedBox.shrink();
+    }
   }
 }

@@ -4,17 +4,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/networking/api_requests.dart';
+import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../../chat/chat_page.dart';
 import '../../../models/Exchange/exchange_player_model.dart';
 import '../../../models/Exchange/offer.dart';
+import '../../../models/auth/user_model.dart';
+import '../../../utils/session_manager.dart';
 
 class CashOfferScreen extends StatefulWidget {
   final ExchangePlayerModel exchangePlayerModel;
+
 
   const CashOfferScreen({Key? key, required this.exchangePlayerModel}) : super(key: key);
 
@@ -29,6 +34,12 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
   var isNegotiableController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
+  String validTill = "Valid Till";
+  String? userId= "";
+  String? userName= "";
+  User? exchangeUser;
+
+
   String validTill = "";
 
   List<String> list = <String>["No", "Yes"];
@@ -49,6 +60,21 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
         });
       }
     }, currentTime: DateTime.now(), locale: LocaleType.en);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    Future<User?> user = SessionManager.getUserData();
+    await user.then((value) => {userId = value?.id?? "" , userName = value?.name ?? "" });
+
+    exchangeUser = await APIRequests.doApi_getUserProfile(widget.exchangePlayerModel.userId ?? "");
+    debugPrint(exchangeUser?.name ?? "" + "ASDA");
+
   }
 
   @override
@@ -323,7 +349,20 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                     ),
                     Expanded(
                         child: FilledButton(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatPage(
+                                  peerId: exchangeUser?.id ?? "",
+                                  currentUserId: userId ?? "",
+                                  currentUserName: userName ?? "",
+                                  peerAvatar: "",
+                                  peerNickname: exchangeUser?.name ?? "",
+                                  userAvatar: "",
+                                )));
+
+                      },
                       text: "Contact Seller",
                       reverseColor: true,
                       isFullWidth: false,
