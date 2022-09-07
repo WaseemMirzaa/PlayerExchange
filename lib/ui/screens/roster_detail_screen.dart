@@ -22,6 +22,7 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../widgets/header_graph_chart.dart';
 import 'buy_and_watch/buy_screen.dart';
 
 class RosterDetailScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Padding(
-        padding: ButtonTheme.of(context).padding,
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: CustomScrollView(
           slivers: [
             SliverList(
@@ -187,54 +188,9 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                height: 150.h,
-                padding: EdgeInsets.all(15),
-                color: ColorManager.chartBackgroundColor,
-                child: Chart(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'live'.tr,
-                          style: TextStyle(
-                              color: ColorManager.greenColor, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '1Q', isEnable: false)),
-
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '2Q', isEnable: false)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '3Q', isEnable: false)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '4Q', isEnable: false)),
-                      ],
-                    ),
-
-                  ],
-                ),
+              HeaderChartWidget(playerId: widget.rosterModel.cpoAthletes?.id ?? ""),
+              SizedBox(
+                height: 10,
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),

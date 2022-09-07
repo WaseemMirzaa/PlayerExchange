@@ -22,6 +22,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widgets/header_graph_chart.dart';
+
 class SelectExchangePlayerDetailScreen extends StatefulWidget {
   final ExchangePlayerModel exchangePlayerModel;
 
@@ -48,7 +50,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Padding(
-        padding: ButtonTheme.of(context).padding,
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: CustomScrollView(
           slivers: [
             SliverList(
@@ -182,59 +184,9 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
               SizedBox(
                 height: 15,
               ),
-              Container(
-                height: 150.h,
-                padding: EdgeInsets.all(15),
-                color: ColorManager.chartBackgroundColor,
-                child: Chart(),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'live'.tr,
-                          style: TextStyle(
-                              color: ColorManager.greenColor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '1Q', isEnable: false)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '2Q', isEnable: false)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '3Q', isEnable: false)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Container(
-                            width: 50,
-                            child: OfferHeading(title: '4Q', isEnable: false)),
-                      ],
-                    ),
-                    // Text(
-                    //   '2 Q'.tr,
-                    //   style: TextStyle(
-                    //       color: ColorManager.buttonBorderGreyColor,
-                    //       fontWeight: FontWeight.w600),
-                    // ),
-                  ],
-                ),
+              HeaderChartWidget(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? ""),
+              SizedBox(
+                height: 10,
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),

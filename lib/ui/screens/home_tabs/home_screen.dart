@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/controllers/graph_controller.dart';
 import 'package:player_exchange/controllers/home_screen_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/app_drawer.dart';
@@ -18,9 +19,11 @@ import 'package:player_exchange/ui/widgets/outline_button_with_icon_text.dart';
 import 'package:player_exchange/ui/widgets/roster_list_item.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
+import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
-import '../../widgets/graph.dart';
+import '../../../main.dart';
+import '../../widgets/header_graph_chart.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -31,13 +34,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeScreenController homeScreenController = Get.put(HomeScreenController());
-  AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
+
+
+  String? userId;
 
   @override
   void initState() {
+
+    debugPrint(appDrawerController.user.value.id ??"");debugPrint("id found");
     homeScreenController.checkAndUpdateStripeCustomerId(context);
     homeScreenController.rosterController.getRoster();
     appDrawerController.getUserData();
+
+    graphController
+        .fetchData(appDrawerController.user.value.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
+
+
   }
 
   @override
@@ -136,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 23,
                 ),
-                HeaderChartWidget(),
+                    HeaderChartWidget(playerId: appDrawerController.user.value.id ?? "", isUser: true),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                   child: CustomDivider(
@@ -284,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 240,
+                  height: 250,
                   // width: MediaQuery.of(context).size.width,
                   color: ColorManager.chartBackgroundColor,
                   child: Column(
@@ -301,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       // AscendingListItem()
                       SizedBox(
-                        height: 190,
+                        height: 210,
                         child: ListView.builder(
                           itemBuilder: (_, index) {
                             return AscendingListItem(

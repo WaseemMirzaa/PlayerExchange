@@ -275,6 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void callSignInApi() async {
+    debugPrint("calling api");
     if (validate()) {
       SignInRequest signInRequest = SignInRequest();
       signInRequest.email = emailController.text;

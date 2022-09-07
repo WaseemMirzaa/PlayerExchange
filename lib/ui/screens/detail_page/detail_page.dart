@@ -21,6 +21,9 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../main.dart';
+import '../../widgets/header_graph_chart.dart';
 class DetailScreen extends StatefulWidget {
   const DetailScreen({Key? key}) : super(key: key);
 
@@ -44,7 +47,7 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Padding(
-        padding: ButtonTheme.of(context).padding,
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: CustomScrollView(
           slivers: [
             SliverList(
@@ -175,24 +178,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Container(
-                    height: 150.h,
-                    padding: EdgeInsets.all(15),
-                    color: ColorManager.chartBackgroundColor,
-                    child: Chart(),
-                  ),
-                  Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(children: [
-                          Text('live'.tr,style: TextStyle(color: ColorManager.greenColor,fontWeight: FontWeight.w600),),
-                          SizedBox(width: 15,),
-                          Container(width: 50, child: OfferHeading(title: '1Q',isEnable:false))
-                        ],),
-                        Text('2 Q'.tr,style: TextStyle(color: ColorManager.buttonBorderGreyColor,fontWeight: FontWeight.w600),),
-                      ],),
+                  HeaderChartWidget(playerId: appDrawerController.user.value.id ?? ""),
+                  SizedBox(
+                    height: 10,
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10),

@@ -18,6 +18,18 @@ class Constants{
   static final int INITIAL_WALLET_AMOUNT = 10;
 
 }
+class GraphApiConstants{
+  static const String days = "day";
+  static const int daysCount = 31;
+  static const String weeks = "week";
+  static const int weeksCount = 4;
+  static const String months = "month";
+  static const int monthsCount = 12;
+  static const String years = "year";
+  static const int yearsCount = 2;
+  static const double defaultGraphMaxIndex = 5;
+
+}
 class FirestoreCollections{
   static const String users = "users";
   static const String chats = "chats";

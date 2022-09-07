@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_utils/src/extensions/dynamic_extensions.dart';
 import 'package:http/http.dart' as http;
@@ -539,8 +540,9 @@ class APIRequests {
     try {
       final response = await dio.get(completeUrl,);
 
-      print ("response: " + response.toString());
+      //print ("response: " + response.toString());
       if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        //debugPrint(response.data.toString());
         return chartModelListFromJson(response.data);
       }
     } on DioError catch (e) {

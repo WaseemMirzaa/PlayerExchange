@@ -51,6 +51,7 @@ dependencies:
   flutter_local_notifications: ^8.2.0
   provider: ^6.0.2
   intl: ^0.17.0
+  custom_radio_grouped_button:
 #  advance_pdf_viewer: any
 
 dev_dependencies:
