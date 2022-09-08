@@ -289,9 +289,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                     itemCount: homeScreenController.rosterController.rosterList.length > 4
-                        ? 3
-                        : homeScreenController.rosterController.rosterList.length,
-                    separatorBuilder: (_, index) => CustomDivider(),
+                        ? 3 : homeScreenController.rosterController.rosterList.length,
+                    separatorBuilder: ( _ , index ) => CustomDivider(),
                   ),
                 ),
                 Container(

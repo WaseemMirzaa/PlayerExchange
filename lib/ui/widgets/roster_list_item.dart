@@ -10,6 +10,8 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import 'curve_graph_chart.dart';
+
 class RoasterListItem extends StatefulWidget {
   int index = 0;
   bool isRoster;
@@ -23,6 +25,15 @@ class RoasterListItem extends StatefulWidget {
 }
 
 class _RoasterListItemState extends State<RoasterListItem> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -78,7 +89,12 @@ class _RoasterListItemState extends State<RoasterListItem> {
                 ),
               )),
           Flexible(
-              flex: 1, child: SvgPicture.asset(AssetsString().RiseChartIcon)),
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                width: 60,
+                height: 70,
+                child: Center(child: CurveChart(playerId: widget.cpoModel.id ?? "")))),
           Flexible(
               flex: 1,
               child: Row(

@@ -16,6 +16,7 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
 import 'circle_avatar_named_widget.dart';
+import 'curve_graph_chart.dart';
 
 class TeamListItem extends StatefulWidget {
   const TeamListItem({Key? key, required this.players}) : super(key: key);
@@ -66,7 +67,11 @@ class _TeamListItemState extends State<TeamListItem> {
                 ),
                 Expanded(
                     flex: 1,
-                    child: SvgPicture.asset(AssetsString().RiseChartIcon)),
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        width: 60,
+                        height: 70,
+                        child: Center(child: CurveChart(playerId: widget.players.id ?? "")))),
                 Expanded(
                     flex: 1,
                     child: Row(
