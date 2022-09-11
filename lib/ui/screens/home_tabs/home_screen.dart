@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 230,
+                  height: 250,
                   // width: MediaQuery.of(context).size.width,
                   color: ColorManager.chartBackgroundColor,
                   child: Column(

@@ -6,16 +6,18 @@ import 'package:get/get.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
+import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
+import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../../controllers/app_drawer_controller.dart';
 import '../../../models/Exchange/exchange_player_model.dart';
 import '../../../models/Exchange/offer.dart';
 
 class CashOfferScreen extends StatefulWidget {
   final ExchangePlayerModel exchangePlayerModel;
-
   const CashOfferScreen({Key? key, required this.exchangePlayerModel}) : super(key: key);
 
   @override
@@ -23,15 +25,16 @@ class CashOfferScreen extends StatefulWidget {
 }
 
 class _CashOfferScreenState extends State<CashOfferScreen> {
+  AppDrawerController appDrawerController = Get.find();
+
   var shareController = TextEditingController();
   var offerAmountController = TextEditingController();
-  var validForController = TextEditingController();
-  var isNegotiableController = TextEditingController();
 
   DateTime selectedDate = DateTime.now();
   String validTill = "";
 
   List<String> list = <String>["No", "Yes"];
+  String dropdownValue = "";
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked;
@@ -53,7 +56,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = list.first;
+    dropdownValue = list.first;
     shareController.text = widget.exchangePlayerModel.shares.toString();
     offerAmountController.text = widget.exchangePlayerModel.askingAmount.toString();
 
@@ -247,43 +250,6 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                         ],
                       ),
 
-                      // DropdownButton<String>(
-                      //   icon: const Icon(Icons.keyboard_arrow_down),
-                      //   elevation: 16,
-                      //   style: const TextStyle(color: Colors.black),
-                      //   // underline: Container(
-                      //   //   height: 2,
-                      //   //   color: Colors.deepPurpleAccent,
-                      //   // ),
-                      //   onChanged: (String? value) {
-                      //     // This is called when the user selects an item.
-                      //     setState(() {
-                      //       dropdownValue = value!;
-                      //     });
-                      //   },
-                      //   items: list.map<DropdownMenuItem<String>>((String value) {
-                      //     return DropdownMenuItem<String>(
-                      //       value: value,
-                      //       child: Text(value),
-                      //     );
-                      //   }).toList(),
-                      // ),
-
-                      //     TextFormField(
-                      //   controller: shareController,
-                      //   decoration: InputDecoration(
-                      //     enabledBorder: const OutlineInputBorder(
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.grey, width: 1.0),
-                      //     ),
-                      //     focusedBorder: const OutlineInputBorder(
-                      //       borderSide:
-                      //           const BorderSide(color: Colors.grey, width: 1.0),
-                      //     ),
-                      //     hintText: "No",
-                      //     label: Text('Negotiable'),
-                      //   ),
-                      // )
                     ),
                   ],
                 ),
@@ -296,20 +262,33 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                   children: [
                     Expanded(
                         child: FilledButton(
-                      onTap: () {
+                      onTap: () async {
                         // int count = 2;
                         // Navigator.of(context).popUntil((_) => count-- <= 0);
                         if(offerAmountController.text.isEmpty){
                           Fluttertoast.showToast(msg: "Offer Amount cannot be empty.");
                           return;
                         }
-                        if(validForController.text.isEmpty){
+                        if(validTill.isEmpty){
                           Fluttertoast.showToast(msg: "Please select Valid For.");
                           return;
                         }
 
-                        APIRequests.doApi_postOffer(new Offer());
+                        LoadingIndicatorDialog().show(context, text: "Sending Offer...", dismissable: true);
+                        Offer offer = Offer(
+                          senderId: appDrawerController.user.value.id,
+                          receiverId: widget.exchangePlayerModel.userId,
+                          exchangePlayerModelId: widget.exchangePlayerModel.id,
+                          totalShares: widget.exchangePlayerModel.shares!,
+                          offerAmount: double.parse(offerAmountController.text),
+                          validFor: validTill,
+                          isNegotiable: dropdownValue == "Yes",
+                          status: OfferStatusConstants.PENDING,
+                          offerType: OfferTypeConstants.CASH_OFFER
+                        );
+                        await APIRequests.doApi_postOffer(offer);
 
+                        LoadingIndicatorDialog().dismiss();
                       },
                       text: "Send Offer",
                       reverseColor: true,

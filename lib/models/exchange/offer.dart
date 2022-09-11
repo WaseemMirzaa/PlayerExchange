@@ -23,18 +23,18 @@ String offerModelListToJson(List<Offer> data) =>
 
 class Offer {
   Offer({
-      String? id, 
-      String? senderId, 
-      String? receiverId, 
-      String? exchangePlayerModelId, 
-      String? createdAt, 
-      String? updatedAt, 
-      int? totalShares, 
-      int? offerAmount, 
-      String? validFor, 
-      bool? isNegotiable, 
-      String? status, 
-      String? offerType,}){
+    String? id,
+    String? senderId,
+    String? receiverId,
+    String? exchangePlayerModelId,
+    String? createdAt,
+    String? updatedAt,
+    num? totalShares,
+    num? offerAmount,
+    String? validFor,
+    bool? isNegotiable,
+    String? status,
+    String? offerType,}){
     _id = id;
     _senderId = senderId;
     _receiverId = receiverId;
@@ -47,7 +47,7 @@ class Offer {
     _isNegotiable = isNegotiable;
     _status = status;
     _offerType = offerType;
-}
+  }
 
   Offer.fromJson(dynamic json) {
     _id = json['id'];
@@ -69,45 +69,45 @@ class Offer {
   String? _exchangePlayerModelId;
   String? _createdAt;
   String? _updatedAt;
-  int? _totalShares;
-  int? _offerAmount;
+  num? _totalShares;
+  num? _offerAmount;
   String? _validFor;
   bool? _isNegotiable;
   String? _status;
   String? _offerType;
-Offer copyWith({  String? id,
-  String? senderId,
-  String? receiverId,
-  String? exchangePlayerModelId,
-  String? createdAt,
-  String? updatedAt,
-  int? totalShares,
-  int? offerAmount,
-  String? validFor,
-  bool? isNegotiable,
-  String? status,
-  String? offerType,
-}) => Offer(  id: id ?? _id,
-  senderId: senderId ?? _senderId,
-  receiverId: receiverId ?? _receiverId,
-  exchangePlayerModelId: exchangePlayerModelId ?? _exchangePlayerModelId,
-  createdAt: createdAt ?? _createdAt,
-  updatedAt: updatedAt ?? _updatedAt,
-  totalShares: totalShares ?? _totalShares,
-  offerAmount: offerAmount ?? _offerAmount,
-  validFor: validFor ?? _validFor,
-  isNegotiable: isNegotiable ?? _isNegotiable,
-  status: status ?? _status,
-  offerType: offerType ?? _offerType,
-);
+  Offer copyWith({  String? id,
+    String? senderId,
+    String? receiverId,
+    String? exchangePlayerModelId,
+    String? createdAt,
+    String? updatedAt,
+    num? totalShares,
+    num? offerAmount,
+    String? validFor,
+    bool? isNegotiable,
+    String? status,
+    String? offerType,
+  }) => Offer(  id: id ?? _id,
+    senderId: senderId ?? _senderId,
+    receiverId: receiverId ?? _receiverId,
+    exchangePlayerModelId: exchangePlayerModelId ?? _exchangePlayerModelId,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    totalShares: totalShares ?? _totalShares,
+    offerAmount: offerAmount ?? _offerAmount,
+    validFor: validFor ?? _validFor,
+    isNegotiable: isNegotiable ?? _isNegotiable,
+    status: status ?? _status,
+    offerType: offerType ?? _offerType,
+  );
   String? get id => _id;
   String? get senderId => _senderId;
   String? get receiverId => _receiverId;
   String? get exchangePlayerModelId => _exchangePlayerModelId;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
-  int? get totalShares => _totalShares;
-  int? get offerAmount => _offerAmount;
+  num? get totalShares => _totalShares;
+  num? get offerAmount => _offerAmount;
   String? get validFor => _validFor;
   bool? get isNegotiable => _isNegotiable;
   String? get status => _status;

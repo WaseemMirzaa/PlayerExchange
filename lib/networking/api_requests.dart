@@ -488,14 +488,16 @@ class APIRequests {
 
       print ("offer response: " + response.toString());
       if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        Fluttertoast.showToast(msg: "Offer Sent");
+
         return Offer.fromJson(response.data);
       }
     } on DioError catch (e) {
       e.printError();
 
       if (e.response != null) {
-        print('has response' + e.response?.data ?? "");
-        Fluttertoast.showToast(msg: "Could not update profile.");
+        // print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Could not send offer.");
       } else {
         Fluttertoast.showToast(msg: e.response.toString());
       }
