@@ -17,19 +17,19 @@ String exchangePlayerModelListToJson(List<RosterModel> data) =>
 
 class ExchangePlayerModel {
   ExchangePlayerModel({
-      String? id, 
-      String? userId,
-      num? askingAmount,
-      num? shares,
-      String? rosterId, 
-      RosterModel? roster,}){
+    String? id,
+    String? userId,
+    num? askingAmount,
+    num? shares,
+    String? rosterId,
+    RosterModel? roster,}){
     _id = id;
     _userId = userId;
     _askingAmount = askingAmount;
     _shares = shares;
     _rosterId = rosterId;
     _roster = roster;
-}
+  }
 
   ExchangePlayerModel.fromJson(dynamic json) {
     _id = json['id'];
@@ -45,21 +45,21 @@ class ExchangePlayerModel {
   num? _shares;
   String? _rosterId;
   RosterModel? _roster;
-ExchangePlayerModel copyWith({
-  String? id,
-  String? userId,
-  num? askingAmount,
-  num? shares,
-  String? rosterId,
-  RosterModel? roster,
-}) => ExchangePlayerModel(
-  id: id ?? _id,
-  userId: userId ?? _userId,
-  askingAmount: askingAmount ?? _askingAmount,
-  shares: shares ?? _shares,
-  rosterId: rosterId ?? _rosterId,
-  roster: roster ?? _roster,
-);
+  ExchangePlayerModel copyWith({
+    String? id,
+    String? userId,
+    num? askingAmount,
+    num? shares,
+    String? rosterId,
+    RosterModel? roster,
+  }) => ExchangePlayerModel(
+    id: id ?? _id,
+    userId: userId ?? _userId,
+    askingAmount: askingAmount ?? _askingAmount,
+    shares: shares ?? _shares,
+    rosterId: rosterId ?? _rosterId,
+    roster: roster ?? _roster,
+  );
   String? get id => _id;
   String? get userId => _userId;
   num? get askingAmount => _askingAmount;
