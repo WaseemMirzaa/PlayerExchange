@@ -115,12 +115,12 @@ class Offer {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = _id;
+    // map['id'] = _id;
     map['senderId'] = _senderId;
     map['receiverId'] = _receiverId;
     map['exchangePlayerModelId'] = _exchangePlayerModelId;
-    map['createdAt'] = _createdAt;
-    map['updatedAt'] = _updatedAt;
+    // map['createdAt'] = _createdAt;
+    // map['updatedAt'] = _updatedAt;
     map['totalShares'] = _totalShares;
     map['offerAmount'] = _offerAmount;
     map['validFor'] = _validFor;

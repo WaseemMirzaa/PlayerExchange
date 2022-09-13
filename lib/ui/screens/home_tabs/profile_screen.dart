@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 5.w,
                           ),
                           Text(
-                            'MLB-25\%',
+                            'MLB-0\%',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: StyleManager().mediumFontSize),
@@ -120,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 5.w,
                           ),
                           Text(
-                            'NFL-25\%',
+                            'NFL-100\%',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: StyleManager().mediumFontSize),
@@ -148,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 5.w,
                           ),
                           Text(
-                            'NHL-25\%',
+                            'NHL-0\%',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: StyleManager().mediumFontSize),
@@ -165,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             width: 5.w,
                           ),
                           Text(
-                            'NBA-25\%',
+                            'NBA-0\%',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: StyleManager().mediumFontSize),

@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Text(
                         // '\$' + '${appDrawerController.user.value.totalValue}',
-                        '\$' + '${homeScreenController.rosterController.user.value!.totalValue}',
+                        '\$' + '${homeScreenController.rosterController.user.value?.totalValue ?? "0"}',
                         style: TextStyle(
                             fontSize: StyleManager().mediumFontSize,
                             fontWeight: FontWeight.w600,
@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          'ascending'.tr,
+                          'Popular'.tr,
                           style: TextStyle(
                               fontSize: StyleManager().largeFontSize,
                               fontWeight: FontWeight.w700,

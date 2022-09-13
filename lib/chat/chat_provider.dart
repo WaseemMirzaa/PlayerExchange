@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:player_exchange/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/Exchange/offer.dart';
 import 'chat_message_model.dart';
 
 class ChatProvider {
@@ -41,8 +42,8 @@ class ChatProvider {
         .snapshots();
   }
 
-  Future<void> sendChatMessage(String content, int type, String groupChatId,
-      String currentUserId, String peerId, String currentUserName, String peerName) async {
+  Future<void> sendChatMessage(String content, String type, String groupChatId,
+      String currentUserId, String peerId, String currentUserName, String peerName, Offer? offer) async {
 
     Map<String, dynamic> message = <String, dynamic>{
       'senderId': currentUserId,
@@ -75,7 +76,8 @@ class ChatProvider {
         idTo: peerId,
         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
         content: content,
-        type: type);
+        type: type,
+        offer: offer);
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(documentReference, chatMessages.toJson());
@@ -84,7 +86,8 @@ class ChatProvider {
 }
 
 class MessageType {
-  static const text = 0;
-  static const image = 1;
-  static const sticker = 2;
+  static String text = "TEXT";
+  static String image = "IMAGW";
+  static String sticker = "STICKER";
+  static String offer = "OFFER";
 }
