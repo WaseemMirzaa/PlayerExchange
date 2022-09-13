@@ -49,7 +49,7 @@ class FirebaseCloudMessaging {
 
       User? user = await SessionManager.getUserData();
       user!.fcmToken = token;
-      await APIRequests.doApi_updateUserProfile(user.id ?? "", user);
+      //await APIRequests.doApi_updateUserProfile(user.id ?? "", user);
 
   }
   static Future<void> stopNotificationService ({required String userId}) async {

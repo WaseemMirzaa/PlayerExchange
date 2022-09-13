@@ -17,7 +17,7 @@ class ChatMessages {
         required this.timestamp,
         required this.content,
         required this.type,
-        required this.offer,
+         required this.offer,
       });
 
   Map<String, dynamic> toJson() {
@@ -27,6 +27,7 @@ class ChatMessages {
       FirestoreCollections.timestamp: timestamp,
       FirestoreCollections.content: content,
       FirestoreCollections.type: type,
+      FirestoreCollections.offer : offer?.toJson(),
     };
   }
 
@@ -36,7 +37,8 @@ class ChatMessages {
     String timestamp = documentSnapshot.get(FirestoreCollections.timestamp);
     String content = documentSnapshot.get(FirestoreCollections.content);
     String type = documentSnapshot.get(FirestoreCollections.type);
-    Offer offer = documentSnapshot.get(FirestoreCollections.offer);
+    Offer? offer = Offer.fromJson(documentSnapshot.get(FirestoreCollections.offer));
+
 
     return ChatMessages(
         idFrom: idFrom,
@@ -44,6 +46,7 @@ class ChatMessages {
         timestamp: timestamp,
         content: content,
         type: type,
-    offer: offer);
+      offer: offer
+    );
   }
 }

@@ -327,6 +327,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                                     peerNickname: exchangeUser?.name ?? "",
                                     userAvatar: "",
                                     offerText: "Hi, i offer you \$${offer.offerAmount} for ${offer.totalShares} shares of ${widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? ""}",
+                                    offer: offer,
                                   )));
                         }
 

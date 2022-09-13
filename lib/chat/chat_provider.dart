@@ -81,7 +81,8 @@ class ChatProvider {
         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
         content: content,
         type: type,
-        offer: offer);
+        offer: offer
+    );
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       transaction.set(documentReference, chatMessages.toJson());

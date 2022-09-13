@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
@@ -59,6 +60,7 @@ class RosterController extends GetxController {
 
   Future<void> setTotalValueInUser() async {
     num totalValue = 0;
+    String? token = await FirebaseMessaging.instance.getToken();
     for(RosterModel rosterModel in rosterList){
       totalValue += rosterModel.totalValue ?? 0.0;
     }
@@ -66,6 +68,7 @@ class RosterController extends GetxController {
     user = (await SessionManager.getUserData()).obs;
     // User user = appDrawerController.user.value;
     user.value!.totalValue = totalValue;
+    user.value?.fcmToken = token;
 
     await APIRequests.doApi_updateUserProfile(user.value?.id ?? "", user.value!);
 

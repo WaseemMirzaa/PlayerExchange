@@ -10,8 +10,10 @@ import 'package:player_exchange/chat/text_field_constants.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Exchange/offer.dart';
+import '../models/auth/user_model.dart';
 import '../utils/color_manager.dart';
 import '../utils/constants.dart';
+import '../utils/session_manager.dart';
 import 'chat_message_model.dart';
 import 'chat_provider.dart';
 import 'color_constants.dart';
@@ -79,7 +81,7 @@ class _ChatPageState extends State<ChatPage> {
     scrollController.addListener(_scrollListener);
     readLocal();
     if(widget.offerText != ""){
-      onSendMessage(widget.offerText, MessageType.text);
+      onSendMessage(widget.offerText, MessageType.offer);
     }
   }
 
@@ -489,7 +491,7 @@ class _ChatPageState extends State<ChatPage> {
               stream: chatProvider.getChatMessage(groupChatId, _limit),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasData && snapshot.data!.docs.length > 0) {
                   listMessages = snapshot.data!.docs;
                   if (listMessages.isNotEmpty) {
                     return ListView.builder(
