@@ -22,6 +22,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Networking/api_requests.dart';
 import '../../../main.dart';
 import '../../../utils/constants.dart';
 import '../../widgets/curve_graph_chart.dart';
@@ -39,13 +40,15 @@ class SelectExchangePlayerDetailScreen extends StatefulWidget {
 
 class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerDetailScreen> {
   int activeIndex = 0;
-  final YoutubePlayerController youtubeController = YoutubePlayerController(
-    initialVideoId: 'NG6pvXpnIso',
-    flags: const YoutubePlayerFlags(
-      autoPlay: false,
-      mute: true,
-    ),
-  );
+  int? highest = 0;
+  int? lowest = 0;
+  int? open = 0;  // final YoutubePlayerController youtubeController = YoutubePlayerController(
+  //   initialVideoId: 'NG6pvXpnIso',
+  //   flags: const YoutubePlayerFlags(
+  //     autoPlay: false,
+  //     mute: true,
+  //   ),
+  // );
   AppDrawerController appDrawerController = Get.find<AppDrawerController>();
 
   @override
@@ -54,7 +57,13 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
     super.initState();
     graphController
         .fetchData(widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
-
+    APIRequests.doApi_getPriceTrends( widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "", "day").then((value) =>
+    {
+      highest = value[0]?.highest,
+      lowest = value[0]?.lowest,
+      open = value[0]?.starting,
+      setState(() {})
+    });
   }
 
   @override
@@ -100,7 +109,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                           Row(
                             children: [
                               Text(
-                                '\$ ${widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare ?? ""}',
+                                '\$${widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare ?? ""}',
                                 style: TextStyle(
                                     fontSize: StyleManager().mediumFontSize,
                                     color: Colors.black,
@@ -149,46 +158,35 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                         children: [
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                                text: 'open'.tr + " : "),
-                            TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'open'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.greenColor), text: open == 0 ? '\$ ---': '\$'+open.toString()),
+                              ])),
                           SizedBox(
                             height: 5,
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                                text: 'high'.tr + " : "),
-                            TextSpan(
-                                style:
-                                    TextStyle(color: ColorManager.greenColor),
-                                text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'high'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.greenColor), text: highest == 0 ? '\$ ---': '\$'+highest.toString()),
+                              ])),
                           SizedBox(
                             height: 5,
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500),
-                                text: 'low'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(
-                                    color: ColorManager.lowPriceColor),
-                                text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'low'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.lowPriceColor),
+                                    text: lowest == 0 ? '\$ ---': '\$'+lowest.toString()),
+                              ])),
                         ],
                       )),
                 ],
@@ -196,8 +194,19 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
               SizedBox(
                 height: 15,
               ),
-              HeaderChartWidget(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? ""),
-              SizedBox(
+                  HeaderChartWidget(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "",
+                    onDurationSelect: (duration){
+                      APIRequests.doApi_getPriceTrends(widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "", duration).then((value) =>
+                      {
+                        highest = value[0]?.highest,
+                        lowest = value[0]?.lowest,
+                        open = value[0]?.starting,
+                        setState(() {})
+                      });
+
+                    },
+                  ),
+                  SizedBox(
                 height: 10,
               ),
               Container(

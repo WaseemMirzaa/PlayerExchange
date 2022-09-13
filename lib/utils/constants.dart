@@ -42,7 +42,6 @@ class FirestoreCollections{
   static const chatConservations = "conservation";
 
   static const phoneNumber = "phoneNumber";
-  static const email = "email";
 
   static const id = "id";
   static const chattingWith = "chattingWith";
@@ -70,6 +69,7 @@ class OfferStatusConstants{
   static final String PENDING = "PENDING";
   static final String ACCEPTED = "ACCEPTED";
   static final String REJECTED = "REJECTED";
+  static final String CANCELED = "CANCELED";
 
 }
 

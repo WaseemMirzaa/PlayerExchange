@@ -115,18 +115,35 @@ class Offer {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    // map['id'] = _id;
+    map['id'] = _id;
     map['senderId'] = _senderId;
     map['receiverId'] = _receiverId;
     map['exchangePlayerModelId'] = _exchangePlayerModelId;
-    // map['createdAt'] = _createdAt;
-    // map['updatedAt'] = _updatedAt;
+    map['createdAt'] = _createdAt;
+    map['updatedAt'] = _updatedAt;
     map['totalShares'] = _totalShares;
     map['offerAmount'] = _offerAmount;
     map['validFor'] = _validFor;
     map['isNegotiable'] = _isNegotiable;
     map['status'] = _status;
     map['offerType'] = _offerType;
+    return map;
+  }
+
+  Map<String, dynamic> toJsonPatch() {
+    final map = <String, dynamic>{};
+    if(id != null)map['id'] = _id;
+    if(senderId != null)map['senderId'] = _senderId;
+    if(_receiverId != null)map['receiverId'] = _receiverId;
+    if(_exchangePlayerModelId != null)map['exchangePlayerModelId'] = _exchangePlayerModelId;
+    if(createdAt != null)map['createdAt'] = _createdAt;
+    if(updatedAt != null) map['updatedAt'] = _updatedAt;
+    if(_totalShares != null)map['totalShares'] = _totalShares;
+    if(_offerAmount != null)map['offerAmount'] = _offerAmount;
+    if(_validFor != null)map['validFor'] = _validFor;
+    if(_isNegotiable != null)map['isNegotiable'] = _isNegotiable;
+    if(_status != null)map['status'] = _status;
+    if(_offerType != null)map['offerType'] = _offerType;
     return map;
   }
 

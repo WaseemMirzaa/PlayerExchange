@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:player_exchange/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/Exchange/offer.dart';
+import '../models/exchange/offer.dart';
 import 'chat_message_model.dart';
 
 class ChatProvider {
@@ -70,18 +70,20 @@ class ChatProvider {
       print(e);
     }
 
+    String msgId = DateTime.now().millisecondsSinceEpoch.toString();
     DocumentReference documentReference = firebaseFirestore
         .collection(FirestoreCollections.pathMessageCollection)
         .doc(groupChatId)
         .collection(FirestoreCollections.chatConservations)
-        .doc(DateTime.now().millisecondsSinceEpoch.toString());
+        .doc(msgId);
     ChatMessages chatMessages = ChatMessages(
         idFrom: currentUserId,
         idTo: peerId,
         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
         content: content,
         type: type,
-        offer: offer
+        offer: offer,
+        id: msgId
     );
 
     FirebaseFirestore.instance.runTransaction((transaction) async {

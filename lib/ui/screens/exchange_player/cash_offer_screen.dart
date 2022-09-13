@@ -17,7 +17,7 @@ import 'package:player_exchange/utils/style_manager.dart';
 import '../../../chat/chat_page.dart';
 import '../../../controllers/app_drawer_controller.dart';
 import '../../../models/Exchange/exchange_player_model.dart';
-import '../../../models/Exchange/offer.dart';
+import '../../../models/exchange/offer.dart';
 import '../../../models/auth/user_model.dart';
 import '../../../utils/session_manager.dart';
 
@@ -77,6 +77,9 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
     exchangeUser = await APIRequests.doApi_getUserProfile(widget.exchangePlayerModel.userId ?? "");
     debugPrint(exchangeUser?.name ?? "" + "ASDA");
 
+    setState(() {
+
+    });
   }
 
   @override
