@@ -294,7 +294,6 @@ class _LoginScreenState extends State<LoginScreen> {
               HttpHeaders.contentTypeHeader: "application/json",
             }));
 
-        LoadingIndicatorDialog().dismiss();
         print ("login response: " + response.toString());
         if (response.data != null) {
           UserModel userResponse;
@@ -313,12 +312,12 @@ class _LoginScreenState extends State<LoginScreen> {
             if(userResponse.user != null) {
               SessionManager.setUserData(userResponse.user!);
 
-              try {
-                await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id  ?? "");
-                FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
-              } catch (e) {
-                print(e);
-              }
+              // try {
+              //   await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id  ?? "");
+              //   // FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+              // } catch (e) {
+              //   print(e);
+              // }
             }
             TabsScreen.currentIndex = 0;
 
@@ -336,6 +335,8 @@ class _LoginScreenState extends State<LoginScreen> {
             print(e);
           }
         }
+        LoadingIndicatorDialog().dismiss();
+
       } on DioError catch (e) {
         e.printError();
 

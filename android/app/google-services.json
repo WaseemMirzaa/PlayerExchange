@@ -29,6 +29,13 @@
             {
               "client_id": "761797681586-0iklqd26sc1pod7sbqqjm0vtogq9a8v3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "761797681586-5bm03kn1s9prgs5ffcuvmqko1gpu3ota.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codetivelab.playerexchange"
+              }
             }
           ]
         }

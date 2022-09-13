@@ -52,6 +52,7 @@ dependencies:
   provider: ^6.0.2
   intl: ^0.17.0
   custom_radio_grouped_button:
+  firebase_crashlytics: ^2.8.10
 #  advance_pdf_viewer: any
 
 dev_dependencies:

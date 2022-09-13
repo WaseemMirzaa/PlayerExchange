@@ -10,8 +10,10 @@ import 'package:player_exchange/chat/text_field_constants.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Exchange/offer.dart';
+import '../models/auth/user_model.dart';
 import '../utils/color_manager.dart';
 import '../utils/constants.dart';
+import '../utils/session_manager.dart';
 import 'chat_message_model.dart';
 import 'chat_provider.dart';
 import 'color_constants.dart';

@@ -535,7 +535,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           HttpHeaders.contentTypeHeader: "application/json",
         }));
 
-        LoadingIndicatorDialog().dismiss();
 
         if(response.data != null) {
 
@@ -543,13 +542,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           if(userResponse.user != null && userResponse.user?.id != null) {
 
-
-
-
-            await fireStore.collection(FirestoreCollections.users)
-                .doc(userResponse.user?.id ?? "")
-                .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
-            await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id ?? "");
+            try {
+              await fireStore.collection(FirestoreCollections.users)
+                              .doc(userResponse.user?.id ?? "")
+                              .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
+            } catch (e) {
+              print(e);
+            }
+            // try {
+            //   await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id ?? "");
+            // } catch (e) {
+            //   print(e);
+            // }
 
             SessionManager.setUserData(userResponse.user!);
 
@@ -557,10 +561,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
             Get.off(() => TabsScreen(selectedIndex: 0,));
 
-
           }
 
         }
+        LoadingIndicatorDialog().dismiss();
 
       } on DioError catch (e) {
 
