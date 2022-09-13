@@ -14,9 +14,11 @@ import 'chart.dart';
 class HeaderChartWidget extends StatefulWidget {
   final String playerId;
   final bool? isUser;
+  final Function(String)? onDurationSelect;
   const HeaderChartWidget({
     required this.playerId,
     this.isUser,
+    this.onDurationSelect,
     Key? key,
   }) : super(key: key);
 
@@ -56,6 +58,7 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 color: currentIndex ==  0? ColorManager.greenColor:  null,
                 child: InkWell(
                   onTap: ((){
+                    widget.onDurationSelect?.call("day");
     setState(() {
     currentIndex = 0;
     });
@@ -79,6 +82,7 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 color: currentIndex ==  1? ColorManager.greenColor:  null,
                 child: InkWell(
                   onTap: (){
+                    widget.onDurationSelect?.call("week");
     setState(() {
     currentIndex = 1;
     });
@@ -102,6 +106,7 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 color: currentIndex ==  2? ColorManager.greenColor:  null,
                 child: InkWell(
                   onTap: (){
+                    widget.onDurationSelect?.call("month");
     setState(() {
     currentIndex = 2;
     });
@@ -125,6 +130,7 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 color: currentIndex ==  3? ColorManager.greenColor:  null,
                 child: InkWell(
                   onTap: (){
+                    widget.onDurationSelect?.call("year");
                     setState(() {
                       currentIndex = 3;
                     });

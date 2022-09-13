@@ -10,10 +10,8 @@ import 'package:player_exchange/chat/text_field_constants.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Exchange/offer.dart';
-import '../models/auth/user_model.dart';
 import '../utils/color_manager.dart';
 import '../utils/constants.dart';
-import '../utils/session_manager.dart';
 import 'chat_message_model.dart';
 import 'chat_provider.dart';
 import 'color_constants.dart';
@@ -163,7 +161,7 @@ class _ChatPageState extends State<ChatPage> {
       setState(() {
         isLoading = false;
       });
-      Fluttertoast.showToast(msg: e.message ?? e.toString());
+      await Fluttertoast.showToast(msg: e.message ?? e.toString());
     }
   }
 
@@ -215,7 +213,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
           child: Column(
             children: [
               buildListMessage(),
@@ -255,7 +253,7 @@ class _ChatPageState extends State<ChatPage> {
               child: TextField(
             focusNode: focusNode,
             textInputAction: TextInputAction.send,
-            style: TextStyle(color: Colors.black),
+            style: const TextStyle(color: Colors.black),
             keyboardType: TextInputType.text,
             textCapitalization: TextCapitalization.sentences,
             controller: textEditingController,
@@ -266,7 +264,7 @@ class _ChatPageState extends State<ChatPage> {
             },
           )),
           Container(
-            margin: EdgeInsets.only(left: Sizes.dimen_4),
+            margin: const EdgeInsets.only(left: Sizes.dimen_4),
             decoration: BoxDecoration(
               color:ColorManager.greenColor,
               borderRadius: BorderRadius.circular(Sizes.dimen_30),
@@ -300,11 +298,11 @@ class _ChatPageState extends State<ChatPage> {
                         chatContent: chatMessages.content,
                         color: ColorManager.greenColor,
                         textColor: AppColors.white,
-                        margin: EdgeInsets.symmetric(vertical: Sizes.dimen_6),
+                        margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_6),
                       )
                     : chatMessages.type == MessageType.image
                         ? Container(
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                                 right: Sizes.dimen_10, top: Sizes.dimen_10),
                             child: chatImage(
                                 imageSrc: chatMessages.content, onTap: () {}),
@@ -424,11 +422,11 @@ class _ChatPageState extends State<ChatPage> {
                         color: ColorManager.buttonGreyColor.withOpacity(0.6),
                         textColor: Colors.black,
                         chatContent: chatMessages.content,
-                        margin: EdgeInsets.symmetric(vertical: Sizes.dimen_10),
+                        margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_10),
                       )
                     : chatMessages.type == MessageType.image
                         ? Container(
-                            margin: EdgeInsets.only(
+                            margin: const EdgeInsets.only(
                                 left: Sizes.dimen_10, top: Sizes.dimen_10),
                             child: chatImage(
                                 imageSrc: chatMessages.content, onTap: () {}),
@@ -438,7 +436,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             isMessageReceived(index)
                 ? Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                         left: Sizes.dimen_50,
                         top: Sizes.dimen_6,
                         bottom: Sizes.dimen_8),

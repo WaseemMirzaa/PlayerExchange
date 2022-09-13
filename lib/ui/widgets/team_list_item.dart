@@ -52,7 +52,7 @@ class _TeamListItemState extends State<TeamListItem> {
                   child: CircleAvatarNamedWidget(name: widget.players.name ?? "", url: "",),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Text(
                     '${widget.players.name}',
                     // '',
@@ -65,30 +65,13 @@ class _TeamListItemState extends State<TeamListItem> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Expanded(
+                Flexible(
                     flex: 1,
                     child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        width: 60,
                         height: 70,
-                        child: Center(child: CurveChart(playerId: widget.players.id ?? "")))),
-                Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_drop_up_rounded,
-                          color: ColorManager.greenColor,
-                        ),
-                        Text(
-                          '\$' + '---',
-                          style: TextStyle(
-                              fontSize: StyleManager().smallFontSize,
-                              fontWeight: FontWeight.w600,
-                              color: ColorManager.greenColor),
-                        ),
-                      ],
-                    )),
+                        child: Center(child: CurveChart(playerId: widget.players.id ?? "", priceShare: "empty",)))),
+
               ],
             ),
           ),

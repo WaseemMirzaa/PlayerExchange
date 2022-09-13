@@ -22,6 +22,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../main.dart';
+import '../../../utils/constants.dart';
 import '../../widgets/curve_graph_chart.dart';
 import '../../widgets/header_graph_chart.dart';
 
@@ -45,6 +47,15 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
     ),
   );
   AppDrawerController appDrawerController = Get.find<AppDrawerController>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    graphController
+        .fetchData(widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -466,7 +477,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                       ),
                       Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
-                          width: 60,
+
                           height: 70,
                           // TODO ID'S ISSUE
                           child: Center(child: CurveChart(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "")))

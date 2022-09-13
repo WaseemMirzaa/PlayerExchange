@@ -100,24 +100,24 @@ class _AppDrawerState extends State<AppDrawer> {
 
             },
           ),
-          _createDrawerItem(
-            icon: Icons.notifications,
-            text: 'Notification Settings',
-            onTap: () {
-              Get.to(NotificationSettings());
-            },
-          ),
-          _createDrawerIcon(
-            icon: Image.asset(
-              'assets/refferal.png',
-              width: 20,
-              height: 20,
-            ),
-            text: 'Referrals',
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          // _createDrawerItem(
+          //   icon: Icons.notifications,
+          //   text: 'Notification Settings',
+          //   onTap: () {
+          //     Get.to(NotificationSettings());
+          //   },
+          // ),
+          // _createDrawerIcon(
+          //   icon: Image.asset(
+          //     'assets/refferal.png',
+          //     width: 20,
+          //     height: 20,
+          //   ),
+          //   text: 'Referrals',
+          //   onTap: () {
+          //     Navigator.of(context).pop();
+          //   },
+          // ),
           Divider(),
           _createDrawerItem(
             icon: Icons.play_arrow,
@@ -134,7 +134,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             text: 'Terms of Service',
             onTap: () {
-              Navigator.of(context).pop();
+              Get.to(PdfViewerScreen(pdfPath: 'assets/pdfs/support.pdf',));
             },
           ),
           _createDrawerItem(
@@ -152,7 +152,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             text: 'Privacy Policy',
             onTap: () {
-              Navigator.of(context).pop();
+              Get.to(PdfViewerScreen(pdfPath: 'assets/pdfs/support.pdf',));
             },
           ),
           //Logout

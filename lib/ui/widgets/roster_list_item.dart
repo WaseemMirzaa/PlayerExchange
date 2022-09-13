@@ -89,29 +89,12 @@ class _RoasterListItemState extends State<RoasterListItem> {
                 ),
               )),
           Flexible(
-              flex: 1,
+              flex: 2,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 5),
-                width: 60,
                 height: 70,
-                child: Center(child: CurveChart(playerId: widget.cpoModel.id ?? "")))),
-          Flexible(
-              flex: 1,
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.arrow_drop_up_rounded,
-                    color: ColorManager.greenColor,
-                  ),
-                  Text(
-                   '\$'+widget.cpoModel.currentPricePerShare.toString(),
-                    style: TextStyle(
-                        fontSize: StyleManager().smallFontSize,
-                        fontWeight: FontWeight.w600,
-                        color: ColorManager.greenColor),
-                  ),
-                ],
-              )),
+                child: Center(child: CurveChart(playerId: widget.cpoModel.id ?? "", priceShare: widget.cpoModel.currentPricePerShare.toString())))),
+
         ],
       ),
     );

@@ -22,6 +22,8 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/number_utils.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../../main.dart';
+import '../../../utils/constants.dart';
 import '../../widgets/header_graph_chart.dart';
 import '../home_tabs/exchange_screen.dart';
 
@@ -41,6 +43,16 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
   var offerAmountController = TextEditingController();
   int asking = 0;
   int shares = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    graphController
+        .fetchData(widget.rosterModel.cpoAthletes?.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
