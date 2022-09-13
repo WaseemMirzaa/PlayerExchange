@@ -1,14 +1,9 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_text_field.dart';
-import 'package:player_exchange/utils/assets_string.dart';
-import 'package:player_exchange/utils/color_manager.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../chat/chat_page.dart';
@@ -76,13 +71,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, title: 'Message', trailing: [
-        TextButton(
-            onPressed: () {}, child: SvgPicture.asset(AssetsString().EditIcon))
+
       ]),
       body: Container(
         // width: double.infinity,
         // height: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding:const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -102,12 +96,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     _textSearch),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data!.docs.length > 0) {
                     if ((snapshot.data?.docs.length ?? 0) > 0) {
                       return ListView.separated(
                         shrinkWrap: true,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) =>
+                        snapshot.data?.docs[index] == null ? Container():
                             buildItem(context, snapshot.data?.docs[index]),
                         controller: scrollController,
                         separatorBuilder: (BuildContext context, int index) =>
@@ -118,9 +113,25 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         child: Text('No user found...'),
                       );
                     }
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                  } else if (snapshot.connectionState  == ConnectionState.waiting) {
+                    return const SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  else {
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Column(
+                          children: const [
+                            Text("No data found!")
+                          ],
+                        ),
+                      ),
                     );
                   }
                 },

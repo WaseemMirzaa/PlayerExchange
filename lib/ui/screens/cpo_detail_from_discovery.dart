@@ -20,6 +20,8 @@ import 'package:player_exchange/utils/style_manager.dart';
 // import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../main.dart';
+import '../../utils/constants.dart';
 import '../widgets/curve_graph_chart.dart';
 import '../widgets/header_graph_chart.dart';
 import 'buy_and_watch/buy_screen.dart';
@@ -47,6 +49,14 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
     ),
   );
   // late VideoPlayerController _controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    graphController
+        .fetchData( widget.cpoModel.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
+
+  }
 
 
   // @override
@@ -447,7 +457,6 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                       ),
                       Container(
                           padding: const EdgeInsets.symmetric(vertical: 5),
-                          width: 60,
                           height: 70,
                           child: Center(child: CurveChart(playerId: widget.cpoModel.id ?? "")))
                     ],

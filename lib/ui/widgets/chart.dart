@@ -36,6 +36,7 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
+
     return Obx(() => LineChart(
       LineChartData(
         lineTouchData: widget.lineTouchData,
@@ -45,7 +46,7 @@ class _ChartState extends State<Chart> {
         lineBarsData: [
           LineChartBarData(
             isCurved: false,
-            colors: [ColorManager.greenColor],
+            colors: [ graphController.updatePoints.isNotEmpty? checkColor(): ColorManager.greenColor],
             barWidth: 2,
             isStrokeCapRound: true,
             dotData: FlDotData(show: true),
@@ -55,10 +56,19 @@ class _ChartState extends State<Chart> {
         ],
          maxX: graphController.graphPoints.length.toDouble(),
          maxY: graphController.maxYAxisValue.value.toDouble(),
+         minY: 0.0
 
       ),
       swapAnimationDuration: const Duration(milliseconds: 250),
     ));
+  }
+
+  checkColor() {
+    if (graphController.updatePoints[graphController.updatePoints.length - 1].y >= graphController.updatePoints[graphController.updatePoints.length - 2].y ) {
+      return ColorManager.greenColor;
+    } else {
+      return Colors.red.withOpacity(0.5);
+    }
   }
 }
 

@@ -43,6 +43,15 @@ class _DetailScreenState extends State<DetailScreen> {
   );
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    graphController
+        .fetchData(appDrawerController.user.value.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),

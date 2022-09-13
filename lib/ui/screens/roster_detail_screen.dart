@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/controllers/app_drawer_controller.dart';
-import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
 import 'package:player_exchange/ui/screens/exchange_player/exchange_player_screen.dart';
-import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';
 import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -22,6 +18,8 @@ import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
+import '../../main.dart';
+import '../../utils/constants.dart';
 import '../widgets/header_graph_chart.dart';
 import 'buy_and_watch/buy_screen.dart';
 
@@ -36,6 +34,28 @@ class RosterDetailScreen extends StatefulWidget {
 
 class _RosterDetailScreenState extends State<RosterDetailScreen> {
   int activeIndex = 0;
+  int? highest = 0;
+  int? lowest = 0;
+  int? open = 0;
+
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    graphController
+        .fetchData(widget.rosterModel.cpoAthletes?.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
+    APIRequests.doApi_getPriceTrends(widget.rosterModel.cpoAthletes?.id ?? "", "day").then((value) =>
+    {
+      highest = value[0]?.highest,
+      lowest = value[0]?.lowest,
+      open = value[0]?.starting,
+      setState(() {})
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +176,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'open'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ ---'),
+                                style: TextStyle(color: ColorManager.greenColor), text: open == 0 ? '\$ ---': '\$'+open.toString()),
                           ])),
                           SizedBox(
                             height: 5,
@@ -167,7 +187,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                 style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
                                 text: 'high'.tr + " : "),
                             TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ ---'),
+                                style: TextStyle(color: ColorManager.greenColor), text: highest == 0 ? '\$ ---': '\$'+highest.toString()),
                           ])),
                           SizedBox(
                             height: 5,
@@ -179,7 +199,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                                 text: 'low'.tr + " : "),
                             TextSpan(
                                 style: TextStyle(color: ColorManager.lowPriceColor),
-                                text: '\$ ---'),
+                                text: lowest == 0 ? '\$ ---': '\$'+lowest.toString()),
                           ])),
                         ],
                       )),
@@ -188,7 +208,18 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
               SizedBox(
                 height: 15,
               ),
-              HeaderChartWidget(playerId: widget.rosterModel.cpoAthletes?.id ?? ""),
+              HeaderChartWidget(playerId: widget.rosterModel.cpoAthletes?.id ?? "",
+                onDurationSelect: (duration){
+                  APIRequests.doApi_getPriceTrends(widget.rosterModel.cpoAthletes?.id ?? "", duration).then((value) =>
+                  {
+                    highest = value[0]?.highest,
+                    lowest = value[0]?.lowest,
+                    open = value[0]?.starting,
+                    setState(() {})
+                  });
+
+              },
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -289,73 +320,73 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                 height: 1,
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'FanNation',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w600, fontSize: 12.sp),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          height: 15.0,
-                          width: 25.0,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-                              fit: BoxFit.fill,
-                            ),
-                            // shape: BoxShape.rectangle,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Text('5 Hours ago',
-                        style: TextStyle(color: ColorManager.colorTextGray, fontSize: 11))
-                  ],
-                )),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 80.0,
-                    width: 80.0,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
-                          fit: BoxFit.fill,
-                        ),
-                        // shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                )
-              ],
-            ),
+            // Row(
+            //   mainAxisSize: MainAxisSize.max,
+            //   children: [
+            //     Expanded(
+            //         child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Row(
+            //           children: [
+            //             Text(
+            //               'FanNation',
+            //               style: TextStyle(
+            //                   color: Colors.black, fontWeight: FontWeight.w600, fontSize: 12.sp),
+            //             ),
+            //             SizedBox(
+            //               width: 5,
+            //             ),
+            //             Container(
+            //               height: 15.0,
+            //               width: 25.0,
+            //               decoration: BoxDecoration(
+            //                 image: DecorationImage(
+            //                   image: NetworkImage(
+            //                       'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
+            //                   fit: BoxFit.fill,
+            //                 ),
+            //                 // shape: BoxShape.rectangle,
+            //               ),
+            //             )
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           height: 10.h,
+            //         ),
+            //         Text(
+            //           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
+            //           style: TextStyle(
+            //             color: Colors.black,
+            //           ),
+            //           maxLines: 2,
+            //           overflow: TextOverflow.ellipsis,
+            //         ),
+            //         SizedBox(
+            //           height: 10.h,
+            //         ),
+            //         Text('5 Hours ago',
+            //             style: TextStyle(color: ColorManager.colorTextGray, fontSize: 11))
+            //       ],
+            //     )),
+            //     Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Container(
+            //         height: 80.0,
+            //         width: 80.0,
+            //         decoration: BoxDecoration(
+            //             image: DecorationImage(
+            //               image: NetworkImage(
+            //                   'https://expressionengine.com/asset/images/avatars/avatar_2621.png'),
+            //               fit: BoxFit.fill,
+            //             ),
+            //             // shape: BoxShape.rectangle,
+            //             borderRadius: BorderRadius.circular(15)),
+            //       ),
+            //     )
+            //   ],
+            // ),
           ],
         ),
       ),

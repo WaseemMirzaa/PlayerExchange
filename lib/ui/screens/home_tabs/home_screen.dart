@@ -46,6 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
     homeScreenController.rosterController.getRoster();
     appDrawerController.getUserData();
 
+
+
     graphController
         .fetchData(appDrawerController.user.value.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
 
