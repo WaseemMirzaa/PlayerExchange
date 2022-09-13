@@ -8,6 +8,7 @@ import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
+import 'package:player_exchange/utils/DateUtilsCustom.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/constants.dart';
@@ -52,7 +53,6 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
       print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
     }, onConfirm: (date) {
       print('confirm $date');
-
       picked = date;
       if (picked != null && picked != selectedDate) {
         setState(() {
@@ -306,14 +306,30 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                           exchangePlayerModelId: widget.exchangePlayerModel.id,
                           totalShares: widget.exchangePlayerModel.shares!,
                           offerAmount: double.parse(offerAmountController.text),
-                          validFor: validTill,
+                          validFor: DateUtilsCustom.convertDateTime_ToISO_8601(validTill),
                           isNegotiable: dropdownValue == "Yes",
                           status: OfferStatusConstants.PENDING,
                           offerType: OfferTypeConstants.CASH_OFFER
                         );
-                        await APIRequests.doApi_postOffer(offer);
-
+                        var response = await APIRequests.doApi_postOffer(offer);
                         LoadingIndicatorDialog().dismiss();
+
+                        if(response != null){
+                          // Get.back();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    peerId: exchangeUser?.id ?? "",
+                                    currentUserId: userId ?? "",
+                                    currentUserName: userName ?? "",
+                                    peerAvatar: "",
+                                    peerNickname: exchangeUser?.name ?? "",
+                                    userAvatar: "",
+                                    offerText: "Hi, i offer you \$${offer.offerAmount} for ${offer.totalShares} shares of ${widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? ""}",
+                                  )));
+                        }
+
                       },
                       text: "Send Offer",
                       reverseColor: true,
@@ -338,6 +354,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                                   peerAvatar: "",
                                   peerNickname: exchangeUser?.name ?? "",
                                   userAvatar: "",
+                                  offerText: "",
                                 )));
 
                       },
@@ -359,7 +376,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Request to @',
+                    'Request to @' + (exchangeUser?.name ?? ""),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,

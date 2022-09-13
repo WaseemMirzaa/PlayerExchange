@@ -9,6 +9,7 @@ import 'package:player_exchange/chat/size_constants.dart';
 import 'package:player_exchange/chat/text_field_constants.dart';
 import 'package:provider/provider.dart';
 
+import '../models/Exchange/offer.dart';
 import '../models/auth/user_model.dart';
 import '../utils/color_manager.dart';
 import '../utils/constants.dart';
@@ -25,6 +26,8 @@ class ChatPage extends StatefulWidget {
   final String peerAvatar;
   final String peerNickname;
   final String userAvatar;
+  final String offerText;
+  final Offer? offer;
 
   const ChatPage(
       {Key? key,
@@ -33,7 +36,9 @@ class ChatPage extends StatefulWidget {
       required this.peerId,
         required this.currentUserId,
         required this.currentUserName,
-      required this.userAvatar})
+      required this.userAvatar,
+      required this.offerText,
+      this.offer})
       : super(key: key);
 
   @override
@@ -74,6 +79,9 @@ class _ChatPageState extends State<ChatPage> {
     focusNode.addListener(onFocusChanged);
     scrollController.addListener(_scrollListener);
     readLocal();
+    if(widget.offerText != ""){
+      onSendMessage(widget.offerText, MessageType.text);
+    }
   }
 
 
@@ -143,7 +151,7 @@ class _ChatPageState extends State<ChatPage> {
 
   void uploadImageFile() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    UploadTask uploadTask = chatProvider.uploadImageFile(imageFile!, fileName);
+    UploadTask uploadTask = chatProvider.uploadImageFile(imageFile!, "messages/" + groupChatId + "/"+ fileName);
     try {
       TaskSnapshot snapshot = await uploadTask;
       imageUrl = await snapshot.ref.getDownloadURL();
@@ -159,11 +167,11 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void onSendMessage(String content, int type) {
+  void onSendMessage(String content, String type) {
     if (content.trim().isNotEmpty) {
       textEditingController.clear();
       chatProvider.sendChatMessage(
-          content, type, groupChatId, widget.currentUserId, widget.peerId,widget.currentUserName,widget.peerNickname);
+          content, type, groupChatId, widget.currentUserId, widget.peerId,widget.currentUserName,widget.peerNickname, widget.offer);
       scrollController.animateTo(0,
           duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
     } else {

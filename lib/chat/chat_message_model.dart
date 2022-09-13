@@ -1,19 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:player_exchange/utils/constants.dart';
 
+import '../models/Exchange/offer.dart';
+
 class ChatMessages {
   String idFrom;
   String idTo;
   String timestamp;
   String content;
-  int type;
+  String type;
+  Offer? offer;
 
   ChatMessages(
       {required this.idFrom,
         required this.idTo,
         required this.timestamp,
         required this.content,
-        required this.type});
+        required this.type,
+        required this.offer,
+      });
 
   Map<String, dynamic> toJson() {
     return {
@@ -30,13 +35,15 @@ class ChatMessages {
     String idTo = documentSnapshot.get(FirestoreCollections.idTo);
     String timestamp = documentSnapshot.get(FirestoreCollections.timestamp);
     String content = documentSnapshot.get(FirestoreCollections.content);
-    int type = documentSnapshot.get(FirestoreCollections.type);
+    String type = documentSnapshot.get(FirestoreCollections.type);
+    Offer offer = documentSnapshot.get(FirestoreCollections.offer);
 
     return ChatMessages(
         idFrom: idFrom,
         idTo: idTo,
         timestamp: timestamp,
         content: content,
-        type: type);
+        type: type,
+    offer: offer);
   }
 }

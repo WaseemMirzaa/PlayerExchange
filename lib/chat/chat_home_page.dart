@@ -327,6 +327,7 @@ class _HomePageState extends State<HomePage> {
                           peerAvatar: userChat.user?.profilePicture ?? "",
                           peerNickname: userChat.user?.name ?? "",
                           userAvatar: userChat.user?.profilePicture ?? "",
+                      offerText: "",
                         )));
           },
           child: ListTile(

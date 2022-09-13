@@ -12,6 +12,16 @@ class DateUtilsCustom{
     // return d.toString();
 
   }
+  static String convertDateTime_ToISO_8601(String dateTime){
+    String isoDate = dateTime.replaceFirst(" ", "T");
+    isoDate = isoDate + "Z";
+
+    return isoDate;
+    // var d = DateTime.parse(restrictFractionalSeconds(isoDate));
+    // return d.toString();
+
+  }
+
   static String _restrictFractionalSeconds(String dateTime){
     return dateTime.replaceFirstMapped(RegExp("(\\.\\d{5})\\d+"), (m) => m[1]!);
   }

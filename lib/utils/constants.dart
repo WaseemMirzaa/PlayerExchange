@@ -20,7 +20,7 @@ class Constants{
 }
 class GraphApiConstants{
   static const String days = "day";
-  static const int daysCount = 31;
+  static const int daysCount = 8;
   static const String weeks = "week";
   static const int weeksCount = 4;
   static const String months = "month";
@@ -41,6 +41,8 @@ class FirestoreCollections{
   static const chatConservations = "conservation";
 
   static const phoneNumber = "phoneNumber";
+  static const email = "email";
+
   static const id = "id";
   static const chattingWith = "chattingWith";
   static const idFrom = "idFrom";
@@ -48,7 +50,8 @@ class FirestoreCollections{
   static const timestamp = "timestamp";
   static const content = "content";
   static const type = "type";
-  static const email = "email";
+  static const offer = "offer";
+
 }
 
 
