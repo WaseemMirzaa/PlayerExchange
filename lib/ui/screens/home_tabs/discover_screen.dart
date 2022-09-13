@@ -217,18 +217,18 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15),
-                    child: YoutubePlayer(
-                      controller: youtubeController,
-                      showVideoProgressIndicator: true,
-                      progressColors: const ProgressBarColors(
-                        playedColor: Colors.redAccent,
-                        handleColor: Color(0xffFF6757),
-                      ),
-                      onReady: () {},
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 15.0, right: 15),
+                  //   child: YoutubePlayer(
+                  //     controller: youtubeController,
+                  //     showVideoProgressIndicator: true,
+                  //     progressColors: const ProgressBarColors(
+                  //       playedColor: Colors.redAccent,
+                  //       handleColor: Color(0xffFF6757),
+                  //     ),
+                  //     onReady: () {},
+                  //   ),
+                  // ),
                 ],
               )),
             ),

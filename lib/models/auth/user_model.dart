@@ -106,7 +106,7 @@ class User {
     _age = age;
     _password = password;
     _userType = userType;
-    _fcmToken = fcmToken;
+    fcmToken = fcmToken;
     _createdAt = createdAt;
     _secretKey = secretKey;
     _uniqueKey = uniqueKey;
@@ -128,7 +128,7 @@ class User {
     _age = json['age'] ?? 0.0;
     _password = json['password'] ?? "";
     _userType = json['userType'] ?? "";
-    _fcmToken = json['fcmToken'] ?? "";
+    fcmToken = json['fcmToken'] ?? "";
     _createdAt = json['createdAt'] ?? new DateTime.now().toString();
     _secretKey = json['secretKey'] ?? "";
     _uniqueKey = json['uniqueKey'] ?? "";
@@ -149,7 +149,7 @@ class User {
   num? _age;
   String? _password;
   String? _userType;
-  String? _fcmToken;
+  String? fcmToken;
   String? _createdAt;
   String? _secretKey;
   String? _uniqueKey;
@@ -191,7 +191,7 @@ class User {
     age: age ?? _age,
     password: password ?? _password,
     userType: userType ?? _userType,
-    fcmToken: fcmToken ?? _fcmToken,
+    fcmToken: fcmToken ?? fcmToken,
     createdAt: createdAt ?? _createdAt,
     secretKey: secretKey ?? _secretKey,
     uniqueKey: uniqueKey ?? _uniqueKey,
@@ -209,7 +209,7 @@ class User {
   // String? get name => name;
   String? get password => _password;
   String? get userType => _userType;
-  String? get fcmToken => _fcmToken;
+  // String? get fcmToken => _fcmToken;
   String? get createdAt => _createdAt;
   String? get secretKey => _secretKey;
   String? get uniqueKey => _uniqueKey;
@@ -231,7 +231,7 @@ class User {
     map['age'] = _age;
     map['password'] = _password;
     map['userType'] = _userType;
-    map['fcmToken'] = _fcmToken;
+    map['fcmToken'] = fcmToken;
     map['createdAt'] = _createdAt;
     map['secretKey'] = _secretKey;
     map['uniqueKey'] = _uniqueKey;

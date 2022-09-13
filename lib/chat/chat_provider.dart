@@ -64,7 +64,11 @@ class ChatProvider {
       'lastMessage': message
     };
 
-    await FirebaseFirestore.instance.collection(FirestoreCollections.pathMessageCollection).doc(groupChatId).set(map);
+    try {
+      await FirebaseFirestore.instance.collection(FirestoreCollections.pathMessageCollection).doc(groupChatId).set(map);
+    } catch (e) {
+      print(e);
+    }
 
     DocumentReference documentReference = firebaseFirestore
         .collection(FirestoreCollections.pathMessageCollection)

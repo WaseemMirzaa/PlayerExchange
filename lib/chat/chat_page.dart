@@ -18,6 +18,7 @@ import 'chat_message_model.dart';
 import 'chat_provider.dart';
 import 'color_constants.dart';
 import 'common_widgets.dart';
+import 'firebase_cloud_messaging.dart';
 
 class ChatPage extends StatefulWidget {
   final String currentUserId;
@@ -167,7 +168,7 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void onSendMessage(String content, String type) {
+  Future<void> onSendMessage(String content, String type) async {
     if (content.trim().isNotEmpty) {
       textEditingController.clear();
       chatProvider.sendChatMessage(
@@ -177,6 +178,26 @@ class _ChatPageState extends State<ChatPage> {
     } else {
       Fluttertoast.showToast(
           msg: 'Nothing to send', backgroundColor: Colors.grey);
+    }
+
+    try {
+      User? user = await SessionManager.getUserData();
+      String msg = "";
+      if(type == MessageType.text)
+        msg = content;
+      else if(type == MessageType.image)
+        msg = content;
+      else if(type == MessageType.sticker)
+        msg = content;
+      else if(type == MessageType.offer)
+        msg = content;
+
+      FirebaseCloudMessaging.sendNotification(
+                  msg,
+                  widget.currentUserName,
+                  user?.fcmToken ?? "");
+    } catch (e) {
+      print(e);
     }
   }
 

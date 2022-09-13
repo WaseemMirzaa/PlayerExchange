@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -308,14 +310,15 @@ class _LoginScreenState extends State<LoginScreen> {
           if (userResponse.message != null &&
               userResponse.message == 'Successfully logged in') {
 
-
-
-
-
             if(userResponse.user != null) {
               SessionManager.setUserData(userResponse.user!);
 
-              await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id  ?? "");
+              try {
+                await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id  ?? "");
+                FirebaseFirestore.instance.settings = Settings(persistenceEnabled: false);
+              } catch (e) {
+                print(e);
+              }
             }
             TabsScreen.currentIndex = 0;
 

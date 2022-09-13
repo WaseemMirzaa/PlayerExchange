@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:player_exchange/utils/constants.dart';
 
+import '../Networking/api_requests.dart';
+import '../models/auth/user_model.dart';
+import '../utils/session_manager.dart';
+
  AndroidNotificationChannel channel = const AndroidNotificationChannel(
      'high_importance_channel',
      'High Importance Notifications',
@@ -37,17 +41,25 @@ class FirebaseCloudMessaging {
   }
 
   static Future<void> startNotificationService ({required String userId}) async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    await FirebaseFirestore.instance
-        .collection(FirestoreCollections.users)
-        .doc(userId)
-        .update({'fcmToken': token});
+      String? token = await FirebaseMessaging.instance.getToken();
+      // await FirebaseFirestore.instance
+      //         .collection(FirestoreCollections.users)
+      //         .doc(userId)
+      //         .update({'fcmToken': token});
+
+      User? user = await SessionManager.getUserData();
+      user!.fcmToken = token;
+      await APIRequests.doApi_updateUserProfile(user.id ?? "", user);
+
   }
   static Future<void> stopNotificationService ({required String userId}) async {
-    await FirebaseFirestore.instance
-        .collection(FirestoreCollections.users)
-        .doc(userId)
-        .update({'fcmToken': ''});
+    // await FirebaseFirestore.instance
+    //     .collection(FirestoreCollections.users)
+    //     .doc(userId)
+    //     .update({'fcmToken': ''});
+    User? user = await SessionManager.getUserData();
+    user!.fcmToken = "";
+    await APIRequests.doApi_updateUserProfile(user.id ?? "", user);
   }
 
   static showNotification() async{
