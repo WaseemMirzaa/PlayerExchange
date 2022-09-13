@@ -201,6 +201,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           peerNickname: receiverName ?? "",
                           userAvatar: "",
                       offerText: "",
+                      offer: null,
                         )));
           },
           child: ListTile(

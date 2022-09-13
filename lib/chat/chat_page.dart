@@ -81,7 +81,7 @@ class _ChatPageState extends State<ChatPage> {
     scrollController.addListener(_scrollListener);
     readLocal();
     if(widget.offerText != ""){
-      onSendMessage(widget.offerText, MessageType.text);
+      onSendMessage(widget.offerText, MessageType.offer);
     }
   }
 
@@ -491,7 +491,7 @@ class _ChatPageState extends State<ChatPage> {
               stream: chatProvider.getChatMessage(groupChatId, _limit),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasData && snapshot.data!.docs.length > 0) {
                   listMessages = snapshot.data!.docs;
                   if (listMessages.isNotEmpty) {
                     return ListView.builder(

@@ -466,7 +466,7 @@ class APIRequests {
         e.printError();
 
         if (e.response != null) {
-          print('has response' + e.response?.data);
+          //print('has response' + e.response?.data);
           Fluttertoast.showToast(msg: "Could not update profile.");
         } else {
           Fluttertoast.showToast(msg: e.response.toString());
