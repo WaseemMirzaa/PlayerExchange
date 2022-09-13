@@ -22,6 +22,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../widgets/curve_graph_chart.dart';
 import '../../widgets/header_graph_chart.dart';
 
 class SelectExchangePlayerDetailScreen extends StatefulWidget {
@@ -463,7 +464,12 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                         Icons.arrow_drop_up_rounded,
                         color: ColorManager.greenColor,
                       ),
-                      SvgPicture.asset(AssetsString().RiseChartIcon)
+                      Container(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          width: 60,
+                          height: 70,
+                          // TODO ID'S ISSUE
+                          child: Center(child: CurveChart(playerId: widget.exchangePlayerModel.roster?.cpoAthletes?.id ?? "")))
                     ],
                   )
                 : SizedBox.shrink()

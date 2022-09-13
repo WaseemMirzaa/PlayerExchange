@@ -21,6 +21,7 @@ class Constants{
 class GraphApiConstants{
   static const String days = "day";
   static const int daysCount = 8;
+  static const int daysCountPlayer = 7;
   static const String weeks = "week";
   static const int weeksCount = 4;
   static const String months = "month";

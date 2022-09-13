@@ -20,6 +20,7 @@ import 'package:player_exchange/utils/style_manager.dart';
 // import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../widgets/curve_graph_chart.dart';
 import '../widgets/header_graph_chart.dart';
 import 'buy_and_watch/buy_screen.dart';
 
@@ -444,7 +445,11 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                         Icons.arrow_drop_up_rounded,
                         color: ColorManager.greenColor,
                       ),
-                      SvgPicture.asset(AssetsString().RiseChartIcon)
+                      Container(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          width: 60,
+                          height: 70,
+                          child: Center(child: CurveChart(playerId: widget.cpoModel.id ?? "")))
                     ],
                   )
                 : SizedBox.shrink()

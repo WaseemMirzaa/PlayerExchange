@@ -14,7 +14,12 @@ class Chart extends StatefulWidget {
   );
   FlBorderData borderData =  FlBorderData(
     show: true,
-    border:  Border.all(color: Colors.grey.withOpacity(0.5)),
+    border:  Border(
+      bottom: BorderSide(color: Colors.grey.withOpacity(0.5)),
+      left: BorderSide(color: Colors.grey.withOpacity(0.5)),
+      right: BorderSide(color: Colors.transparent),
+      top: BorderSide(color: Colors.transparent),
+    ),
   );
 
   Chart({Key? key}) : super(key: key);

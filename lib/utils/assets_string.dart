@@ -15,7 +15,7 @@ class AssetsString{
   final AppLogo='assets/logo/app_logo.png';
    ///  ----------------Icons----------------
   final RewadIcon='assets/rewad_icon.svg';
-  final RiseChartIcon='assets/rise_chart_icon.svg';
+  //final RiseChartIcon='assets/rise_chart_icon.svg';
   final BackArrowIcon='assets/back_arrow_icon.svg';
   final ThumbsUpIcon='assets/thumbs_up.svg';
   final ThumbsDownIcon='assets/thumbs_down.svg';
