@@ -70,7 +70,7 @@ class _ChatPageState extends State<ChatPage> {
   final FocusNode focusNode = FocusNode();
 
   late ChatProvider chatProvider;
-
+  late User receiverUser;
   //late AuthProvider authProvider;
 
   @override
@@ -82,9 +82,19 @@ class _ChatPageState extends State<ChatPage> {
     focusNode.addListener(onFocusChanged);
     scrollController.addListener(_scrollListener);
     readLocal();
+
+    getReceiverUser().then((value) => {
     if (widget.offerText != "") {
-      onSendMessage(widget.offerText, MessageType.offer);
-    }
+        onSendMessage(widget.offerText, MessageType.offer),
+  }
+    });
+
+
+  }
+
+  Future<void> getReceiverUser() async {
+    receiverUser = await APIRequests.doApi_getUserProfile(widget.peerId ?? "");
+
   }
 
   _scrollListener() {
@@ -189,8 +199,8 @@ class _ChatPageState extends State<ChatPage> {
         msg = content;
       else if (type == MessageType.offer) msg = content;
 
-      // FirebaseCloudMessaging.sendNotification(msg, widget.currentUserName, user?.fcmToken ?? "");
-      FirebaseCloudMessaging.sendNotification(msg, widget.currentUserName, "40vFN7IbxAwY8Q4Et9B7JeGR633nVkzoUL4131kDGjezzpeh7eUs0Mzw58o6ZsHRXHQuy27vhIgRWzUkAuj");
+      FirebaseCloudMessaging.sendNotification(msg, widget.currentUserName, receiverUser.fcmToken ?? "");
+      // FirebaseCloudMessaging.sendNotification(msg, widget.currentUserName, "40vFN7IbxAwY8Q4Et9B7JeGR633nVkzoUL4131kDGjezzpeh7eUs0Mzw58o6ZsHRXHQuy27vhIgRWzUkAuj");
     } catch (e) {
       print(e);
     }

@@ -42,10 +42,10 @@ class FirebaseCloudMessaging {
 
   static Future<void> startNotificationService ({required String userId}) async {
       String? token = await FirebaseMessaging.instance.getToken();
-      // await FirebaseFirestore.instance
-      //         .collection(FirestoreCollections.users)
-      //         .doc(userId)
-      //         .update({'fcmToken': token});
+      await FirebaseFirestore.instance
+              .collection(FirestoreCollections.users)
+              .doc(userId)
+              .update({'fcmToken': token});
 
       User? user = await SessionManager.getUserData();
       user!.fcmToken = token;
@@ -53,10 +53,10 @@ class FirebaseCloudMessaging {
 
   }
   static Future<void> stopNotificationService ({required String userId}) async {
-    // await FirebaseFirestore.instance
-    //     .collection(FirestoreCollections.users)
-    //     .doc(userId)
-    //     .update({'fcmToken': ''});
+    await FirebaseFirestore.instance
+        .collection(FirestoreCollections.users)
+        .doc(userId)
+        .update({'fcmToken': ''});
     User? user = await SessionManager.getUserData();
     user!.fcmToken = "";
     await APIRequests.doApi_updateUserProfile(user.id ?? "", user);
@@ -86,6 +86,7 @@ class FirebaseCloudMessaging {
   }
 
   static sendNotification(String title,String msg, String to) async {
+    testNotification();
     Map<String, dynamic> json =
     {
       "title": title,

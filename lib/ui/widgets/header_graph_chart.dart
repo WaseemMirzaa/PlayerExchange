@@ -1,9 +1,6 @@
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/Networking/api_requests.dart';
 import 'package:player_exchange/main.dart';
 import 'package:player_exchange/utils/constants.dart';
 
@@ -15,6 +12,7 @@ class HeaderChartWidget extends StatefulWidget {
   final String playerId;
   final bool? isUser;
   final Function(String)? onDurationSelect;
+
   const HeaderChartWidget({
     required this.playerId,
     this.isUser,
@@ -29,13 +27,11 @@ class HeaderChartWidget extends StatefulWidget {
 class _HeaderChartWidgetState extends State<HeaderChartWidget> {
   int currentIndex = 0;
 
-
-
   @override
   void initState() {
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -54,21 +50,24 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
           child: Row(
             children: [
               Container(
-                padding: currentIndex ==  0? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) :  null ,
-                color: currentIndex ==  0? ColorManager.greenColor:  null,
+                padding: currentIndex == 0
+                    ? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)
+                    : null,
+                color: currentIndex == 0 ? ColorManager.greenColor : null,
                 child: InkWell(
-                  onTap: ((){
+                  onTap: (() {
                     widget.onDurationSelect?.call("day");
-    setState(() {
-    currentIndex = 0;
-    });
-                    graphController
-                        .fetchData(widget.playerId, GraphApiConstants.days, GraphApiConstants.daysCount,isUser: widget.isUser?? false);
+                    setState(() {
+                      currentIndex = 0;
+                    });
+                    graphController.fetchData(
+                        widget.playerId, GraphApiConstants.days, GraphApiConstants.daysCount,
+                        isUser: widget.isUser ?? false);
                   }),
                   child: Text(
                     'Days'.tr,
                     style: TextStyle(
-                        color:  currentIndex ==  0? Colors.white:  Colors.black,
+                        color: currentIndex == 0 ? Colors.white : Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: StyleManager().smallFontSize),
                   ),
@@ -78,21 +77,24 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 width: 50,
               ),
               Container(
-                padding: currentIndex ==  1? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) :  null ,
-                color: currentIndex ==  1? ColorManager.greenColor:  null,
+                padding: currentIndex == 1
+                    ? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)
+                    : null,
+                color: currentIndex == 1 ? ColorManager.greenColor : null,
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     widget.onDurationSelect?.call("week");
-    setState(() {
-    currentIndex = 1;
-    });
-                    graphController
-                        .fetchData(widget.playerId, GraphApiConstants.weeks, GraphApiConstants.weeksCount, isUser: widget.isUser?? false);
+                    setState(() {
+                      currentIndex = 1;
+                    });
+                    graphController.fetchData(
+                        widget.playerId, GraphApiConstants.weeks, GraphApiConstants.weeksCount,
+                        isUser: widget.isUser ?? false);
                   },
                   child: Text(
                     'Weeks'.tr,
                     style: TextStyle(
-                        color:  currentIndex ==  1? Colors.white:  Colors.black,
+                        color: currentIndex == 1 ? Colors.white : Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: StyleManager().smallFontSize),
                   ),
@@ -102,21 +104,24 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 width: 50,
               ),
               Container(
-                padding: currentIndex ==  2? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) :  null ,
-                color: currentIndex ==  2? ColorManager.greenColor:  null,
+                padding: currentIndex == 2
+                    ? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)
+                    : null,
+                color: currentIndex == 2 ? ColorManager.greenColor : null,
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     widget.onDurationSelect?.call("month");
-    setState(() {
-    currentIndex = 2;
-    });
-                    graphController
-                        .fetchData(widget.playerId, GraphApiConstants.months, GraphApiConstants.monthsCount, isUser: widget.isUser?? false);
+                    setState(() {
+                      currentIndex = 2;
+                    });
+                    graphController.fetchData(
+                        widget.playerId, GraphApiConstants.months, GraphApiConstants.monthsCount,
+                        isUser: widget.isUser ?? false);
                   },
                   child: Text(
                     'Months'.tr,
                     style: TextStyle(
-                        color:  currentIndex ==  2? Colors.white:  Colors.black,
+                        color: currentIndex == 2 ? Colors.white : Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: StyleManager().smallFontSize),
                   ),
@@ -126,21 +131,24 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
                 width: 50,
               ),
               Container(
-                padding: currentIndex ==  3? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0) :  null ,
-                color: currentIndex ==  3? ColorManager.greenColor:  null,
+                padding: currentIndex == 3
+                    ? EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0)
+                    : null,
+                color: currentIndex == 3 ? ColorManager.greenColor : null,
                 child: InkWell(
-                  onTap: (){
+                  onTap: () {
                     widget.onDurationSelect?.call("year");
                     setState(() {
                       currentIndex = 3;
                     });
-                    graphController
-                        .fetchData(widget.playerId, GraphApiConstants.years, GraphApiConstants.yearsCount, isUser: widget.isUser?? false);
+                    graphController.fetchData(
+                        widget.playerId, GraphApiConstants.years, GraphApiConstants.yearsCount,
+                        isUser: widget.isUser ?? false);
                   },
                   child: Text(
                     'Years'.tr,
                     style: TextStyle(
-                        color:  currentIndex ==  3? Colors.white:  Colors.black,
+                        color: currentIndex == 3 ? Colors.white : Colors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: StyleManager().smallFontSize),
                   ),
@@ -149,7 +157,6 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
             ],
           ),
         ),
-
       ],
     );
   }
