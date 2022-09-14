@@ -706,7 +706,7 @@ class APIRequests {
   }
 
   static Future<bool> doApi_deleteUser(String userId) async {
-    var completeUrl = Api.baseURL + 'users?${userId}';
+    var completeUrl = Api.baseURL + 'users/${userId}';
 
     var dio = Dio();
     try {

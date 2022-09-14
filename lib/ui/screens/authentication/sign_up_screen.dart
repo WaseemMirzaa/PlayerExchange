@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -28,6 +29,8 @@ import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
 
 import '../../../main.dart';
+import '../../../stripe/WebViewApp.dart';
+import '../generic_web_view.dart';
 import 'login_screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -379,13 +382,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               text: 'I agree with your ',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: ColorManager.greenColor),
+                                  color: ColorManager.colorTextGray),
                               children: <TextSpan>[
+
                                 TextSpan(
+                                    recognizer: TapGestureRecognizer()..onTap = () {
+                                      // Single tapped.
+                                      Get.to(WebViewGenericCustom(url: 'https://pages.flycricket.io/playerexchange/terms.html', title: 'Terms & Conditions'));
+                                    },
                                     text: 'Term & Conditions',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: ColorManager.greenColor)),
+                                TextSpan(
+
+                                    text: ' and \n',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorManager.colorTextGray)),
+
+                                TextSpan(
+                                    recognizer: TapGestureRecognizer()..onTap = () {
+                                      // Single tapped.
+                                      Get.to(WebViewGenericCustom(url: 'https://pages.flycricket.io/playerexchange/privacy.html', title: 'Privacy Policy'));
+
+
+                                    },
+                                    text: 'Privacy Policy',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorManager.greenColor)),
+
                               ],
                             ),
                           )

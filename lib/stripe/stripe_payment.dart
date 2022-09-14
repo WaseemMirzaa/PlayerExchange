@@ -8,25 +8,33 @@ import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/stripe/response/create_customer/CreatePaymentIntentResponse.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
+import '../main.dart';
+import '../utils/constants.dart';
+
 class StripePayment {
   //Renovision Test key
   // static final String primaryKey = 'pk_test_51KehMQGOzjebkLdAlkU4aJTvqoPkBfexDTDNjlzIiSdAFlXdbytudxQiZPUI0NbXChO3KHOuV1me1BhtWNcgoXRm000Rw07IIS';
   //Player exchange TEST KEY
-  static final String primaryKey = 'pk_test_51LD9YUF4ui5DHbUROFlf0BZnjORIhXcXoCUbmpYLOMkz0Cg8oUSS2RZpUVakikIvskQPRAFZ843tNcsQbqo9DaaS00YegsG5r7';
-
-
 
   static final String merchantName = "JayHawk";
   static final String merchantCountry = "US";
+
   Map<String, dynamic>? paymentIntentData;
   BuildContext context;
   late CreatePaymentIntentResponse intentData;
 
   StripePayment(this.context);
-  void initialize() {
+  Future<void> initialize() async {
+
+    var snapshot = await fireStore.collection(FirestoreCollections.appSettings)
+        .doc(FirestoreDocuments().settingsDocument).get();
+
     try {
       WidgetsFlutterBinding.ensureInitialized();
-      Stripe.publishableKey = primaryKey;
+
+      String key = snapshot[StripeConstants().stripeKey].toString();
+
+      Stripe.publishableKey = key;
     } catch (e) {
       print("Exception" + e.toString());
     }

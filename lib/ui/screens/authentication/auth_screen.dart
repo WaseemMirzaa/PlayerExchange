@@ -50,7 +50,7 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               FilledButton(onTap: (){
                 Get.to(SignUpScreen());
-              },text: 'create_an_account'.tr,),
+              },text: 'Create an Account'.tr,),
             ],)),
           ],)
 

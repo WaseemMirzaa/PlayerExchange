@@ -14,6 +14,7 @@ import 'package:player_exchange/ui/screens/pdf_viewer_screen_backup.dart';
 import 'package:player_exchange/ui/screens/splash_screen.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
+import 'generic_web_view.dart';
 import 'home_tabs/tabs_screen.dart';
 import 'notification_screen.dart';
 
@@ -134,8 +135,8 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             text: 'Terms of Service',
             onTap: () {
-              Get.to(PdfViewerScreen(pdfPath: 'assets/pdfs/support.pdf',));
-            },
+              Get.to(WebViewGenericCustom(url: 'https://pages.flycricket.io/playerexchange/terms.html', title: 'Terms & Conditions',));
+              },
           ),
           _createDrawerItem(
             icon: Icons.help,
@@ -152,7 +153,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             text: 'Privacy Policy',
             onTap: () {
-              Get.to(PdfViewerScreen(pdfPath: 'assets/pdfs/support.pdf',));
+              Get.to(WebViewGenericCustom(url: 'https://pages.flycricket.io/playerexchange/privacy.html', title: 'Privacy Policy'));
             },
           ),
           //Logout
