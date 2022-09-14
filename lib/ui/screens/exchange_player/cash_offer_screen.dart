@@ -76,7 +76,9 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
 
     exchangeUser = await APIRequests.doApi_getUserProfile(widget.exchangePlayerModel.userId ?? "");
     debugPrint(exchangeUser?.name ?? "" + "ASDA");
+    setState(() {
 
+    });
   }
 
   @override
