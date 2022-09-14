@@ -3,6 +3,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:player_exchange/models/exchange/offer.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -17,7 +18,6 @@ import 'package:player_exchange/utils/style_manager.dart';
 import '../../../chat/chat_page.dart';
 import '../../../controllers/app_drawer_controller.dart';
 import '../../../models/Exchange/exchange_player_model.dart';
-import '../../../models/Exchange/offer.dart';
 import '../../../models/auth/user_model.dart';
 import '../../../utils/session_manager.dart';
 

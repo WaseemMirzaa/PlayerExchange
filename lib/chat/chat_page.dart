@@ -39,14 +39,14 @@ class ChatPage extends StatefulWidget {
 
   const ChatPage(
       {Key? key,
-      required this.peerNickname,
-      required this.peerAvatar,
-      required this.peerId,
-      required this.currentUserId,
-      required this.currentUserName,
-      required this.userAvatar,
-      required this.offerText,
-      this.offer})
+        required this.peerNickname,
+        required this.peerAvatar,
+        required this.peerId,
+        required this.currentUserId,
+        required this.currentUserName,
+        required this.userAvatar,
+        required this.offerText,
+        this.offer})
       : super(key: key);
 
   @override
@@ -84,9 +84,9 @@ class _ChatPageState extends State<ChatPage> {
     readLocal();
 
     getReceiverUser().then((value) => {
-    if (widget.offerText != "") {
+      if (widget.offerText != "") {
         onSendMessage(widget.offerText, MessageType.offer),
-  }
+      }
     });
 
 
@@ -161,7 +161,7 @@ class _ChatPageState extends State<ChatPage> {
   void uploadImageFile() async {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     UploadTask uploadTask =
-        chatProvider.uploadImageFile(imageFile!, "messages/" + groupChatId + "/" + fileName);
+    chatProvider.uploadImageFile(imageFile!, "messages/" + groupChatId + "/" + fileName);
     try {
       TaskSnapshot snapshot = await uploadTask;
       imageUrl = await snapshot.ref.getDownloadURL();
@@ -209,7 +209,7 @@ class _ChatPageState extends State<ChatPage> {
   // checking if received message
   bool isMessageReceived(int index) {
     if ((index > 0 &&
-            listMessages[index - 1].get(FirestoreCollections.idFrom) == widget.currentUserId) ||
+        listMessages[index - 1].get(FirestoreCollections.idFrom) == widget.currentUserId) ||
         index == 0) {
       return true;
     } else {
@@ -220,7 +220,7 @@ class _ChatPageState extends State<ChatPage> {
   // checking if sent message
   bool isMessageSent(int index) {
     if ((index > 0 &&
-            listMessages[index - 1].get(FirestoreCollections.idFrom) != widget.currentUserId) ||
+        listMessages[index - 1].get(FirestoreCollections.idFrom) != widget.currentUserId) ||
         index == 0) {
       return true;
     } else {
@@ -279,18 +279,18 @@ class _ChatPageState extends State<ChatPage> {
           ),
           Flexible(
               child: TextField(
-            focusNode: focusNode,
-            textInputAction: TextInputAction.send,
-            style: const TextStyle(color: Colors.black),
-            keyboardType: TextInputType.text,
-            textCapitalization: TextCapitalization.sentences,
-            controller: textEditingController,
-            decoration: kTextInputDecoration.copyWith(
-                hintText: 'Message', hintStyle: TextStyle(color: Colors.black.withOpacity(0.5))),
-            onSubmitted: (value) {
-              onSendMessage(textEditingController.text, MessageType.text);
-            },
-          )),
+                focusNode: focusNode,
+                textInputAction: TextInputAction.send,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.text,
+                textCapitalization: TextCapitalization.sentences,
+                controller: textEditingController,
+                decoration: kTextInputDecoration.copyWith(
+                    hintText: 'Message', hintStyle: TextStyle(color: Colors.black.withOpacity(0.5))),
+                onSubmitted: (value) {
+                  onSendMessage(textEditingController.text, MessageType.text);
+                },
+              )),
           Container(
             margin: const EdgeInsets.only(left: Sizes.dimen_4),
             decoration: BoxDecoration(
@@ -323,83 +323,83 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 chatMessages.type == MessageType.text
                     ? messageBubble(
-                        chatContent: chatMessages.content,
-                        color: ColorManager.greenColor,
-                        textColor: AppColors.white,
-                        margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_6),
-                      )
+                  chatContent: chatMessages.content,
+                  color: ColorManager.greenColor,
+                  textColor: AppColors.white,
+                  margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_6),
+                )
                     : chatMessages.type == MessageType.image
-                        ? Container(
-                            margin:
-                                const EdgeInsets.only(right: Sizes.dimen_10, top: Sizes.dimen_10),
-                            child: chatImage(imageSrc: chatMessages.content, onTap: () {}),
-                          )
-                        : chatMessages.type == MessageType.offer
-                            ? offerMessageBubble(
-                                chatContent: chatMessages.content,
-                                offer: chatMessages.offer!,
-                                color: ColorManager.greenColor,
-                                textColor: AppColors.white,
-                                margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_6),
-                                isMyMsg: chatMessages.idFrom == widget.currentUserId,
-                  chatMessages: chatMessages
-                              )
-                            : const SizedBox.shrink(),
+                    ? Container(
+                  margin:
+                  const EdgeInsets.only(right: Sizes.dimen_10, top: Sizes.dimen_10),
+                  child: chatImage(imageSrc: chatMessages.content, onTap: () {}),
+                )
+                    : chatMessages.type == MessageType.offer
+                    ? offerMessageBubble(
+                    chatContent: chatMessages.content,
+                    offer: chatMessages.offer!,
+                    color: ColorManager.greenColor,
+                    textColor: AppColors.white,
+                    margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_6),
+                    isMyMsg: chatMessages.idFrom == widget.currentUserId,
+                    chatMessages: chatMessages
+                )
+                    : const SizedBox.shrink(),
                 isMessageSent(index)
                     ? Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                  ),
+                  child: Image.network(
+                    widget.userAvatar,
+                    width: Sizes.dimen_40,
+                    height: Sizes.dimen_40,
+                    fit: BoxFit.cover,
+                    loadingBuilder:
+                        (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.burgundy,
+                          value: loadingProgress.expectedTotalBytes != null &&
+                              loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                              : null,
                         ),
-                        child: Image.network(
-                          widget.userAvatar,
-                          width: Sizes.dimen_40,
-                          height: Sizes.dimen_40,
-                          fit: BoxFit.cover,
-                          loadingBuilder:
-                              (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.burgundy,
-                                value: loadingProgress.expectedTotalBytes != null &&
-                                        loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, object, stackTrace) {
-                            return const Icon(
-                              Icons.account_circle,
-                              size: 35,
-                              color: AppColors.greyColor,
-                            );
-                          },
-                        ),
-                      )
+                      );
+                    },
+                    errorBuilder: (context, object, stackTrace) {
+                      return const Icon(
+                        Icons.account_circle,
+                        size: 35,
+                        color: AppColors.greyColor,
+                      );
+                    },
+                  ),
+                )
                     : Container(
-                        width: 35,
-                      ),
+                  width: 35,
+                ),
               ],
             ),
             isMessageSent(index)
                 ? Container(
-                    margin: const EdgeInsets.only(
-                        right: Sizes.dimen_50, top: Sizes.dimen_6, bottom: Sizes.dimen_8),
-                    child: Text(
-                      DateFormat('dd MMM yyyy, hh:mm a').format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(chatMessages.timestamp),
-                        ),
-                      ),
-                      style: const TextStyle(
-                          color: AppColors.lightGrey,
-                          fontSize: Sizes.dimen_12,
-                          fontStyle: FontStyle.italic),
-                    ),
-                  )
+              margin: const EdgeInsets.only(
+                  right: Sizes.dimen_50, top: Sizes.dimen_6, bottom: Sizes.dimen_8),
+              child: Text(
+                DateFormat('dd MMM yyyy, hh:mm a').format(
+                  DateTime.fromMillisecondsSinceEpoch(
+                    int.parse(chatMessages.timestamp),
+                  ),
+                ),
+                style: const TextStyle(
+                    color: AppColors.lightGrey,
+                    fontSize: Sizes.dimen_12,
+                    fontStyle: FontStyle.italic),
+              ),
+            )
                 : const SizedBox.shrink(),
           ],
         );
@@ -411,85 +411,85 @@ class _ChatPageState extends State<ChatPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 isMessageReceived(index)
-                    // left side (received message)
+                // left side (received message)
                     ? Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Sizes.dimen_6),
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Sizes.dimen_6),
+                  ),
+                  child: Image.network(
+                    widget.peerAvatar,
+                    width: Sizes.dimen_40,
+                    height: Sizes.dimen_40,
+                    fit: BoxFit.cover,
+                    loadingBuilder:
+                        (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.burgundy,
+                          value: loadingProgress.expectedTotalBytes != null &&
+                              loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                              : null,
                         ),
-                        child: Image.network(
-                          widget.peerAvatar,
-                          width: Sizes.dimen_40,
-                          height: Sizes.dimen_40,
-                          fit: BoxFit.cover,
-                          loadingBuilder:
-                              (BuildContext ctx, Widget child, ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.burgundy,
-                                value: loadingProgress.expectedTotalBytes != null &&
-                                        loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
-                          errorBuilder: (context, object, stackTrace) {
-                            return const Icon(
-                              Icons.account_circle,
-                              size: 35,
-                              color: AppColors.greyColor,
-                            );
-                          },
-                        ),
-                      )
+                      );
+                    },
+                    errorBuilder: (context, object, stackTrace) {
+                      return const Icon(
+                        Icons.account_circle,
+                        size: 35,
+                        color: AppColors.greyColor,
+                      );
+                    },
+                  ),
+                )
                     : Container(
-                        width: 35,
-                      ),
+                  width: 35,
+                ),
                 chatMessages.type == MessageType.text
                     ? messageBubble(
-                        color: ColorManager.buttonGreyColor.withOpacity(0.6),
-                        textColor: Colors.black,
-                        chatContent: chatMessages.content,
-                        margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_10),
-                      )
+                  color: ColorManager.buttonGreyColor.withOpacity(0.6),
+                  textColor: Colors.black,
+                  chatContent: chatMessages.content,
+                  margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_10),
+                )
                     : chatMessages.type == MessageType.image
-                        ? Container(
-                            margin:
-                                const EdgeInsets.only(left: Sizes.dimen_10, top: Sizes.dimen_10),
-                            child: chatImage(imageSrc: chatMessages.content, onTap: () {}),
-                          )
-                        : chatMessages.type == MessageType.offer
-                            ? offerMessageBubble(
-                                chatContent: chatMessages.content,
-                                offer: chatMessages.offer!,
-                                color: ColorManager.buttonGreyColor.withOpacity(0.6),
-                                textColor: Colors.black,
-                                margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_10),
-                                isMyMsg: chatMessages.idFrom == widget.currentUserId,
-                  chatMessages: chatMessages
-                              )
-                            : const SizedBox.shrink(),
+                    ? Container(
+                  margin:
+                  const EdgeInsets.only(left: Sizes.dimen_10, top: Sizes.dimen_10),
+                  child: chatImage(imageSrc: chatMessages.content, onTap: () {}),
+                )
+                    : chatMessages.type == MessageType.offer
+                    ? offerMessageBubble(
+                    chatContent: chatMessages.content,
+                    offer: chatMessages.offer!,
+                    color: ColorManager.buttonGreyColor.withOpacity(0.6),
+                    textColor: Colors.black,
+                    margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_10),
+                    isMyMsg: chatMessages.idFrom == widget.currentUserId,
+                    chatMessages: chatMessages
+                )
+                    : const SizedBox.shrink(),
               ],
             ),
             isMessageReceived(index)
                 ? Container(
-                    margin: const EdgeInsets.only(
-                        left: Sizes.dimen_50, top: Sizes.dimen_6, bottom: Sizes.dimen_8),
-                    child: Text(
-                      DateFormat('dd MMM yyyy, hh:mm a').format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(chatMessages.timestamp),
-                        ),
-                      ),
-                      style: const TextStyle(
-                          color: AppColors.lightGrey,
-                          fontSize: Sizes.dimen_12,
-                          fontStyle: FontStyle.italic),
-                    ),
-                  )
+              margin: const EdgeInsets.only(
+                  left: Sizes.dimen_50, top: Sizes.dimen_6, bottom: Sizes.dimen_8),
+              child: Text(
+                DateFormat('dd MMM yyyy, hh:mm a').format(
+                  DateTime.fromMillisecondsSinceEpoch(
+                    int.parse(chatMessages.timestamp),
+                  ),
+                ),
+                style: const TextStyle(
+                    color: AppColors.lightGrey,
+                    fontSize: Sizes.dimen_12,
+                    fontStyle: FontStyle.italic),
+              ),
+            )
                 : const SizedBox.shrink(),
           ],
         );
@@ -503,47 +503,47 @@ class _ChatPageState extends State<ChatPage> {
     return Flexible(
       child: groupChatId.isNotEmpty
           ? StreamBuilder<QuerySnapshot>(
-              stream: chatProvider.getChatMessage(groupChatId, _limit),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData && snapshot.data!.docs.length > 0) {
-                  listMessages = snapshot.data!.docs;
-                  if (listMessages.isNotEmpty) {
-                    return ListView.builder(
-                        padding: const EdgeInsets.all(10),
-                        itemCount: snapshot.data?.docs.length,
-                        reverse: true,
-                        controller: scrollController,
-                        itemBuilder: (context, index) =>
-                            buildItem(index, snapshot.data?.docs[index]));
-                  } else {
-                    return const Center(
-                      child: Text('No messages...'),
-                    );
-                  }
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.burgundy,
-                    ),
-                  );
-                }
-              })
+          stream: chatProvider.getChatMessage(groupChatId, _limit),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.hasData && snapshot.data!.docs.length > 0) {
+              listMessages = snapshot.data!.docs;
+              if (listMessages.isNotEmpty) {
+                return ListView.builder(
+                    padding: const EdgeInsets.all(10),
+                    itemCount: snapshot.data?.docs.length,
+                    reverse: true,
+                    controller: scrollController,
+                    itemBuilder: (context, index) =>
+                        buildItem(index, snapshot.data?.docs[index]));
+              } else {
+                return const Center(
+                  child: Text('No messages...'),
+                );
+              }
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.burgundy,
+                ),
+              );
+            }
+          })
           : const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.burgundy,
-              ),
-            ),
+        child: CircularProgressIndicator(
+          color: AppColors.burgundy,
+        ),
+      ),
     );
   }
 
   Widget offerMessageBubble(
       {required String chatContent,
-      required Offer offer,
-      required EdgeInsetsGeometry? margin,
-      Color? color,
-      Color? textColor,
-      required bool isMyMsg,
-      required ChatMessages chatMessages,
+        required Offer offer,
+        required EdgeInsetsGeometry? margin,
+        Color? color,
+        Color? textColor,
+        required bool isMyMsg,
+        required ChatMessages chatMessages,
       }) {
     return Container(
       padding: const EdgeInsets.all(Sizes.dimen_10),
@@ -572,87 +572,87 @@ class _ChatPageState extends State<ChatPage> {
           ),
           offer.status != OfferStatusConstants.PENDING
               ? Text(
-                  // "Status: " +
-                      (offer.status == OfferStatusConstants.PENDING
-                          ? "Pending"
-                          : offer.status == OfferStatusConstants.ACCEPTED
-                              ? "Accepted"
-                              : offer.status == OfferStatusConstants.REJECTED
-                                  ? "Rejected"
-                                  : offer.status == OfferStatusConstants.CANCELED
-                                      ? "Canceled"
-                                      : ""),
-                  style: TextStyle(
-                      fontSize: Sizes.dimen_20, color: textColor, fontWeight: FontWeight.bold),
-                )
+            // "Status: " +
+            (offer.status == OfferStatusConstants.PENDING
+                ? "Pending"
+                : offer.status == OfferStatusConstants.ACCEPTED
+                ? "Accepted"
+                : offer.status == OfferStatusConstants.REJECTED
+                ? "Rejected"
+                : offer.status == OfferStatusConstants.CANCELED
+                ? "Canceled"
+                : ""),
+            style: TextStyle(
+                fontSize: Sizes.dimen_20, color: textColor, fontWeight: FontWeight.bold),
+          )
               : Container(),
           !isMyMsg
               ? Visibility(
             visible: offer.status == OfferStatusConstants.PENDING,
 
             child: Row(
-                    children: [
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red,
-                        ),
-                        child: Text('Reject'),
-                        onPressed: () async {
-                          await APIRequests.doApi_updateOffer(
-                              Offer(id: offer.id, status: OfferStatusConstants.REJECTED));
-
-                          await fireStore.collection(FirestoreCollections.pathMessageCollection)
-                              .doc(groupChatId)
-                              .collection(FirestoreCollections.chatConservations)
-                              .doc(chatMessages.id)
-                              .update({'offer.status': OfferStatusConstants.REJECTED});
-                          setState(() {});
-                          print('Rejected Pressed');
-                        },
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      OutlinedButton(
-                        child: Text('Accept'),
-                        onPressed: () async {
-                          await APIRequests.doApi_updateOffer(
-                              Offer(id: offer.id, status: OfferStatusConstants.ACCEPTED));
-
-                          await fireStore.collection(FirestoreCollections.pathMessageCollection)
-                              .doc(groupChatId)
-                              .collection(FirestoreCollections.chatConservations)
-                              .doc(chatMessages.id)
-                              .update({'offer.status': OfferStatusConstants.ACCEPTED});
-                          setState(() {});
-                          print('Accepted Pressed');
-                        },
-                      )
-                    ],
+              children: [
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.red,
                   ),
-              )
+                  child: Text('Reject'),
+                  onPressed: () async {
+                    await APIRequests.doApi_updateOffer(
+                        Offer(id: offer.id, status: OfferStatusConstants.REJECTED));
+
+                    await fireStore.collection(FirestoreCollections.pathMessageCollection)
+                        .doc(groupChatId)
+                        .collection(FirestoreCollections.chatConservations)
+                        .doc(chatMessages.id)
+                        .update({'offer.status': OfferStatusConstants.REJECTED});
+                    setState(() {});
+                    print('Rejected Pressed');
+                  },
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                OutlinedButton(
+                  child: Text('Accept'),
+                  onPressed: () async {
+                    await APIRequests.doApi_updateOffer(
+                        Offer(id: offer.id, status: OfferStatusConstants.ACCEPTED));
+
+                    await fireStore.collection(FirestoreCollections.pathMessageCollection)
+                        .doc(groupChatId)
+                        .collection(FirestoreCollections.chatConservations)
+                        .doc(chatMessages.id)
+                        .update({'offer.status': OfferStatusConstants.ACCEPTED});
+                    setState(() {});
+                    print('Accepted Pressed');
+                  },
+                )
+              ],
+            ),
+          )
               : Visibility(
             visible: offer.status == OfferStatusConstants.PENDING,
-                child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white
-                    ),
-                    child: Text('Cancel'),
-                    onPressed: () async {
-                      await APIRequests.doApi_updateOffer(
-                          Offer(id: offer.id, status: OfferStatusConstants.CANCELED));
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.red,
+                  backgroundColor: Colors.white
+              ),
+              child: Text('Cancel'),
+              onPressed: () async {
+                await APIRequests.doApi_updateOffer(
+                    Offer(id: offer.id, status: OfferStatusConstants.CANCELED));
 
-                      await fireStore.collection(FirestoreCollections.pathMessageCollection)
-                      .doc(groupChatId)
-                      .collection(FirestoreCollections.chatConservations)
-                          .doc(chatMessages.id)
-                          .update({'offer.status': OfferStatusConstants.CANCELED});
-                      setState(() {});
-                      print('Cancel Pressed');
-                    },
-                  ),
-              )
+                await fireStore.collection(FirestoreCollections.pathMessageCollection)
+                    .doc(groupChatId)
+                    .collection(FirestoreCollections.chatConservations)
+                    .doc(chatMessages.id)
+                    .update({'offer.status': OfferStatusConstants.CANCELED});
+                setState(() {});
+                print('Cancel Pressed');
+              },
+            ),
+          )
         ],
       ),
     );

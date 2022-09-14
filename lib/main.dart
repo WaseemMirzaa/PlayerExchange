@@ -13,7 +13,7 @@ import 'controllers/graph_controller.dart';
 import 'firebase_options.dart';
 
 FirebaseFirestore fireStore = FirebaseFirestore.instance;
- late final SharedPreferences prefs;
+late final SharedPreferences prefs;
 final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 GraphController graphController = Get.put(GraphController());
 AppDrawerController appDrawerController = Get.put(AppDrawerController(), permanent: true);
