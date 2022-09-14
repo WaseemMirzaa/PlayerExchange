@@ -86,7 +86,7 @@ class _BuyScreenState extends State<BuyScreen> {
                         TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$ ${widget.cpoModel.currentPricePerShare}",
+                    "\$${widget.cpoModel.currentPricePerShare}",
                     style:
                         TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                   ),

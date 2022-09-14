@@ -20,6 +20,7 @@ import 'package:player_exchange/utils/style_manager.dart';
 // import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../Networking/api_requests.dart';
 import '../../main.dart';
 import '../../utils/constants.dart';
 import '../widgets/curve_graph_chart.dart';
@@ -40,14 +41,11 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
       Get.put(CPODetailDiscoveryController());
   AppDrawerController appDrawerController = Get.find<AppDrawerController>();
   int activeIndex = 0;
-  late final YoutubePlayerController youtubeController = YoutubePlayerController(
-    // initialVideoId: 'NG6pvXpnIso',
-    initialVideoId: widget.cpoModel.video ?? "",
-    flags: const YoutubePlayerFlags(
-      autoPlay: false,
-      mute: true,
-    ),
-  );
+  int? highest = 0;
+  int? lowest = 0;
+  int? open = 0;
+
+
   // late VideoPlayerController _controller;
   @override
   void initState() {
@@ -55,7 +53,13 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
     super.initState();
     graphController
         .fetchData( widget.cpoModel.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
-
+    APIRequests.doApi_getPriceTrends( widget.cpoModel.id ?? "", "day").then((value) =>
+    {
+      highest = value[0]?.highest,
+      lowest = value[0]?.lowest,
+      open = value[0]?.starting,
+      setState(() {})
+    });
   }
 
 
@@ -75,7 +79,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
     return Scaffold(
       appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon),
       body: Padding(
-        padding: ButtonTheme.of(context).padding,
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: CustomScrollView(
           slivers: [
             SliverList(
@@ -152,35 +156,35 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                         children: [
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'open'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'open'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.greenColor), text: open == 0 ? '\$ ---': '\$'+open.toString()),
+                              ])),
                           SizedBox(
                             height: 5,
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'high'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'high'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.greenColor), text: highest == 0 ? '\$ ---': '\$'+highest.toString()),
+                              ])),
                           SizedBox(
                             height: 5,
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'low'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(color: ColorManager.lowPriceColor),
-                                text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'low'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.lowPriceColor),
+                                    text: lowest == 0 ? '\$ ---': '\$'+lowest.toString()),
+                              ])),
                         ],
                       )),
                 ],
@@ -188,7 +192,18 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
               SizedBox(
                 height: 15,
               ),
-              HeaderChartWidget(playerId: widget.cpoModel.id ?? ""),
+                  HeaderChartWidget(playerId: widget.cpoModel.id ?? "",
+                    onDurationSelect: (duration){
+                      APIRequests.doApi_getPriceTrends(widget.cpoModel.id ?? "", duration).then((value) =>
+                      {
+                        highest = value[0]?.highest,
+                        lowest = value[0]?.lowest,
+                        open = value[0]?.starting,
+                        setState(() {})
+                      });
+
+                    },
+                  ),
               SizedBox(height: 10,),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -310,15 +325,15 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
             //     ),
             //   ),
             // ),
-            child: YoutubePlayer(
-              controller: youtubeController,
-              showVideoProgressIndicator: true,
-              progressColors: const ProgressBarColors(
-                playedColor: Colors.redAccent,
-                handleColor: Color(0xffFF6757),
-              ),
-              onReady: () {},
-            ),
+            // child: YoutubePlayer(
+            //   controller: youtubeController,
+            //   showVideoProgressIndicator: true,
+            //   progressColors: const ProgressBarColors(
+            //     playedColor: Colors.redAccent,
+            //     handleColor: Color(0xffFF6757),
+            //   ),
+            //   onReady: () {},
+            // ),
             ),
         Text(
           'Justin Fields Throws 20 yards td pass to put bears up at half...',

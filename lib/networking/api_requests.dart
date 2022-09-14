@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_utils/src/extensions/dynamic_extensions.dart';
 import 'package:http/http.dart' as http;
 import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
-import 'package:player_exchange/models/Exchange/offer.dart';
+import 'package:player_exchange/models/exchange/offer.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
 import 'package:player_exchange/models/auth/user_model.dart';
 import 'package:player_exchange/models/current_public_offerings/comment_model.dart';
@@ -483,7 +483,7 @@ class APIRequests {
     var dio = Dio();
     try {
       final response = await dio.post(completeUrl,
-          data: offer.toJson(),
+          data: offer.toJsonPatch(),
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
           }));
@@ -525,12 +525,42 @@ class APIRequests {
 
       if (e.response != null) {
         print('has response' + e.response?.data );
-        Fluttertoast.showToast(msg: "Could not update profile.");
+        Fluttertoast.showToast(msg: "Could not get Offers.");
       } else {
         Fluttertoast.showToast(msg: e.response.toString());
       }
     }
     return [];
+
+  }
+
+  static Future<bool> doApi_updateOffer(Offer offer) async {
+    var completeUrl = Api.baseURL + 'offers/' + (offer.id ?? "");
+
+    var dio = Dio();
+    try {
+      final response = await dio.patch(completeUrl,
+          data: offer.toJsonPatch(),
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }));
+
+      print ("offer response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+
+        return true;
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        // print('has response' + e.response?.data ?? "");
+        Fluttertoast.showToast(msg: "Unable to perform action");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return false;
 
   }
 

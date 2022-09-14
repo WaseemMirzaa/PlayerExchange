@@ -32,13 +32,13 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
   int selectedIndex = 0;
 
 
-  final YoutubePlayerController youtubeController = YoutubePlayerController(
-    initialVideoId: 'NG6pvXpnIso',
-    flags: const YoutubePlayerFlags(
-      autoPlay: false,
-      mute: true,
-    ),
-  );
+  // final YoutubePlayerController youtubeController = YoutubePlayerController(
+  //   initialVideoId: 'NG6pvXpnIso',
+  //   flags: const YoutubePlayerFlags(
+  //     autoPlay: false,
+  //     mute: true,
+  //   ),
+  // );
 
 
   @override
@@ -112,21 +112,21 @@ class _TeamDetailScreenState extends State<TeamDetailScreen> {
                   padding: EdgeInsets.symmetric(
                     vertical: 15,
                   ),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                    elevation: 0,
-                    child: YoutubePlayer(
-                      controller: youtubeController,
-                      showVideoProgressIndicator: true,
-                      progressColors: const ProgressBarColors(
-                        playedColor: Colors.redAccent,
-                        handleColor: Color(0xffFF6757),
-                      ),
-                      onReady: () {},
-                    ),
-                  ),
+                  // child: Card(
+                  //   shape: RoundedRectangleBorder(
+                  //     borderRadius: BorderRadius.circular(50.0),
+                  //   ),
+                  //   elevation: 0,
+                  //   child: YoutubePlayer(
+                  //     controller: youtubeController,
+                  //     showVideoProgressIndicator: true,
+                  //     progressColors: const ProgressBarColors(
+                  //       playedColor: Colors.redAccent,
+                  //       handleColor: Color(0xffFF6757),
+                  //     ),
+                  //     onReady: () {},
+                  //   ),
+                  // ),
                 ),
               ])),
             ]),
