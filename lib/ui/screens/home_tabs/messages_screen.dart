@@ -72,7 +72,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return Scaffold(
       appBar: customAppBar(context, title: 'Message', trailing: [
 
-      ]),
+      ], isTransparent: false),
       body: Container(
         // width: double.infinity,
         // height: double.infinity,
@@ -80,15 +80,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CustomTextField(
-                hintText: 'Search',
-                controller: TextEditingController(),
-                prefix: Icon(
-                  Icons.search,
-                  color: Colors.black,
-                ),
-                isRoundedCorner: true,
-              ),
               StreamBuilder<QuerySnapshot>(
                 stream: getFirestoreData(
                     FirestoreCollections.pathMessageCollection,
