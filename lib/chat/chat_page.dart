@@ -5,18 +5,28 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:player_exchange/chat/size_constants.dart';
 import 'package:player_exchange/chat/text_field_constants.dart';
+import 'package:player_exchange/controllers/app_drawer_controller.dart';
+import 'package:player_exchange/models/exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/exchange/offer.dart';
+import 'package:player_exchange/models/transactions/transaction_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
+import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
 import 'package:player_exchange/utils/DateUtilsCustom.dart';
 import 'package:provider/provider.dart';
 
+import '../Networking/api.dart';
+import '../controllers/home_screen_controller.dart';
 import '../main.dart';
 import '../models/auth/user_model.dart';
+import '../models/rosters/roster_model.dart';
+import '../ui/screens/home_tabs/tabs_screen.dart';
+import '../utils/alert_dialog_custom.dart';
 import '../utils/assets_string.dart';
 import '../utils/color_manager.dart';
 import '../utils/constants.dart';
@@ -71,6 +81,7 @@ class _ChatPageState extends State<ChatPage> {
 
   late ChatProvider chatProvider;
   late User receiverUser;
+
   //late AuthProvider authProvider;
 
   @override
@@ -84,17 +95,15 @@ class _ChatPageState extends State<ChatPage> {
     readLocal();
 
     getReceiverUser().then((value) => {
-    if (widget.offerText != "") {
-        onSendMessage(widget.offerText, MessageType.offer),
-  }
-    });
-
-
+          if (widget.offerText != "")
+            {
+              onSendMessage(widget.offerText, MessageType.offer),
+            }
+        });
   }
 
   Future<void> getReceiverUser() async {
     receiverUser = await APIRequests.doApi_getUserProfile(widget.peerId ?? "");
-
   }
 
   _scrollListener() {
@@ -199,7 +208,8 @@ class _ChatPageState extends State<ChatPage> {
         msg = content;
       else if (type == MessageType.offer) msg = content;
 
-      FirebaseCloudMessaging.sendNotification(msg, widget.currentUserName, receiverUser.fcmToken ?? "");
+      FirebaseCloudMessaging.sendNotification(
+          msg, widget.currentUserName, receiverUser.fcmToken ?? "");
       // FirebaseCloudMessaging.sendNotification(msg, widget.currentUserName, "40vFN7IbxAwY8Q4Et9B7JeGR633nVkzoUL4131kDGjezzpeh7eUs0Mzw58o6ZsHRXHQuy27vhIgRWzUkAuj");
     } catch (e) {
       print(e);
@@ -342,8 +352,7 @@ class _ChatPageState extends State<ChatPage> {
                                 textColor: AppColors.white,
                                 margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_6),
                                 isMyMsg: chatMessages.idFrom == widget.currentUserId,
-                  chatMessages: chatMessages
-                              )
+                                chatMessages: chatMessages)
                             : const SizedBox.shrink(),
                 isMessageSent(index)
                     ? Container(
@@ -469,8 +478,7 @@ class _ChatPageState extends State<ChatPage> {
                                 textColor: Colors.black,
                                 margin: const EdgeInsets.symmetric(vertical: Sizes.dimen_10),
                                 isMyMsg: chatMessages.idFrom == widget.currentUserId,
-                  chatMessages: chatMessages
-                              )
+                                chatMessages: chatMessages)
                             : const SizedBox.shrink(),
               ],
             ),
@@ -536,15 +544,15 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget offerMessageBubble(
-      {required String chatContent,
-      required Offer offer,
-      required EdgeInsetsGeometry? margin,
-      Color? color,
-      Color? textColor,
-      required bool isMyMsg,
-      required ChatMessages chatMessages,
-      }) {
+  Widget offerMessageBubble({
+    required String chatContent,
+    required Offer offer,
+    required EdgeInsetsGeometry? margin,
+    Color? color,
+    Color? textColor,
+    required bool isMyMsg,
+    required ChatMessages chatMessages,
+  }) {
     return Container(
       padding: const EdgeInsets.all(Sizes.dimen_10),
       margin: margin,
@@ -573,24 +581,23 @@ class _ChatPageState extends State<ChatPage> {
           offer.status != OfferStatusConstants.PENDING
               ? Text(
                   // "Status: " +
-                      (offer.status == OfferStatusConstants.PENDING
-                          ? "Pending"
-                          : offer.status == OfferStatusConstants.ACCEPTED
-                              ? "Accepted"
-                              : offer.status == OfferStatusConstants.REJECTED
-                                  ? "Rejected"
-                                  : offer.status == OfferStatusConstants.CANCELED
-                                      ? "Canceled"
-                                      : ""),
+                  (offer.status == OfferStatusConstants.PENDING
+                      ? "Pending"
+                      : offer.status == OfferStatusConstants.ACCEPTED
+                          ? "Accepted"
+                          : offer.status == OfferStatusConstants.REJECTED
+                              ? "Rejected"
+                              : offer.status == OfferStatusConstants.CANCELED
+                                  ? "Canceled"
+                                  : ""),
                   style: TextStyle(
                       fontSize: Sizes.dimen_20, color: textColor, fontWeight: FontWeight.bold),
                 )
               : Container(),
           !isMyMsg
               ? Visibility(
-            visible: offer.status == OfferStatusConstants.PENDING,
-
-            child: Row(
+                  visible: offer.status == OfferStatusConstants.PENDING,
+                  child: Row(
                     children: [
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
@@ -601,7 +608,8 @@ class _ChatPageState extends State<ChatPage> {
                           await APIRequests.doApi_updateOffer(
                               Offer(id: offer.id, status: OfferStatusConstants.REJECTED));
 
-                          await fireStore.collection(FirestoreCollections.pathMessageCollection)
+                          await fireStore
+                              .collection(FirestoreCollections.pathMessageCollection)
                               .doc(groupChatId)
                               .collection(FirestoreCollections.chatConservations)
                               .doc(chatMessages.id)
@@ -619,7 +627,8 @@ class _ChatPageState extends State<ChatPage> {
                           await APIRequests.doApi_updateOffer(
                               Offer(id: offer.id, status: OfferStatusConstants.ACCEPTED));
 
-                          await fireStore.collection(FirestoreCollections.pathMessageCollection)
+                          await fireStore
+                              .collection(FirestoreCollections.pathMessageCollection)
                               .doc(groupChatId)
                               .collection(FirestoreCollections.chatConservations)
                               .doc(chatMessages.id)
@@ -630,31 +639,225 @@ class _ChatPageState extends State<ChatPage> {
                       )
                     ],
                   ),
-              )
+                )
               : Visibility(
-            visible: offer.status == OfferStatusConstants.PENDING,
-                child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.red,
-                      backgroundColor: Colors.white
-                    ),
-                    child: Text('Cancel'),
-                    onPressed: () async {
-                      await APIRequests.doApi_updateOffer(
-                          Offer(id: offer.id, status: OfferStatusConstants.CANCELED));
+                  visible: offer.status == OfferStatusConstants.PENDING,
+                  child: Row(
+                    children: [
+                      offer.status == OfferStatusConstants.PENDING
+                          ? OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.red, backgroundColor: Colors.white),
+                              child: Text('Cancel'),
+                              onPressed: () async {
+                                await APIRequests.doApi_updateOffer(
+                                    Offer(id: offer.id, status: OfferStatusConstants.CANCELED));
 
-                      await fireStore.collection(FirestoreCollections.pathMessageCollection)
-                      .doc(groupChatId)
-                      .collection(FirestoreCollections.chatConservations)
-                          .doc(chatMessages.id)
-                          .update({'offer.status': OfferStatusConstants.CANCELED});
-                      setState(() {});
-                      print('Cancel Pressed');
-                    },
+                                await fireStore
+                                    .collection(FirestoreCollections.pathMessageCollection)
+                                    .doc(groupChatId)
+                                    .collection(FirestoreCollections.chatConservations)
+                                    .doc(chatMessages.id)
+                                    .update({'offer.status': OfferStatusConstants.CANCELED});
+                                setState(() {});
+                                print('Cancel Pressed');
+                              },
+                            )
+                          : offer.status == OfferStatusConstants.ACCEPTED
+                              ? OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      foregroundColor: Colors.green, backgroundColor: Colors.white),
+                                  child: Text('Pay'),
+                                  onPressed: () async {
+                                    await APIRequests.doApi_updateOffer(
+                                        Offer(id: offer.id, status: OfferStatusConstants.PAID));
+
+                                    await fireStore
+                                        .collection(FirestoreCollections.pathMessageCollection)
+                                        .doc(groupChatId)
+                                        .collection(FirestoreCollections.chatConservations)
+                                        .doc(chatMessages.id)
+                                        .update({'offer.status': OfferStatusConstants.PAID});
+                                    setState(() {});
+                                    print('Pay Pressed');
+                                  },
+                                )
+                              : Container(),
+                    ],
                   ),
-              )
+                )
         ],
       ),
     );
+  }
+
+  // set up the AlertDialog
+  showPayWithWalletAlertDialog(BuildContext context, num amount, num shares) {
+    // set up the button
+    Widget ok = TextButton(
+      child: Text("Yes"),
+      onPressed: () async {
+        payWithWallet(amount, shares);
+      },
+    );
+    Widget cancel = TextButton(
+      child: Text("No"),
+      onPressed: () {
+        Navigator.pop(context, true);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Pay with Wallet"),
+      content: Text("Are you sure you want to pay with your wallet?"),
+      titleTextStyle: TextStyle(color: ColorManager.greenColor, fontSize: 16),
+      contentTextStyle: TextStyle(color: ColorManager.colorTextDarkGray),
+      actions: [cancel, ok],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showSuccessAlertDialog(BuildContext context) {
+    // set up the button
+    Widget ok = TextButton(
+      child: Text("Ok"),
+      onPressed: () async {
+        await homeScreenController.getUserData();
+        setState(() {
+
+        });
+        // await Get.off(() => TabsScreen(
+        //       selectedIndex: TabsScreen.currentIndex,
+        //     ));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Success"),
+      content: Text("You have successfully purchased the shares."),
+      titleTextStyle: TextStyle(color: ColorManager.greenColor, fontSize: 16),
+      contentTextStyle: TextStyle(color: ColorManager.colorTextDarkGray),
+      actions: [ok],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  AppDrawerController appDrawerController = Get.find();
+  HomeScreenController homeScreenController = Get.find();
+  bool stripePayInProgress = false;
+  TransactionModel? transactionModel = null;
+
+  Future<void> payWithWallet(num amount, num shares) async {
+    User user = appDrawerController.user.value;
+    num total = 0;
+
+    if ((user.walletAmount ?? 0) < amount) {
+      showMessageDialog(
+          "You don't have enough amount in your wallet, please recharge.", context, () => {});
+      // Fluttertoast.showToast(msg: "You don't have enough amount in your wallet, please recharge.");
+      return;
+    }
+
+    if (!stripePayInProgress) {
+      if (amount > 0) {
+        stripePayInProgress = true;
+        LoadingIndicatorDialog().show(context);
+
+        ExchangePlayerModel exchangePlayerModel =
+            await APIRequests.doApi_getExchangePlayer(widget.offer?.exchangePlayerModelId ?? "");
+        if (exchangePlayerModel.id == null) {
+          stripePayInProgress = false;
+          LoadingIndicatorDialog().dismiss();
+          Fluttertoast.showToast(msg: "Unable to get Player");
+          return;
+        }
+
+        //    check if the person who added exchange player still have enough shares in his roster
+        RosterModel rosterModel =
+            await APIRequests.doApi_getRoster(exchangePlayerModel.roster?.id ?? "");
+        if (shares > (rosterModel.sharesBought ?? 0)) {
+          showMessageDialog("Seller does not have enough shares now.", context, () => {});
+          return;
+        }
+
+        //Add transaction record in database
+        transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
+          userId: appDrawerController.user.value.id,
+          amount: amount,
+          playerName: exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "",
+          playerId: exchangePlayerModel.roster?.cpoAthletes?.playerId ?? "",
+          type: TransactionConstants.TRANSACTION_TYPE_OFFER_PURCHASE_SHARES,
+          shares: exchangePlayerModel.shares,
+          paymentType: TransactionConstants.PAYMENT_TYPE_WALLET,
+        ));
+
+        if (transactionModel == null) {
+          stripePayInProgress = false;
+          LoadingIndicatorDialog().dismiss();
+
+          Fluttertoast.showToast(msg: "Unable to add Transaction.");
+        } else {
+          //Database transaction is recorded now try Wallet Payment
+          total = (user.walletAmount ?? 0.0) - amount;
+
+          user.walletAmount = total;
+
+          String value = await APIRequests.doApi_updateUserProfile(user.id!, user);
+
+          if (value == Api.ERROR) {
+            stripePayInProgress = false;
+            Fluttertoast.showToast(msg: "Unable to update Wallet.");
+            LoadingIndicatorDialog().dismiss();
+
+            //Revert transaction
+            await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
+          } else {
+            APIRequests.doApi_exchangeOfferRoster(
+                    exchangePlayerModel.roster?.id ?? "", amount, shares, user.id ?? "")
+                .then((value) async => {
+                      LoadingIndicatorDialog().dismiss(),
+                      if (value)
+                        {
+                          LoadingIndicatorDialog().dismiss(),
+                          //Successfully paid with Wallet
+                          await APIRequests.doApi_updateUserProfile(user.id!, user),
+
+                          showSuccessAlertDialog(context),
+                        }
+                      else
+                        {
+                          Fluttertoast.showToast(msg: "Unable to purchase"),
+                          //Revert transaction
+                          if (transactionModel != null)
+                            await APIRequests.doApi_removeTransaction(transactionModel?.id ?? ""),
+
+                          //Revert Wallet
+                          total = (user.walletAmount ?? 0.0) + amount,
+                          user.walletAmount = total,
+                          await APIRequests.doApi_updateUserProfile(user.id!, user),
+                        }
+                    });
+          }
+        }
+      } else {
+        Fluttertoast.showToast(msg: "Amount should be greater then 0");
+      }
+    }
   }
 }

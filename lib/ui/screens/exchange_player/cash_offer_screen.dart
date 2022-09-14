@@ -16,7 +16,7 @@ import 'package:player_exchange/utils/style_manager.dart';
 
 import '../../../chat/chat_page.dart';
 import '../../../controllers/app_drawer_controller.dart';
-import '../../../models/Exchange/exchange_player_model.dart';
+import '../../../models/exchange/exchange_player_model.dart';
 import '../../../models/exchange/offer.dart';
 import '../../../models/auth/user_model.dart';
 import '../../../utils/session_manager.dart';

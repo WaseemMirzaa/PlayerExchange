@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/exchange/exchange_player_model.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/screens/exchange_player/select_exchange_player_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/circle_avatar_named_widget.dart';

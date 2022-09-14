@@ -25,7 +25,7 @@ class RosterController extends GetxController {
 
     try {
       isLoading(true);
-      var roster = await APIRequests.doApi_getRoster(user.value?.id ?? "");
+      var roster = await APIRequests.doApi_getRosterList(user.value?.id ?? "");
       if (roster != null) {
         rosterList.value = roster;
         sortAscendingList(roster);
@@ -62,7 +62,8 @@ class RosterController extends GetxController {
     num totalValue = 0;
     String? token = await FirebaseMessaging.instance.getToken();
     for(RosterModel rosterModel in rosterList){
-      totalValue += rosterModel.totalValue ?? 0.0;
+      //Don't use rosterModel.totalAmount here because it is never updated
+      totalValue += (rosterModel.cpoAthletes?.currentPricePerShare ?? 0.0) * (rosterModel.sharesBought ?? 0.0);
     }
 
     user = (await SessionManager.getUserData()).obs;

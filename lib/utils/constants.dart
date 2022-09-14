@@ -58,6 +58,7 @@ class FirestoreCollections{
 class TransactionConstants{
   static final String TRANSACTION_TYPE_DEPOSIT = "DEPOSIT";
   static final String TRANSACTION_TYPE_PURCHASE_SHARES = "SHARES_PURCHASE";
+  static final String TRANSACTION_TYPE_OFFER_PURCHASE_SHARES = "OFFER_SHARES_PURCHASE";
   static final String TRANSACTION_TYPE_WITHDRAW = "WITHDRAW";
 
   static final String PAYMENT_TYPE_STRIPE = "STRIPE";
@@ -70,6 +71,7 @@ class OfferStatusConstants{
   static final String ACCEPTED = "ACCEPTED";
   static final String REJECTED = "REJECTED";
   static final String CANCELED = "CANCELED";
+  static final String PAID = "PAID";
 
 }
 

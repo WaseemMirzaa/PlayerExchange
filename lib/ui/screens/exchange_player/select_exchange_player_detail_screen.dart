@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:player_exchange/controllers/app_drawer_controller.dart';
-import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/exchange_player/cash_offer_screen.dart';

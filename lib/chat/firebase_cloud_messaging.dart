@@ -86,7 +86,6 @@ class FirebaseCloudMessaging {
   }
 
   static sendNotification(String title,String msg, String to) async {
-    testNotification();
     Map<String, dynamic> json =
     {
       "title": title,

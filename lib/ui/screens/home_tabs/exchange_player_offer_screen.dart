@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:player_exchange/models/Exchange/exchange_player_model.dart';
+import 'package:player_exchange/models/exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/rosters/roster_model.dart';
 import 'package:player_exchange/ui/screens/exchange_player/cash_offer_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
