@@ -18,6 +18,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:player_exchange/utils/image_compress.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 
+import '../../chat/firebase_cloud_messaging.dart';
+import '../../main.dart';
+import '../../models/auth/user_model.dart';
+import '../../utils/constants.dart';
+import 'authentication/auth_screen.dart';
+
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -30,10 +36,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       Get.put(EditProfileScreenController());
 
   File? image;
+  bool showDeleteButton = false;
   String? url;
 
   var offerAmountController = TextEditingController();
   var nameController = TextEditingController();
+
+  @override
+  void initState()  {
+    // TODO: implement initState
+
+    fireStore.collection(FirestoreCollections.appSettings)
+        .doc(FirestoreDocuments().settingsDocument).get().then((value) => {
+
+        showDeleteButton = value['showDeleteButton'] as bool
+
+    });
+
+
+
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,9 +170,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 // SizedBox(
                 //   height: 30.h,
                 // ),
+
                 FilledButton(
                   onTap: () {},
                   text: 'Earn Reward',
+                  color: ColorManager.greenColor,
+                ),
+                if(showDeleteButton)
+                FilledButton(
+                  onTap: () async {
+
+                    _showDeleteAccountDialog();
+                  },
+                  text: 'Delete Account',
                   color: ColorManager.greenColor,
                 )
               ],
@@ -160,6 +194,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+
+  Future<void> _showDeleteAccountDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Alert', style: TextStyle(color: Colors.black)
+          ),
+          content: const Text('Are you sure that you want to delete your account? Deleting your account will delete all the user data. Please clear your Wallet before deleting your account. Once deleted your account cannot be recovered again.', style: TextStyle(color: ColorManager.colorTextDarkGray),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel', style: TextStyle(color: ColorManager.greenColor)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+              onPressed: () async {
+
+                String userId = '';
+                Future<User?> user = SessionManager.getUserData();
+                await user.then((value) => {userId = value?.id?? "" });
+
+                Navigator.of(context).pop();
+
+                FirebaseCloudMessaging.stopNotificationService(userId: userId ?? "");
+                SessionManager.setUserData(new User());
+                Get.offAll(AuthScreen());
+
+                },
+            ),
+          ],
+        );
+      },
+    );
+  }
   GestureDetector profileImageWidget() {
     return GestureDetector(
       onTap: () {

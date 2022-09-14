@@ -42,6 +42,8 @@ class _WebViewAppState extends State<WebViewCustom> {
         },
         onPageFinished: (String urlNew) async {
 
+
+
           debugPrint('Page finished loading: $urlNew');
           if (urlNew.contains('https://example.com/success')) {
             AppDrawerController appDrawerController = Get.find();

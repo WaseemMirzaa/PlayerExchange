@@ -31,8 +31,18 @@ class GraphApiConstants{
   static const double defaultGraphMaxIndex = 5;
 
 }
+
+class FirestoreDocuments{
+  final String settingsDocument = 'Settings';
+}
+
+class StripeConstants{
+  final String stripeKey = 'stripeKey';
+}
+
 class FirestoreCollections{
   static const String users = "users";
+  static const String appSettings = "appSettings";
   static const String chats = "chats";
   static const pathUserCollection = "users";
   static const pathMessageCollection = "messages";
