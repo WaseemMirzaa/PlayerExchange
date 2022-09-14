@@ -275,7 +275,9 @@ class APIRequests {
 
   static Future<List<ExchangePlayerModel>> doApi_getExchangePlayers() async {
     String jsonStringFilter =
-        '?filter={"where": {"isPurchased": false},{"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+        '?filter={"where": {"isPurchased": "false"},"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+        // '?filter={"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+
 
     var completeUrl = Api.baseURL + 'exchange-players' + jsonStringFilter;
     var response = await client.get(Uri.parse(completeUrl));
@@ -704,8 +706,6 @@ class APIRequests {
   }
 
   static Future<bool> doApi_deleteUser(String userId) async {
-    //duration = day, week, month, year
-    //count is number of any duration
     var completeUrl = Api.baseURL + 'users?${userId}';
 
     var dio = Dio();

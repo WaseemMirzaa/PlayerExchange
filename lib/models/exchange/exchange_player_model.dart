@@ -81,7 +81,7 @@ class ExchangePlayerModel {
     map['askingAmount'] = _askingAmount;
     map['shares'] = _shares;
     map['rosterId'] = _rosterId;
-    map['isPurchased'] = isPurchased;
+    map['isPurchased'] = _isPurchased;
     if (_roster != null) {
       map['roster'] = _roster?.toJson();
     }
