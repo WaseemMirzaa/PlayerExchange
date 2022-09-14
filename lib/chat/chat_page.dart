@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +24,6 @@ import '../controllers/home_screen_controller.dart';
 import '../main.dart';
 import '../models/auth/user_model.dart';
 import '../models/rosters/roster_model.dart';
-import '../ui/screens/home_tabs/tabs_screen.dart';
 import '../utils/alert_dialog_custom.dart';
 import '../utils/assets_string.dart';
 import '../utils/color_manager.dart';
@@ -584,12 +582,14 @@ class _ChatPageState extends State<ChatPage> {
                   (offer.status == OfferStatusConstants.PENDING
                       ? "Pending"
                       : offer.status == OfferStatusConstants.ACCEPTED
-                          ? "Accepted"
+                          ? "Payment Pending"
                           : offer.status == OfferStatusConstants.REJECTED
                               ? "Rejected"
                               : offer.status == OfferStatusConstants.CANCELED
                                   ? "Canceled"
-                                  : ""),
+                                  : offer.status == OfferStatusConstants.PAID
+                                      ? "Paid"
+                                      : ""),
                   style: TextStyle(
                       fontSize: Sizes.dimen_20, color: textColor, fontWeight: FontWeight.bold),
                 )
@@ -598,10 +598,12 @@ class _ChatPageState extends State<ChatPage> {
               ? Visibility(
                   visible: offer.status == OfferStatusConstants.PENDING,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.red,
+                            backgroundColor: Colors.white
                         ),
                         child: Text('Reject'),
                         onPressed: () async {
@@ -623,6 +625,10 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       OutlinedButton(
                         child: Text('Accept'),
+                        style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.green,
+                            backgroundColor: Colors.white
+                        ),
                         onPressed: () async {
                           await APIRequests.doApi_updateOffer(
                               Offer(id: offer.id, status: OfferStatusConstants.ACCEPTED));
@@ -641,8 +647,10 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                 )
               : Visibility(
-                  visible: offer.status == OfferStatusConstants.PENDING,
+                  visible: offer.status == OfferStatusConstants.PENDING ||
+                      offer.status == OfferStatusConstants.ACCEPTED,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       offer.status == OfferStatusConstants.PENDING
                           ? OutlinedButton(
@@ -731,9 +739,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Text("Ok"),
       onPressed: () async {
         await homeScreenController.getUserData();
-        setState(() {
-
-        });
+        setState(() {});
         // await Get.off(() => TabsScreen(
         //       selectedIndex: TabsScreen.currentIndex,
         //     ));
@@ -829,7 +835,7 @@ class _ChatPageState extends State<ChatPage> {
             await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
           } else {
             APIRequests.doApi_exchangeOfferRoster(
-                    exchangePlayerModel.roster?.id ?? "", amount, shares, user.id ?? "")
+                    exchangePlayerModel.roster?.id ?? "", amount, shares, user.id ?? "", exchangePlayerModel.id ?? "")
                 .then((value) async => {
                       LoadingIndicatorDialog().dismiss(),
                       if (value)

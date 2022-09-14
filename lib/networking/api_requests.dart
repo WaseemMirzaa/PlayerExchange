@@ -109,10 +109,10 @@ class APIRequests {
     }
   }
 
-  static Future<bool> doApi_exchangeOfferRoster(String rosterId,num offerAmount,num sharesBought,String buyerId) async {
+  static Future<bool> doApi_exchangeOfferRoster(String rosterId,num offerAmount,num sharesBought,String buyerId,String exchangePlayerId) async {
     // String jsonStringFilter =
     //     '?filter= "include": [{"relation": "cpoAthletes"}]}';
-    var completeUrl = Api.baseURL + 'rostersExchangeCashOffer/${rosterId}/${offerAmount}/${sharesBought}/${buyerId}' ;
+    var completeUrl = Api.baseURL + 'rostersExchangeCashOffer/${rosterId}/${offerAmount}/${sharesBought}/${buyerId}/${exchangePlayerId}' ;
         // + jsonStringFilter;
     var dio = Dio();
     try {
@@ -275,7 +275,8 @@ class APIRequests {
 
   static Future<List<ExchangePlayerModel>> doApi_getExchangePlayers() async {
     String jsonStringFilter =
-        '?filter={"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+        '?filter={"where": {"isPurchased": false},{"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+
     var completeUrl = Api.baseURL + 'exchange-players' + jsonStringFilter;
     var response = await client.get(Uri.parse(completeUrl));
     if (response.statusCode == 200) {
@@ -702,4 +703,30 @@ class APIRequests {
 
   }
 
+  static Future<bool> doApi_deleteUser(String userId) async {
+    //duration = day, week, month, year
+    //count is number of any duration
+    var completeUrl = Api.baseURL + 'users?${userId}';
+
+    var dio = Dio();
+    try {
+      final response = await dio.delete(completeUrl,);
+
+      print ("response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return true;
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data );
+        Fluttertoast.showToast(msg: "Could not delete");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return false;
+
+  }
 }
