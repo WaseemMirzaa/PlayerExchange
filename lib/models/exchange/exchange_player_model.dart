@@ -22,12 +22,14 @@ class ExchangePlayerModel {
     num? askingAmount,
     num? shares,
     String? rosterId,
+    bool? isPurchased,
     RosterModel? roster,}){
     _id = id;
     _userId = userId;
     _askingAmount = askingAmount;
     _shares = shares;
     _rosterId = rosterId;
+    _isPurchased = isPurchased;
     _roster = roster;
   }
 
@@ -37,6 +39,7 @@ class ExchangePlayerModel {
     _askingAmount = json['askingAmount'];
     _shares = json['shares'];
     _rosterId = json['rosterId'];
+    _isPurchased = json['isPurchased'];
     _roster = json['roster'] != null ? RosterModel.fromJson(json['roster']) : null;
   }
   String? _id;
@@ -44,6 +47,7 @@ class ExchangePlayerModel {
   num? _askingAmount;
   num? _shares;
   String? _rosterId;
+  bool? _isPurchased;
   RosterModel? _roster;
   ExchangePlayerModel copyWith({
     String? id,
@@ -51,6 +55,7 @@ class ExchangePlayerModel {
     num? askingAmount,
     num? shares,
     String? rosterId,
+    bool? isPurchased,
     RosterModel? roster,
   }) => ExchangePlayerModel(
     id: id ?? _id,
@@ -58,6 +63,7 @@ class ExchangePlayerModel {
     askingAmount: askingAmount ?? _askingAmount,
     shares: shares ?? _shares,
     rosterId: rosterId ?? _rosterId,
+    isPurchased: isPurchased ?? _isPurchased,
     roster: roster ?? _roster,
   );
   String? get id => _id;
@@ -65,6 +71,7 @@ class ExchangePlayerModel {
   num? get askingAmount => _askingAmount;
   num? get shares => _shares;
   String? get rosterId => _rosterId;
+  bool? get isPurchased => _isPurchased;
   RosterModel? get roster => _roster;
 
   Map<String, dynamic> toJson() {
@@ -74,6 +81,7 @@ class ExchangePlayerModel {
     map['askingAmount'] = _askingAmount;
     map['shares'] = _shares;
     map['rosterId'] = _rosterId;
+    map['isPurchased'] = isPurchased;
     if (_roster != null) {
       map['roster'] = _roster?.toJson();
     }
