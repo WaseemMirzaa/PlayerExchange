@@ -37,12 +37,15 @@ class ExchangePlayerScreen extends StatefulWidget {
 }
 
 class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
-  int activeIndex = 0;
-
   var shareController = TextEditingController();
   var offerAmountController = TextEditingController();
   int asking = 0;
   int shares = 0;
+
+  int activeIndex = 0;
+  int? highest = 0;
+  int? lowest = 0;
+  int? open = 0;
 
   @override
   void initState() {
@@ -51,7 +54,13 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
     graphController
         .fetchData(widget.rosterModel.cpoAthletes?.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
 
-
+    APIRequests.doApi_getPriceTrends(widget.rosterModel.cpoAthletes?.id ?? "", "day").then((value) =>
+    {
+      highest = value[0]?.highest,
+      lowest = value[0]?.lowest,
+      open = value[0]?.starting,
+      setState(() {})
+    });
   }
 
   @override
@@ -140,35 +149,35 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                         children: [
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'open'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'open'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.greenColor), text: open == 0 ? '\$ ---': '\$'+open.toString()),
+                              ])),
                           SizedBox(
                             height: 5,
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'high'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(color: ColorManager.greenColor), text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'high'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.greenColor), text: highest == 0 ? '\$ ---': '\$'+highest.toString()),
+                              ])),
                           SizedBox(
                             height: 5,
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
-                                text: 'low'.tr + " : "),
-                            TextSpan(
-                                style: TextStyle(color: ColorManager.lowPriceColor),
-                                text: '\$ --- '),
-                          ])),
+                                TextSpan(
+                                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),
+                                    text: 'low'.tr + " : "),
+                                TextSpan(
+                                    style: TextStyle(color: ColorManager.lowPriceColor),
+                                    text: lowest == 0 ? '\$ ---': '\$'+lowest.toString()),
+                              ])),
                         ],
                       )),
                 ],
@@ -176,8 +185,19 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
               SizedBox(
                 height: 15,
               ),
-              HeaderChartWidget(playerId: widget.rosterModel.cpoAthletes?.id ?? ""),
-              SizedBox(
+                  HeaderChartWidget(playerId: widget.rosterModel.cpoAthletes?.id ?? "",
+                    onDurationSelect: (duration){
+                      APIRequests.doApi_getPriceTrends(widget.rosterModel.cpoAthletes?.id ?? "", duration).then((value) =>
+                      {
+                        highest = value[0]?.highest,
+                        lowest = value[0]?.lowest,
+                        open = value[0]?.starting,
+                        setState(() {})
+                      });
+
+                    },
+                  ),
+                  SizedBox(
                 height: 10,
               ),
               Padding(
