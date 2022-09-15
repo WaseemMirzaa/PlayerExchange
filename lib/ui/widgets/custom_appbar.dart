@@ -68,3 +68,66 @@ PreferredSize customAppBar(
     ),
   );
 }
+
+
+
+PreferredSize customAppBarGreen(
+    BuildContext? context, {
+      String? title,
+      String? leadingIcon,
+      VoidCallback? leadingOnTap,
+      List<Widget>? trailing,
+      bool isTransparent = true,
+    }) {
+  return PreferredSize(
+    preferredSize: Size.fromHeight(kToolbarHeight),
+    child: Center(
+      child: AppBar(
+        leadingWidth: leadingIcon == null ? 0 : 100.w,
+        elevation: isTransparent ? 0 : 0,
+        backgroundColor: ColorManager.greenColor,
+        centerTitle: true,
+        foregroundColor: Colors.white,
+        leading: leadingIcon == null
+            ? Container()
+            : MaterialButton(
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                leadingIcon,
+                height: ScreenUtil().setHeight(18),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              AutoSizeText('back'.tr,
+                  style: TextStyle(color: Colors.white)),
+              // Text('back'.tr,style: TextStyle(color: Colors.black),)
+            ],
+          ),
+          onPressed: leadingOnTap == null
+              ? () => Navigator.pop(context!)
+              : leadingOnTap,
+        ),
+        title: title == null
+            ? SvgPicture.asset(
+          AssetsString().AppLogo,
+          height: ScreenUtil().setHeight(35),
+        )
+            : AutoSizeText(
+          title,
+          style: TextStyle(
+            color: Colors.white,
+            // fontFamily:  'DroidKufi',
+            fontSize: StyleManager().largeFontSize,
+            fontWeight: FontWeight.w800,
+          ),
+          minFontSize: StyleManager().smallFontSize,
+          maxLines: 1,
+          // overflow: TextOverflow.ellipsis,
+        ),
+        actions: trailing,
+      ),
+    ),
+  );
+}
