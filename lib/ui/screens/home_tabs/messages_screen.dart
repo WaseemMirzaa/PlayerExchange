@@ -70,7 +70,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: 'Message', trailing: [
+      appBar: customAppBarGreen(context, title: 'Message', trailing: [
 
       ], isTransparent: false),
       body: Container(
@@ -97,7 +97,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                             buildItem(context, snapshot.data?.docs[index]),
                         controller: scrollController,
                         separatorBuilder: (BuildContext context, int index) =>
-                            const Divider(),
+                        (index == 0) ? Container() : const Divider(),
                       );
                     } else {
                       return const Center(
@@ -105,11 +105,13 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       );
                     }
                   } else if (snapshot.connectionState  == ConnectionState.waiting) {
-                    return const SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: Center(
-                        child: CircularProgressIndicator(),
+                    return Center(
+                      child: const SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     );
                   }
