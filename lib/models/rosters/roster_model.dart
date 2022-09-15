@@ -21,6 +21,9 @@ List<RosterModel> rosterModelListFromJson(String str) =>
 String rosterModelListToJson(List<RosterModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+List<RosterModel> rosterModelListFromJson_Dio(List<dynamic> str) =>
+    List<RosterModel>.from(str.map((x) => RosterModel.fromJson(x)));
+
 class RosterModel {
   RosterModel({
       String? id, 

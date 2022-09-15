@@ -97,16 +97,41 @@ class APIRequests {
 
   static Future<RosterModel> doApi_getRoster(String rosterId) async {
     String jsonStringFilter =
-        '?filter= "include": [{"relation": "cpoAthletes"}]}';
-    var completeUrl = Api.baseURL + 'rosters/${rosterId}' + jsonStringFilter;
-    var response = await client.get(Uri.parse(completeUrl));
-    if (response.statusCode == 200) {
-      var jsonString = response.body;
-      return rosterModelFromJson(jsonString);
-    } else {
-      //show error message
-      return RosterModel();
+        '?filter={"where": {"id": "$rosterId"}, "include": [{"relation": "cpoAthletes"}]}';
+    var completeUrl = Api.baseURL + 'rosters/' + jsonStringFilter;
+    // var response = await client.get(Uri.parse(completeUrl));
+    // if (response.statusCode == 200) {
+    //   var jsonString = response.body;
+    //   return rosterModelFromJson(jsonString);
+    // } else {
+    //   //show error message
+    //   return RosterModel();
+    // }
+
+
+    var dio = Dio();
+    try {
+      final response = await dio.get(completeUrl,);
+
+      print ("response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        try {
+          return rosterModelListFromJson_Dio(response.data).first;
+        } catch (e) {
+          print(e);
+        }
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        // print('has response' + e.response?.data );
+        // Fluttertoast.showToast(msg: "Could not update chart.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
     }
+    return RosterModel();
   }
 
   static Future<bool> doApi_exchangeOfferRoster(String rosterId,num offerAmount,num sharesBought,String buyerId,String exchangePlayerId) async {
@@ -291,20 +316,76 @@ class APIRequests {
     }
   }
 
-  static Future<ExchangePlayerModel> doApi_getExchangePlayer(String id) async {
+  static Future<ExchangePlayerModel?> doApi_getExchangePlayer(String id) async {
     String jsonStringFilter =
-        '?filter={"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
-    var completeUrl = Api.baseURL + 'exchange-players/${id}' + jsonStringFilter;
-    var response = await client.get(Uri.parse(completeUrl));
-    if (response.statusCode == 200) {
-      var jsonString = response.body;
-      return exchangePlayerModelFromJson(jsonString);
-    } else {
-      //show error message
-      Fluttertoast.showToast(msg: Api.apiErrorResponse);
-      return ExchangePlayerModel();
-    }
+        '?filter={"where": {"isPurchased": "false", "id" : "${id}"},"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+
+    var completeUrl = Api.baseURL + 'exchange-players' + jsonStringFilter;
+    var dio = Dio();
+      try {
+        final response = await dio.get(completeUrl,);
+
+        print ("response: " + response.toString());
+        if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+          try {
+            return exchangePlayerModelListFromJson_Dio(response.data).first;
+          } catch (e) {
+            print(e);
+          }
+        }
+      } on DioError catch (e) {
+        e.printError();
+
+        if (e.response != null) {
+          // print('has response' + e.response?.data );
+          // Fluttertoast.showToast(msg: "Could not update chart.");
+        } else {
+          Fluttertoast.showToast(msg: e.response.toString());
+        }
+      }
+      return null;
   }
+
+  // static Future<ExchangePlayerModel?> doApi_getExchangePlayer(String id) async {
+  //   String jsonStringFilter =
+  //       // '?filter={"where": {"isPurchased": "false"},"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+  //       '?filter={"include": [{"relation": "roster", "scope": {"include" : [{"relation": "cpoAthletes"}]}}]}';
+  //   var completeUrl = Api.baseURL + 'exchange-players/${id}' + jsonStringFilter;
+  //   // var response = await client.get(Uri.parse(completeUrl));
+  //   // if (response.statusCode == 200) {
+  //   //   var jsonString = response.body;
+  //   //   return exchangePlayerModelFromJson(jsonString);
+  //   // } else {
+  //   //   //show error message
+  //   //   Fluttertoast.showToast(msg: Api.apiErrorResponse);
+  //   //   return ExchangePlayerModel();
+  //   // }
+  //
+  //
+  //   var dio = Dio();
+  //   try {
+  //     final response = await dio.get(completeUrl,);
+  //
+  //     print ("response: " + response.toString());
+  //     if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+  //       try {
+  //         return exchangePlayerModelFromJson(response.data);
+  //       } catch (e) {
+  //         print(e);
+  //       }
+  //     }
+  //   } on DioError catch (e) {
+  //     e.printError();
+  //
+  //     if (e.response != null) {
+  //       // print('has response' + e.response?.data );
+  //       Fluttertoast.showToast(msg: "Could not update chart.");
+  //     } else {
+  //       Fluttertoast.showToast(msg: e.response.toString());
+  //     }
+  //   }
+  //   return null;
+  // }
 
   static Future<TeamsResponse> doApi_getTeams() async {
     var completeUrl = Api.baseURL + 'teams';

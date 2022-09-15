@@ -15,6 +15,9 @@ List<ExchangePlayerModel> exchangePlayerModelListFromJson(String str) =>
 String exchangePlayerModelListToJson(List<RosterModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
+List<ExchangePlayerModel> exchangePlayerModelListFromJson_Dio(List<dynamic> str) =>
+    List<ExchangePlayerModel>.from(str.map((x) => ExchangePlayerModel.fromJson(x)));
+
 class ExchangePlayerModel {
   ExchangePlayerModel({
     String? id,

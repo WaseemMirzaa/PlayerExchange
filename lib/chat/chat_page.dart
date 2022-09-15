@@ -79,6 +79,7 @@ class _ChatPageState extends State<ChatPage> {
 
   late ChatProvider chatProvider;
   late User receiverUser;
+  late BuildContext baseWidgetContext;
 
   //late AuthProvider authProvider;
 
@@ -238,6 +239,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    baseWidgetContext = context;
     return Scaffold(
       appBar: customAppBar(context,
           leadingIcon: AssetsString().BackArrowIcon, title: widget.peerNickname),
@@ -252,7 +254,7 @@ class _ChatPageState extends State<ChatPage> {
           padding: const EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
           child: Column(
             children: [
-              buildListMessage(),
+              buildListMessage(context),
               buildMessageInput(),
               const SizedBox(
                 height: 10,
@@ -318,7 +320,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget buildItem(int index, DocumentSnapshot? documentSnapshot) {
+  Widget buildItem(BuildContext baseContext, int index, DocumentSnapshot? documentSnapshot) {
     if (documentSnapshot != null) {
       ChatMessages chatMessages = ChatMessages.fromDocument(documentSnapshot);
       if (chatMessages.idFrom == widget.currentUserId) {
@@ -344,6 +346,7 @@ class _ChatPageState extends State<ChatPage> {
                           )
                         : chatMessages.type == MessageType.offer
                             ? offerMessageBubble(
+                                baseContext: baseContext,
                                 chatContent: chatMessages.content,
                                 offer: chatMessages.offer!,
                                 color: ColorManager.greenColor,
@@ -470,6 +473,7 @@ class _ChatPageState extends State<ChatPage> {
                           )
                         : chatMessages.type == MessageType.offer
                             ? offerMessageBubble(
+                                baseContext: baseContext,
                                 chatContent: chatMessages.content,
                                 offer: chatMessages.offer!,
                                 color: ColorManager.buttonGreyColor.withOpacity(0.6),
@@ -505,7 +509,7 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  Widget buildListMessage() {
+  Widget buildListMessage(BuildContext baseContext) {
     return Flexible(
       child: groupChatId.isNotEmpty
           ? StreamBuilder<QuerySnapshot>(
@@ -520,7 +524,7 @@ class _ChatPageState extends State<ChatPage> {
                         reverse: true,
                         controller: scrollController,
                         itemBuilder: (context, index) =>
-                            buildItem(index, snapshot.data?.docs[index]));
+                            buildItem(baseContext, index, snapshot.data?.docs[index]));
                   } else {
                     return const Center(
                       child: Text('No messages...'),
@@ -543,6 +547,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget offerMessageBubble({
+    required BuildContext baseContext,
     required String chatContent,
     required Offer offer,
     required EdgeInsetsGeometry? margin,
@@ -602,9 +607,7 @@ class _ChatPageState extends State<ChatPage> {
                     children: [
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red,
-                            backgroundColor: Colors.white
-                        ),
+                            foregroundColor: Colors.red, backgroundColor: Colors.white),
                         child: Text('Reject'),
                         onPressed: () async {
                           await APIRequests.doApi_updateOffer(
@@ -626,9 +629,7 @@ class _ChatPageState extends State<ChatPage> {
                       OutlinedButton(
                         child: Text('Accept'),
                         style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.green,
-                            backgroundColor: Colors.white
-                        ),
+                            foregroundColor: Colors.green, backgroundColor: Colors.white),
                         onPressed: () async {
                           await APIRequests.doApi_updateOffer(
                               Offer(id: offer.id, status: OfferStatusConstants.ACCEPTED));
@@ -677,16 +678,19 @@ class _ChatPageState extends State<ChatPage> {
                                       foregroundColor: Colors.green, backgroundColor: Colors.white),
                                   child: Text('Pay'),
                                   onPressed: () async {
-                                    await APIRequests.doApi_updateOffer(
-                                        Offer(id: offer.id, status: OfferStatusConstants.PAID));
+                                    payWithWallet(
+                                        baseWidgetContext,
+                                        chatMessages.offer?.offerAmount ?? 0,
+                                        chatMessages.offer?.totalShares ?? 0,
+                                        chatMessages
+                                    );
 
-                                    await fireStore
-                                        .collection(FirestoreCollections.pathMessageCollection)
-                                        .doc(groupChatId)
-                                        .collection(FirestoreCollections.chatConservations)
-                                        .doc(chatMessages.id)
-                                        .update({'offer.status': OfferStatusConstants.PAID});
-                                    setState(() {});
+                                    // showPayWithWalletAlertDialog(
+                                    //     baseWidgetContext,
+                                    //     chatMessages.offer?.offerAmount ?? 0,
+                                    //     chatMessages.offer?.totalShares ?? 0,
+                                    //     chatMessages);
+
                                     print('Pay Pressed');
                                   },
                                 )
@@ -700,18 +704,20 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   // set up the AlertDialog
-  showPayWithWalletAlertDialog(BuildContext context, num amount, num shares) {
+  showPayWithWalletAlertDialog(
+      BuildContext context, num amount, num shares, ChatMessages chatMessages) {
     // set up the button
     Widget ok = TextButton(
       child: Text("Yes"),
       onPressed: () async {
-        payWithWallet(amount, shares);
+        payWithWallet(context, amount, shares, chatMessages);
       },
     );
     Widget cancel = TextButton(
       child: Text("No"),
       onPressed: () {
-        Navigator.pop(context, true);
+        Navigator.of(context).pop();
+        // Navigator.pop(context);
       },
     );
 
@@ -757,7 +763,7 @@ class _ChatPageState extends State<ChatPage> {
 
     // show the dialog
     showDialog(
-      context: context,
+      context: baseWidgetContext,
       builder: (BuildContext context) {
         return alert;
       },
@@ -769,13 +775,14 @@ class _ChatPageState extends State<ChatPage> {
   bool stripePayInProgress = false;
   TransactionModel? transactionModel = null;
 
-  Future<void> payWithWallet(num amount, num shares) async {
+  Future<void> payWithWallet(
+      BuildContext baseContext, num amount, num shares, ChatMessages chatMessages) async {
     User user = appDrawerController.user.value;
     num total = 0;
 
     if ((user.walletAmount ?? 0) < amount) {
-      showMessageDialog(
-          "You don't have enough amount in your wallet, please recharge.", context, () => {});
+      showMessageDialog("You don't have enough amount in your wallet, please recharge.",
+          baseWidgetContext, () => {});
       // Fluttertoast.showToast(msg: "You don't have enough amount in your wallet, please recharge.");
       return;
     }
@@ -783,11 +790,11 @@ class _ChatPageState extends State<ChatPage> {
     if (!stripePayInProgress) {
       if (amount > 0) {
         stripePayInProgress = true;
-        LoadingIndicatorDialog().show(context);
+        LoadingIndicatorDialog().show(baseContext);
 
-        ExchangePlayerModel exchangePlayerModel =
-            await APIRequests.doApi_getExchangePlayer(widget.offer?.exchangePlayerModelId ?? "");
-        if (exchangePlayerModel.id == null) {
+        ExchangePlayerModel? exchangePlayerModel =
+            await APIRequests.doApi_getExchangePlayer(chatMessages.offer?.exchangePlayerModelId ?? "");
+        if (exchangePlayerModel == null) {
           stripePayInProgress = false;
           LoadingIndicatorDialog().dismiss();
           Fluttertoast.showToast(msg: "Unable to get Player");
@@ -798,7 +805,9 @@ class _ChatPageState extends State<ChatPage> {
         RosterModel rosterModel =
             await APIRequests.doApi_getRoster(exchangePlayerModel.roster?.id ?? "");
         if (shares > (rosterModel.sharesBought ?? 0)) {
-          showMessageDialog("Seller does not have enough shares now.", context, () => {});
+          stripePayInProgress = false;
+          LoadingIndicatorDialog().dismiss();
+          showMessageDialog("Seller does not have enough shares now.", baseWidgetContext, () => {});
           return;
         }
 
@@ -834,20 +843,37 @@ class _ChatPageState extends State<ChatPage> {
             //Revert transaction
             await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
           } else {
-            APIRequests.doApi_exchangeOfferRoster(
-                    exchangePlayerModel.roster?.id ?? "", amount, shares, user.id ?? "", exchangePlayerModel.id ?? "")
+            await APIRequests.doApi_exchangeOfferRoster(exchangePlayerModel.roster?.id ?? "",
+                    amount, shares, user.id ?? "", exchangePlayerModel.id ?? "")
                 .then((value) async => {
                       LoadingIndicatorDialog().dismiss(),
+                      stripePayInProgress = false,
                       if (value)
                         {
-                          LoadingIndicatorDialog().dismiss(),
                           //Successfully paid with Wallet
                           await APIRequests.doApi_updateUserProfile(user.id!, user),
 
-                          showSuccessAlertDialog(context),
+                          //Update status offer status
+                          await APIRequests.doApi_updateOffer(Offer(
+                              id: chatMessages.offer?.id ?? "", status: OfferStatusConstants.PAID)),
+
+                          await fireStore
+                              .collection(FirestoreCollections.pathMessageCollection)
+                              .doc(groupChatId)
+                              .collection(FirestoreCollections.chatConservations)
+                              .doc(chatMessages.id)
+                              .update({'offer.status': OfferStatusConstants.PAID}),
+
+                          LoadingIndicatorDialog().dismiss(),
+
+                          setState(() {}),
+                          showSuccessAlertDialog(baseContext),
                         }
                       else
                         {
+                          stripePayInProgress = false,
+
+                          LoadingIndicatorDialog().dismiss(),
                           Fluttertoast.showToast(msg: "Unable to purchase"),
                           //Revert transaction
                           if (transactionModel != null)
