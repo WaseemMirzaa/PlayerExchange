@@ -744,8 +744,10 @@ class _ChatPageState extends State<ChatPage> {
     Widget ok = TextButton(
       child: Text("Ok"),
       onPressed: () async {
-        await homeScreenController.getUserData();
+        // await homeScreenController.getUserData();
         setState(() {});
+
+        // Navigator.of(context).pop();
         // await Get.off(() => TabsScreen(
         //       selectedIndex: TabsScreen.currentIndex,
         //     ));
@@ -758,7 +760,7 @@ class _ChatPageState extends State<ChatPage> {
       content: Text("You have successfully purchased the shares."),
       titleTextStyle: TextStyle(color: ColorManager.greenColor, fontSize: 16),
       contentTextStyle: TextStyle(color: ColorManager.colorTextDarkGray),
-      actions: [ok],
+      // actions: [ok],
     );
 
     // show the dialog
@@ -771,7 +773,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   AppDrawerController appDrawerController = Get.find();
-  HomeScreenController homeScreenController = Get.find();
+  // HomeScreenController homeScreenController = Get.find();
   bool stripePayInProgress = false;
   TransactionModel? transactionModel = null;
 
@@ -846,8 +848,6 @@ class _ChatPageState extends State<ChatPage> {
             await APIRequests.doApi_exchangeOfferRoster(exchangePlayerModel.roster?.id ?? "",
                     amount, shares, user.id ?? "", exchangePlayerModel.id ?? "")
                 .then((value) async => {
-                      LoadingIndicatorDialog().dismiss(),
-                      stripePayInProgress = false,
                       if (value)
                         {
                           //Successfully paid with Wallet
@@ -865,15 +865,14 @@ class _ChatPageState extends State<ChatPage> {
                               .update({'offer.status': OfferStatusConstants.PAID}),
 
                           LoadingIndicatorDialog().dismiss(),
+                          stripePayInProgress = false,
 
                           setState(() {}),
                           showSuccessAlertDialog(baseContext),
                         }
                       else
                         {
-                          stripePayInProgress = false,
 
-                          LoadingIndicatorDialog().dismiss(),
                           Fluttertoast.showToast(msg: "Unable to purchase"),
                           //Revert transaction
                           if (transactionModel != null)
@@ -883,6 +882,8 @@ class _ChatPageState extends State<ChatPage> {
                           total = (user.walletAmount ?? 0.0) + amount,
                           user.walletAmount = total,
                           await APIRequests.doApi_updateUserProfile(user.id!, user),
+                          stripePayInProgress = false,
+                          LoadingIndicatorDialog().dismiss(),
                         }
                     });
           }
