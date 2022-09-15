@@ -21,6 +21,7 @@ import 'package:player_exchange/utils/style_manager.dart';
 import '../../main.dart';
 import '../../utils/constants.dart';
 import '../widgets/header_graph_chart.dart';
+import '../widgets/new_tab_widget.dart';
 import 'buy_and_watch/buy_screen.dart';
 
 class RosterDetailScreen extends StatefulWidget {
@@ -496,43 +497,8 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
   }
 
   getNewList() {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((_, index) {
-      if (index == 0) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 0.0, bottom: 15),
-          child: Container(
-            color: ColorManager.lightGreyDivider,
-            height: 1,
-          ),
-        );
-      }
-      return getSingleItem('Jones continue to strugle', 'ESPN');
-    }, childCount: 5));
-  }
+    return NewsTabWidget();
 
-  getSingleItem(String title, String subtitle) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 15.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: StyleManager().mediumFontSize,
-                  fontWeight: FontWeight.w600)),
-          SizedBox(
-            height: 7.h,
-          ),
-          Text(subtitle,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: StyleManager().smallFontSize,
-              ))
-        ],
-      ),
-    );
   }
 
   shareTitleAndValue(String title, String value) {

@@ -51,7 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     graphController
         .fetchData(appDrawerController.user.value.id ?? "", GraphApiConstants.days, GraphApiConstants.daysCount);
 
-
   }
 
   @override

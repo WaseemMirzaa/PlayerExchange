@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -104,7 +105,9 @@ class _WatchScreenState extends State<WatchScreen> {
                 children: [
                   Expanded(
                     child: FilledButton(
-                      onTap: () {},
+                      onTap: () {
+                        Fluttertoast.showToast(msg: "Will be available soon");
+                      },
                       text: "Invite Contacts",
                       reverseColor: true,
                       isFullWidth: false,
@@ -117,7 +120,9 @@ class _WatchScreenState extends State<WatchScreen> {
                   ),
                   Expanded(
                     child: FilledButton(
-                      onTap: () {},
+                      onTap: () {
+                        Fluttertoast.showToast(msg: "Will be available soon");
+                      },
                       text: "Share a Link",
                       reverseColor: true,
                       isFullWidth: false,

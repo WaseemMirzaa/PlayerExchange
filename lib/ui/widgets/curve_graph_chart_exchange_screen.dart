@@ -10,7 +10,7 @@ import '../../main.dart';
 import '../../models/chart_response_model.dart';
 import '../../utils/style_manager.dart';
 
-class CurveChart extends StatefulWidget {
+class CurveChartExchangeScreen extends StatefulWidget {
 
 
   String playerId;
@@ -27,12 +27,12 @@ class CurveChart extends StatefulWidget {
     border:  Border.all(color: Colors.transparent),
   );
 
-  CurveChart({ required this.playerId,this.priceShare, Key? key}) : super(key: key);
+  CurveChartExchangeScreen({ required this.playerId,this.priceShare, Key? key}) : super(key: key);
 
   @override
   _ChartState createState() => _ChartState();
 }
-class _ChartState extends State<CurveChart> {
+class _ChartState extends State<CurveChartExchangeScreen> {
 
   bool isGraphLoaded = false;
   var graphPoints = <ChartResponseModel?>[];
@@ -64,58 +64,58 @@ class _ChartState extends State<CurveChart> {
 
   @override
   Widget build(BuildContext context) {
-    return isGraphLoaded ?Padding(
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
-      child: Row(
-        children: [
-          SizedBox(width: 10,),
-          SizedBox(
-            width: 50,
-            child: LineChart(
-              LineChartData(
-                lineTouchData: widget.lineTouchData,
-                gridData: FlGridData( show: false ),
-                titlesData: FlTitlesData( show: false ),
-                borderData: widget.borderData,
-                lineBarsData: [
-                  LineChartBarData(
-                    isCurved: true,
-                    colors: [points.isNotEmpty? checkColor(): ColorManager.greenColor],
-                    barWidth: 2,
-                    isStrokeCapRound: true,
-                    dotData: FlDotData(show: false),
-                    belowBarData: BarAreaData(show: false),
-                    spots: points,
+    return isGraphLoaded ?Column(
+      children: [
+        SizedBox(height: 2,),
+        SizedBox(
+          width: 100,
+          height: 40,
+          child: LineChart(
+            LineChartData(
+              lineTouchData: widget.lineTouchData,
+              gridData: FlGridData( show: false ),
+              titlesData: FlTitlesData( show: false ),
+              borderData: widget.borderData,
+              lineBarsData: [
+                LineChartBarData(
+                  isCurved: true,
+                  colors: [points.isNotEmpty? checkColor(): ColorManager.greenColor],
+                  barWidth: 2,
+                  isStrokeCapRound: true,
+                  dotData: FlDotData(show: false),
+                  belowBarData: BarAreaData(show: false),
+                  spots: points,
 
-                  )
-                ],
-                maxX: xMax,
-                maxY: yMax,
-                minY: 0.0
-              ),
-              swapAnimationDuration: const Duration(milliseconds: 250),
+                )
+              ],
+              maxX: xMax,
+              maxY: yMax,
+              minY: 0.0
             ),
+            swapAnimationDuration: const Duration(milliseconds: 250),
           ),
-          SizedBox(width: 5,),
-          widget.priceShare != null? Row(
-            children: [
-              Icon(
-                points.isNotEmpty ? checkIcon() : Icons.circle,
-                color: points.isNotEmpty? checkColor(): ColorManager.greenColor,
-              ),
-              Text(
-                widget.priceShare.toString() == "empty" ? "---" :'\$'+widget.priceShare.toString(),
-                style: TextStyle(
-                    fontSize: StyleManager().smallFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: points.isNotEmpty? checkColor(): ColorManager.greenColor),
-              ),
-            ],
-          ): Container(),
-        ],
-      ),
+        ),
+        widget.priceShare != null? Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              points.isNotEmpty ? checkIcon() : Icons.circle,
+              color: points.isNotEmpty? checkColor(): ColorManager.greenColor,
+            ),
+            Text(
+              widget.priceShare.toString() == "empty" ? "---" :'\$'+widget.priceShare.toString(),
+              style: TextStyle(
+                  fontSize: StyleManager().smallFontSize,
+                  fontWeight: FontWeight.w600,
+                  color: points.isNotEmpty? checkColor(): ColorManager.greenColor),
+            ),
+            SizedBox(width: 10,)
+          ],
+        ): Container(),
+      ],
     ): Container(
       child:Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(child: SizedBox(
               height: 20,

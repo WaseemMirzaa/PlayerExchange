@@ -176,29 +176,29 @@ class CommentProfileWidget extends StatelessWidget {
                 SizedBox(
                   height: 7,
                 ),
-                Row(
-                  children: [
-                    SvgPicture.asset(AssetsString().ThumbsUpIcon),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Text(
-                      commentModel.likesCount?.toString() ?? "0",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    SizedBox(
-                      width: 7,
-                    ),
-                    SvgPicture.asset(AssetsString().ThumbsDownIcon),
-                    SizedBox(
-                      height: 3,
-                    ),
-                    Text(
-                      commentModel.dislikesCount?.toString() ?? "0",
-                      style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                )
+                // Row(
+                //   children: [
+                //     SvgPicture.asset(AssetsString().ThumbsUpIcon),
+                //     SizedBox(
+                //       height: 3,
+                //     ),
+                //     Text(
+                //       commentModel.likesCount?.toString() ?? "0",
+                //       style: TextStyle(color: Colors.grey),
+                //     ),
+                //     SizedBox(
+                //       width: 7,
+                //     ),
+                //     SvgPicture.asset(AssetsString().ThumbsDownIcon),
+                //     SizedBox(
+                //       height: 3,
+                //     ),
+                //     Text(
+                //       commentModel.dislikesCount?.toString() ?? "0",
+                //       style: TextStyle(color: Colors.grey),
+                //     )
+                //   ],
+                // )
               ],
             )
           ],

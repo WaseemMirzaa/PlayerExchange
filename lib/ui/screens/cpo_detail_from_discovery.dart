@@ -12,6 +12,7 @@ import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
+import 'package:player_exchange/ui/widgets/new_tab_widget.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
 import 'package:player_exchange/ui/widgets/player_profile_widget.dart';
 import 'package:player_exchange/utils/assets_string.dart';
@@ -417,35 +418,10 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
   }
 
   getNewList() {
-    return SliverList(
-        delegate: SliverChildBuilderDelegate((_, index) {
-      return getSingleItem('Jones continue to strugle', 'Espn');
-    }, childCount: 5));
+    return NewsTabWidget();
   }
 
-  getSingleItem(String title, String subtitle) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: StyleManager().mediumFontSize,
-                  fontWeight: FontWeight.w600)),
-          SizedBox(
-            height: 7.h,
-          ),
-          Text(subtitle,
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: StyleManager().smallFontSize,
-              ))
-        ],
-      ),
-    );
-  }
+
 
   shareTitleAndValue(String title, String value, {bool isShowGraph = false}) {
     return Column(

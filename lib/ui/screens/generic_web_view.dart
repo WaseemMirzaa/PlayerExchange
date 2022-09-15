@@ -1,7 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../utils/assets_string.dart';
+import '../widgets/custom_appbar.dart';
 
 class WebViewGenericCustom extends StatefulWidget {
   const WebViewGenericCustom({Key? key, required this.url, required this.title}) : super(key: key);
@@ -23,11 +27,11 @@ class _WebViewAppCustomState extends State<WebViewGenericCustom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        backgroundColor: ColorManager.greenColor,
-        title: Text(title ?? ''),
-      ),
+      appBar: customAppBar(context,
+          title: title ?? "", leadingIcon: AssetsString().BackArrowIcon),      // appBar: AppBar(
+      //   backgroundColor: ColorManager.greenColor,
+      //   title: Text(title ?? ''),
+      // ),
       body:  WebView(
         initialUrl: url.toString(),
         javascriptMode: JavascriptMode.unrestricted,

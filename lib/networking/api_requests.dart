@@ -134,7 +134,7 @@ class APIRequests {
     return RosterModel();
   }
 
-  static Future<bool> doApi_exchangeOfferRoster(String rosterId,num offerAmount,num sharesBought,String buyerId,String exchangePlayerId) async {
+  static Future<bool> doApi_rostersExchangeCashOffer(String rosterId,num offerAmount,num sharesBought,String buyerId,String exchangePlayerId) async {
     // String jsonStringFilter =
     //     '?filter= "include": [{"relation": "cpoAthletes"}]}';
     var completeUrl = Api.baseURL + 'rostersExchangeCashOffer/${rosterId}/${offerAmount}/${sharesBought}/${buyerId}/${exchangePlayerId}' ;
@@ -152,7 +152,33 @@ class APIRequests {
 
       if (e.response != null) {
         print('has response' + e.response?.data );
-        Fluttertoast.showToast(msg: "Could not update chart.");
+      } else {
+        Fluttertoast.showToast(msg: e.response.toString());
+      }
+    }
+    return false;
+  }
+
+
+  static Future<bool> doApi_rostersExchangeOffer(String sellerRosterId,num sharesOffered,String buyerId,String exchangePlayerId, String buyerRosterId) async {
+    // String jsonStringFilter =
+    //     '?filter= "include": [{"relation": "cpoAthletes"}]}';
+
+    var completeUrl = Api.baseURL + 'rostersExchangeOffer/${sellerRosterId}/${sharesOffered}/${buyerId}/${exchangePlayerId}/${buyerRosterId}' ;
+        // + jsonStringFilter;
+    var dio = Dio();
+    try {
+      final response = await dio.get(completeUrl,);
+
+      print ("response: " + response.toString());
+      if (response.data != null && response.statusCode == 200 || response.statusCode == 204) {
+        return true;
+      }
+    } on DioError catch (e) {
+      e.printError();
+
+      if (e.response != null) {
+        print('has response' + e.response?.data );
       } else {
         Fluttertoast.showToast(msg: e.response.toString());
       }

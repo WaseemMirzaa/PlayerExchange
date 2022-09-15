@@ -34,7 +34,10 @@ class Offer {
     String? validFor,
     bool? isNegotiable,
     String? status,
-    String? offerType,}){
+    String? offerType,
+    String? buyerRosterId,
+
+  }){
     _id = id;
     _senderId = senderId;
     _receiverId = receiverId;
@@ -47,6 +50,7 @@ class Offer {
     _isNegotiable = isNegotiable;
     _status = status;
     _offerType = offerType;
+    _buyerRosterId = buyerRosterId;
   }
 
   Offer.fromJson(dynamic json) {
@@ -62,6 +66,7 @@ class Offer {
     _isNegotiable = json['isNegotiable'];
     _status = json['status'];
     _offerType = json['offerType'];
+    _buyerRosterId = json['buyerRosterId'];
   }
   String? _id;
   String? _senderId;
@@ -75,6 +80,7 @@ class Offer {
   bool? _isNegotiable;
   String? _status;
   String? _offerType;
+  String? _buyerRosterId;
   Offer copyWith({  String? id,
     String? senderId,
     String? receiverId,
@@ -87,6 +93,7 @@ class Offer {
     bool? isNegotiable,
     String? status,
     String? offerType,
+    String? buyerRosterId,
   }) => Offer(  id: id ?? _id,
     senderId: senderId ?? _senderId,
     receiverId: receiverId ?? _receiverId,
@@ -99,6 +106,7 @@ class Offer {
     isNegotiable: isNegotiable ?? _isNegotiable,
     status: status ?? _status,
     offerType: offerType ?? _offerType,
+    buyerRosterId: buyerRosterId ?? _buyerRosterId,
   );
   String? get id => _id;
   String? get senderId => _senderId;
@@ -112,6 +120,7 @@ class Offer {
   bool? get isNegotiable => _isNegotiable;
   String? get status => _status;
   String? get offerType => _offerType;
+  String? get buyerRosterId => _buyerRosterId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -127,6 +136,7 @@ class Offer {
     map['isNegotiable'] = _isNegotiable;
     map['status'] = _status;
     map['offerType'] = _offerType;
+    map['buyerRosterId'] = _buyerRosterId;
     return map;
   }
 
@@ -144,6 +154,7 @@ class Offer {
     if(_isNegotiable != null)map['isNegotiable'] = _isNegotiable;
     if(_status != null)map['status'] = _status;
     if(_offerType != null)map['offerType'] = _offerType;
+    if(_buyerRosterId != null)map['buyerRosterId'] = _buyerRosterId;
     return map;
   }
 

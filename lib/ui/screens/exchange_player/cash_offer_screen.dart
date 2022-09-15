@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -132,6 +133,10 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                         child: TextFormField(
                       style: const TextStyle(color: Colors.black),
                       controller: offerAmountController,
+                          maxLength: 8,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          ],
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.grey, width: 1.0),

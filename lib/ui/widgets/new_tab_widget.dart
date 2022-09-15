@@ -13,15 +13,15 @@ class _NewsTabWidgetState extends State<NewsTabWidget> {
     return SliverList(delegate: SliverChildBuilderDelegate((_,index){
       return getSingleItem('Jones continue to strugle', 'Espn');
     },
-    childCount: 5
+    childCount: 0
     ));
 
 
-      ListView.builder(itemBuilder: (_,index){
-      return getSingleItem('Jones continue to strugle', 'Espn');
-    },
-      itemCount: 5,
-    );
+    //   ListView.builder(itemBuilder: (_,index){
+    //   return getSingleItem('Jones continue to strugle', 'Espn');
+    // },
+    //   itemCount: 5,
+    // );
   }
 
   getSingleItem(String title,String subtitle){

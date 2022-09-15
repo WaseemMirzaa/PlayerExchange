@@ -30,6 +30,15 @@ class _HeaderChartWidgetState extends State<HeaderChartWidget> {
   @override
   void initState() {
     super.initState();
+
+    widget.onDurationSelect?.call("day");
+
+    graphController.fetchData(
+        widget.playerId, GraphApiConstants.days, GraphApiConstants.daysCount,
+        isUser: widget.isUser ?? false);
+    setState(() {
+      currentIndex = 0;
+    });
   }
 
   @override

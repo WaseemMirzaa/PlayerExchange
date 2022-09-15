@@ -20,10 +20,10 @@ import 'package:player_exchange/utils/DateUtilsCustom.dart';
 import 'package:provider/provider.dart';
 
 import '../Networking/api.dart';
-import '../controllers/home_screen_controller.dart';
 import '../main.dart';
 import '../models/auth/user_model.dart';
 import '../models/rosters/roster_model.dart';
+import '../ui/screens/home_tabs/tabs_screen.dart';
 import '../utils/alert_dialog_custom.dart';
 import '../utils/assets_string.dart';
 import '../utils/color_manager.dart';
@@ -587,13 +587,17 @@ class _ChatPageState extends State<ChatPage> {
                   (offer.status == OfferStatusConstants.PENDING
                       ? "Pending"
                       : offer.status == OfferStatusConstants.ACCEPTED
-                          ? "Payment Pending"
+                          ? (offer.offerType == OfferTypeConstants.CASH_OFFER
+                              ? "Payment Pending"
+                              : "Exchange Pending")
                           : offer.status == OfferStatusConstants.REJECTED
                               ? "Rejected"
                               : offer.status == OfferStatusConstants.CANCELED
                                   ? "Canceled"
                                   : offer.status == OfferStatusConstants.PAID
-                                      ? "Paid"
+                                      ? (offer.offerType == OfferTypeConstants.CASH_OFFER
+                                          ? "Paid"
+                                          : "Exchanged")
                                       : ""),
                   style: TextStyle(
                       fontSize: Sizes.dimen_20, color: textColor, fontWeight: FontWeight.bold),
@@ -676,20 +680,23 @@ class _ChatPageState extends State<ChatPage> {
                               ? OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                       foregroundColor: Colors.green, backgroundColor: Colors.white),
-                                  child: Text('Pay'),
+                                  child: Text(
+                                      chatMessages.offer?.offerType == OfferTypeConstants.EXCHANGE
+                                          ? 'Exchange'
+                                          : 'Pay'),
                                   onPressed: () async {
-                                    payWithWallet(
-                                        baseWidgetContext,
-                                        chatMessages.offer?.offerAmount ?? 0,
-                                        chatMessages.offer?.totalShares ?? 0,
-                                        chatMessages
-                                    );
+                                    if (chatMessages.offer?.offerType ==
+                                        OfferTypeConstants.CASH_OFFER) {
+                                      payWithWallet(
+                                          baseWidgetContext,
+                                          chatMessages.offer?.offerAmount ?? 0,
+                                          chatMessages.offer?.totalShares ?? 0,
+                                          chatMessages);
+                                    } else if (chatMessages.offer?.offerType ==
+                                        OfferTypeConstants.EXCHANGE) {}
 
-                                    // showPayWithWalletAlertDialog(
-                                    //     baseWidgetContext,
-                                    //     chatMessages.offer?.offerAmount ?? 0,
-                                    //     chatMessages.offer?.totalShares ?? 0,
-                                    //     chatMessages);
+                                    payWithExchange(baseWidgetContext,
+                                        chatMessages.offer?.totalShares ?? 0, chatMessages);
 
                                     print('Pay Pressed');
                                   },
@@ -739,7 +746,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  showSuccessAlertDialog(BuildContext context) {
+  showSuccessAlertDialog(BuildContext context, String msg) {
     // set up the button
     Widget ok = TextButton(
       child: Text("Ok"),
@@ -748,19 +755,19 @@ class _ChatPageState extends State<ChatPage> {
         setState(() {});
 
         // Navigator.of(context).pop();
-        // await Get.off(() => TabsScreen(
-        //       selectedIndex: TabsScreen.currentIndex,
-        //     ));
+        await Get.off(() => TabsScreen(
+              selectedIndex: TabsScreen.currentIndex,
+            ));
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Success"),
-      content: Text("You have successfully purchased the shares."),
+      content: Text(msg),
       titleTextStyle: TextStyle(color: ColorManager.greenColor, fontSize: 16),
       contentTextStyle: TextStyle(color: ColorManager.colorTextDarkGray),
-      // actions: [ok],
+      actions: [ok],
     );
 
     // show the dialog
@@ -773,6 +780,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   AppDrawerController appDrawerController = Get.find();
+
   // HomeScreenController homeScreenController = Get.find();
   bool stripePayInProgress = false;
   TransactionModel? transactionModel = null;
@@ -794,8 +802,8 @@ class _ChatPageState extends State<ChatPage> {
         stripePayInProgress = true;
         LoadingIndicatorDialog().show(baseContext);
 
-        ExchangePlayerModel? exchangePlayerModel =
-            await APIRequests.doApi_getExchangePlayer(chatMessages.offer?.exchangePlayerModelId ?? "");
+        ExchangePlayerModel? exchangePlayerModel = await APIRequests.doApi_getExchangePlayer(
+            chatMessages.offer?.exchangePlayerModelId ?? "");
         if (exchangePlayerModel == null) {
           stripePayInProgress = false;
           LoadingIndicatorDialog().dismiss();
@@ -845,7 +853,7 @@ class _ChatPageState extends State<ChatPage> {
             //Revert transaction
             await APIRequests.doApi_removeTransaction(transactionModel?.id ?? "");
           } else {
-            await APIRequests.doApi_exchangeOfferRoster(exchangePlayerModel.roster?.id ?? "",
+            await APIRequests.doApi_rostersExchangeCashOffer(exchangePlayerModel.roster?.id ?? "",
                     amount, shares, user.id ?? "", exchangePlayerModel.id ?? "")
                 .then((value) async => {
                       if (value)
@@ -868,11 +876,10 @@ class _ChatPageState extends State<ChatPage> {
                           stripePayInProgress = false,
 
                           setState(() {}),
-                          showSuccessAlertDialog(baseContext),
+                          showSuccessAlertDialog(baseContext,"You have successfully purchased the shares."),
                         }
                       else
                         {
-
                           Fluttertoast.showToast(msg: "Unable to purchase"),
                           //Revert transaction
                           if (transactionModel != null)
@@ -892,5 +899,72 @@ class _ChatPageState extends State<ChatPage> {
         Fluttertoast.showToast(msg: "Amount should be greater then 0");
       }
     }
+  }
+
+  Future<void> payWithExchange(
+      BuildContext baseContext, num shares, ChatMessages chatMessages) async {
+    User user = appDrawerController.user.value;
+    num total = 0;
+
+    stripePayInProgress = true;
+    LoadingIndicatorDialog().show(baseContext);
+
+    ExchangePlayerModel? exchangePlayerModel =
+        await APIRequests.doApi_getExchangePlayer(chatMessages.offer?.exchangePlayerModelId ?? "");
+    if (exchangePlayerModel == null) {
+      stripePayInProgress = false;
+      LoadingIndicatorDialog().dismiss();
+      Fluttertoast.showToast(msg: "Unable to get Player");
+      return;
+    }
+
+    RosterModel? rosterModelBuyer =
+        await APIRequests.doApi_getRoster(chatMessages.offer?.buyerRosterId ?? "");
+    if (rosterModelBuyer == null) {
+      stripePayInProgress = false;
+      LoadingIndicatorDialog().dismiss();
+      Fluttertoast.showToast(msg: "Unable to get Roster");
+      return;
+    }
+
+    //    check if the person who added exchange player still have enough shares in his roster
+    RosterModel rosterModelSeller =
+        await APIRequests.doApi_getRoster(exchangePlayerModel.roster?.id ?? "");
+    if (shares > (rosterModelSeller.sharesBought ?? 0)) {
+      stripePayInProgress = false;
+      LoadingIndicatorDialog().dismiss();
+      showMessageDialog("Seller does not have enough shares now.", baseWidgetContext, () => {});
+      return;
+    }
+
+    await APIRequests.doApi_rostersExchangeOffer(exchangePlayerModel.roster?.id ?? "", shares,
+            user.id ?? "", exchangePlayerModel.id ?? "", chatMessages.offer?.buyerRosterId ?? "")
+        .then((value) async => {
+              if (value)
+                {
+                  //Update status offer status
+                  await APIRequests.doApi_updateOffer(
+                      Offer(id: chatMessages.offer?.id ?? "", status: OfferStatusConstants.PAID)),
+
+                  await fireStore
+                      .collection(FirestoreCollections.pathMessageCollection)
+                      .doc(groupChatId)
+                      .collection(FirestoreCollections.chatConservations)
+                      .doc(chatMessages.id)
+                      .update({'offer.status': OfferStatusConstants.PAID}),
+
+                  LoadingIndicatorDialog().dismiss(),
+                  stripePayInProgress = false,
+
+                  setState(() {}),
+                  showSuccessAlertDialog(baseContext, "You have successfully exchanged the player."),
+                }
+              else
+                {
+                  Fluttertoast.showToast(msg: "Unable to Exchange"),
+                  stripePayInProgress = false,
+                  LoadingIndicatorDialog().dismiss(),
+                }
+            });
   }
 }
