@@ -480,7 +480,7 @@ class APIRequests {
             "amount": transactionModel.amount,
             "shares": transactionModel.shares,
             "playerId": transactionModel.playerId,
-            "playerName": transactionModel.playerId,
+            "playerName": transactionModel.playerName,
           }),
           headers: header);
       if (response.statusCode == 200 || response.statusCode == 204) {
