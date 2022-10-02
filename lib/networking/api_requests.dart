@@ -627,7 +627,8 @@ class APIRequests {
       Fluttertoast.showToast(msg: "Offer Sent");
 
       var jsonString = response.body;
-      return Offer.fromJson(jsonString);
+      // return Offer.fromJson(jsonString);
+      return offerFromJson(jsonString);
     } else {
       //show error message
           Fluttertoast.showToast(msg: "Could not send offer.");

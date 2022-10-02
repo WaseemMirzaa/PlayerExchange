@@ -160,10 +160,10 @@ class _AppDrawerState extends State<AppDrawer> {
           _createDrawerItem(
             icon: Icons.logout,
             text: 'Logout',
-            onTap: () {
+            onTap: () async {
               Navigator.of(context).pop();
 
-              FirebaseCloudMessaging.stopNotificationService(userId: userId ?? "");
+              await FirebaseCloudMessaging.stopNotificationService(userId: userId ?? "");
               SessionManager.setUserData(new User());
               Get.offAll(AuthScreen());
 

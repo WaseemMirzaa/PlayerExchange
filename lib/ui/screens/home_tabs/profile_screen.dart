@@ -7,6 +7,7 @@ import 'package:player_exchange/ui/screens/edit_profile_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
+import 'package:player_exchange/utils/DateUtilsCustom.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
 import 'package:player_exchange/utils/style_manager.dart';
@@ -232,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 15,
               ),
               Text(
-                'Joined: ' + (appDrawerController.user.value.createdAt ?? ""),
+                'Joined: ' + (DateUtilsCustom.convertDateTimeTo_AmPm_FromString(appDrawerController.user.value.createdAt ?? "")),
                 style: TextStyle(color: Colors.grey),
               ),
               SizedBox(
