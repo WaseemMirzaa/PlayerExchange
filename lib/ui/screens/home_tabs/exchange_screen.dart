@@ -54,7 +54,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: Text(
-          "eXchange",
+          "Xchange",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w800,
@@ -63,7 +63,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: 20,
+          horizontal: 15,
           vertical: 15,
         ),
         child: Column(
@@ -82,6 +82,8 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                   child: Text(
                     "Name",
                     style: headingStyle,
+                    overflow: TextOverflow.ellipsis,
+
                   ),
                 ),
                 Expanded(
@@ -90,6 +92,8 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                     "Team",
                     style: headingStyle,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+
                   ),
                 ),
                 Expanded(
@@ -98,6 +102,8 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                     "Pos.",
                     style: headingStyle,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+
                   ),
                 ),
                 Expanded(
@@ -106,6 +112,8 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                     "Price",
                     style: headingStyle,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+
                   ),
                 ),
                 Expanded(
@@ -114,6 +122,7 @@ class _ExchangeScreenState extends State<ExchangeScreen> {
                     "Shares",
                     style: headingStyle,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],

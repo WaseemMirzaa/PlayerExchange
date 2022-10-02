@@ -155,6 +155,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         //Add transaction record in database
         transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
           userId: appDrawerController.user.value.id,
+          userEmail: appDrawerController.user.value.email,
           amount: widget.amount,
           playerName: widget.cpoModel.playerName,
           playerId: widget.cpoModel.playerId,
@@ -231,6 +232,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         //Add transaction record in database
         transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
           userId: appDrawerController.user.value.id,
+          userEmail: appDrawerController.user.value.email,
           amount: widget.amount,
           playerName: widget.cpoModel.playerName,
           playerId: widget.cpoModel.playerId,

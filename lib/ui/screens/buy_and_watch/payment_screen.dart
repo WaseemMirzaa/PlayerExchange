@@ -27,7 +27,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             SizedBox(
                 width: 200,
                 child: Text(
-                  "Transfer to Player eXchange",
+                  "Transfer to Player Xchange",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,

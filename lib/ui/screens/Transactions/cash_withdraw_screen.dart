@@ -158,6 +158,7 @@ class _CashWithdrawScreenState extends State<CashWithdrawScreen> {
                 //Add transaction record in database
                 transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
                   userId: appDrawerController.user.value.id,
+                  userEmail: appDrawerController.user.value.email,
                   amount: withdrawAmount.value,
                   playerName: "",
                   playerId: "",

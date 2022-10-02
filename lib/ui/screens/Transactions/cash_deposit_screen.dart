@@ -129,6 +129,7 @@ class _CashDepositScreenState extends State<CashDepositScreen> {
                 //Add transaction record in database
                 transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
                   userId: appDrawerController.user.value.id,
+                  userEmail: appDrawerController.user.value.email,
                   amount: purchaseAmt.value,
                   playerName: "",
                   playerId: "",

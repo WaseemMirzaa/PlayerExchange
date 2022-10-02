@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -164,59 +165,110 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   Container(
                     height: 10.h,
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.max,
+                  //   children: [
+                  //     Opacity(
+                  //       opacity: 0,
+                  //       child: SvgPicture.asset(AssetsString().ArrowDown),
+                  //     ),
+                  //     Expanded(
+                  //         child: Align(
+                  //             alignment: Alignment.center,
+                  //             child: Text(
+                  //               'Watch'.tr,
+                  //               style: TextStyle(
+                  //                   fontSize: StyleManager().mediumFontSize,
+                  //                   fontWeight: FontWeight.w600,
+                  //                   color: Colors.black),
+                  //             ))),
+                  //     SizedBox( height: 20, width: 20, child: SvgPicture.asset(AssetsString().ArrowDown))
+                  //     // Expanded(flex: 1, child: SvgPicture.asset(AssetsString().ArrowDown),),
+                  //
+                  //     // SizedBox(width: 3,),
+                  //     // Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,size: 12,)
+                  //   ],
+                  // ),
+                  SizedBox(
+                    height: 15,
+                  ),
+              ExpandablePanel(
+                header: Padding(
+                  padding: const EdgeInsets.only(top: 8.0, left: 26.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Opacity(
-                        opacity: 0,
-                        child: SvgPicture.asset(AssetsString().ArrowDown),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Text(
+                            "Watch",
+                            style: TextStyle(
+                                fontSize: StyleManager().mediumFontSize,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
+                          ),
+                          // SizedBox(width: 3,),
+                          // Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,size: 12,)
+                        ],
                       ),
-                      Expanded(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Watch'.tr,
-                                style: TextStyle(
-                                    fontSize: StyleManager().mediumFontSize,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.black),
-                              ))),
-                      SvgPicture.asset(AssetsString().ArrowDown)
-                      // Expanded(flex: 1, child: SvgPicture.asset(AssetsString().ArrowDown),),
-
-                      // SizedBox(width: 3,),
-                      // Icon(Icons.arrow_forward_ios_rounded,color: Colors.black,size: 12,)
                     ],
                   ),
-                  SizedBox(
-                    height: 15,
+                ),
+                collapsed:SizedBox(
+                  height: 220.h,
+                  width: double.infinity,
+                  child: ListView.separated(
+                    itemBuilder: (_, index) {
+                      return InkWell(
+                          onTap: () {
+                            Get.to(CpoDetailFromDiscovery(
+                                cpoModel:
+                                discoverScreenController.favoriteList.value[index].cpoAthletes ??
+                                    new CpoModel()));
+                          },
+                          child: RoasterListItem(
+                            rosterModel: new RosterModel(),
+                            isRoster: false,
+                            cpoModel: discoverScreenController.favoriteList[index].cpoAthletes ??
+                                new CpoModel(),
+                          ));
+                    },
+                    itemCount: discoverScreenController.favoriteList.length,
+                    separatorBuilder: (_, index) => CustomDivider(),
                   ),
-                  SizedBox(
-                    height: 220.h,
-                    width: double.infinity,
-                    child: ListView.separated(
-                      itemBuilder: (_, index) {
-                        return InkWell(
-                            onTap: () {
-                              Get.to(CpoDetailFromDiscovery(
-                                  cpoModel:
-                                  discoverScreenController.favoriteList.value[index].cpoAthletes ??
-                                      new CpoModel()));
-                            },
-                            child: RoasterListItem(
-                              rosterModel: new RosterModel(),
-                              isRoster: false,
-                              cpoModel: discoverScreenController.favoriteList[index].cpoAthletes ??
-                                  new CpoModel(),
-                            ));
-                      },
-                      itemCount: discoverScreenController.favoriteList.length,
-                      separatorBuilder: (_, index) => CustomDivider(),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
+                ),
+                expanded: Text("Watch", softWrap: true, ),
+                theme:ExpandableThemeData.defaults,
+                // tapHeaderToExpand: true,
+                // hasIcon: true,
+              ),
+                  // SizedBox(
+                  //   height: 220.h,
+                  //   width: double.infinity,
+                  //   child: ListView.separated(
+                  //     itemBuilder: (_, index) {
+                  //       return InkWell(
+                  //           onTap: () {
+                  //             Get.to(CpoDetailFromDiscovery(
+                  //                 cpoModel:
+                  //                 discoverScreenController.favoriteList.value[index].cpoAthletes ??
+                  //                     new CpoModel()));
+                  //           },
+                  //           child: RoasterListItem(
+                  //             rosterModel: new RosterModel(),
+                  //             isRoster: false,
+                  //             cpoModel: discoverScreenController.favoriteList[index].cpoAthletes ??
+                  //                 new CpoModel(),
+                  //           ));
+                  //     },
+                  //     itemCount: discoverScreenController.favoriteList.length,
+                  //     separatorBuilder: (_, index) => CustomDivider(),
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   height: 15,
+                  // ),
                   // Padding(
                   //   padding: const EdgeInsets.only(left: 15.0, right: 15),
                   //   child: YoutubePlayer(

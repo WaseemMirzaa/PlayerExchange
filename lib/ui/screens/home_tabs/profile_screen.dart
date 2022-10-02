@@ -57,16 +57,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      // OfferHeading(title:'Stock',isEnable: true,enableColor: ColorManager.buttonGreyColor,),
+                      OfferHeading(textColor: Colors.black,title:'Stock',isEnable: true,enableColor: ColorManager.buttonGreyColor,),
                       OfferHeading(
-                        textColor: Colors.black,
+                        textColor: Colors.grey,
                         title: 'NFL',
-                        isEnable: true,
+                        isEnable: false,
                         enableColor: ColorManager.buttonGreyColor,
                       ),
-                      // OfferHeading(title:'NBA',isEnable: false,enableColor: ColorManager.buttonGreyColor,),
-                      // OfferHeading(title:'MLB',isEnable: false,enableColor: ColorManager.buttonGreyColor,),
-                      // OfferHeading(title:'NHL',isEnable: false,enableColor: ColorManager.buttonGreyColor,)
+                      OfferHeading(textColor: Colors.grey,title:'NBA',isEnable: false,enableColor: ColorManager.buttonGreyColor,),
+                      OfferHeading(textColor: Colors.grey,title:'MLB',isEnable: false,enableColor: ColorManager.buttonGreyColor,),
+                      OfferHeading(textColor: Colors.grey,title:'NHL',isEnable: false,enableColor: ColorManager.buttonGreyColor,)
                     ],
                   ),
                 ),

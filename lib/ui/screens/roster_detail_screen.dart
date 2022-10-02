@@ -472,7 +472,7 @@ class _RosterDetailScreenState extends State<RosterDetailScreen> {
                       rosterModel: widget.rosterModel,
                     ));
               },
-              text: "eXchange",
+              text: "Xchange",
               reverseColor: true,
               isFullWidth: false,
               color: ColorManager.buttonGreyColor,

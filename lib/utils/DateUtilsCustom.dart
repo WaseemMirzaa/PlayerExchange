@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:time_elapsed/time_elapsed.dart';
 
 class DateUtilsCustom{
@@ -22,6 +23,18 @@ class DateUtilsCustom{
 
   }
 
+  static String convertDateTimeTo_AmPm(DateTime dateTime){
+    return DateFormat('yyyy-MMMM-dd hh:mm a').format(dateTime);
+
+  }
+
+  static String convertDateTimeTo_AmPm_FromString(String isoString){// ISO_8601 String "2022-08-24T18:01:38.243Z"
+    if(isoString.isEmpty)
+      return "";
+
+    return DateFormat('yyyy-MMMM-dd hh:mm a').format(DateTime.parse(isoString));
+
+  }
   static String _restrictFractionalSeconds(String dateTime){
     return dateTime.replaceFirstMapped(RegExp("(\\.\\d{5})\\d+"), (m) => m[1]!);
   }

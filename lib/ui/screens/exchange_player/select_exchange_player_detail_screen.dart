@@ -155,6 +155,7 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
                   Flexible(
                       flex: 1,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RichText(
@@ -312,11 +313,11 @@ class _SelectExchangePlayerDetailScreenState extends State<SelectExchangePlayerD
       //     },
       //   ),
       // ),
-      Image.asset(
-        AssetsString().ChartImageOne,
-        fit: BoxFit.fitWidth,
-        width: MediaQuery.of(context).size.width * 0.8,
-      ),
+      // Image.asset(
+      //   AssetsString().ChartImageOne,
+      //   fit: BoxFit.fitWidth,
+      //   width: MediaQuery.of(context).size.width * 0.8,
+      // ),
 
       Padding(
         padding: const EdgeInsets.only(top: 30),

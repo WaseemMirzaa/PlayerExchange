@@ -27,4 +27,12 @@ class ColorManager {
   static const Color transactionColor_Purchase = Color(0x340766ba);
 
 
+  static const Color green_piechart = Color(0xcb06bf23);
+  static const Color red_piechart = Color(0xccec2a2a);
+  static const Color blue_piechart = Color(0xcc0659bf);
+  static const Color yellow_piechart = Color(0xccffd96a);
+  static const Color grey_piechart = Color(0xccd7d7d7);
+
+
+
 }

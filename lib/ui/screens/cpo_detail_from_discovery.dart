@@ -153,6 +153,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                   Flexible(
                       flex: 1,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RichText(
@@ -336,14 +337,14 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
             //   onReady: () {},
             // ),
             ),
-        Text(
-          'Justin Fields Throws 20 yards td pass to put bears up at half...',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
-        ),
-        Text(
-          '2d',
-          style: TextStyle(color: ColorManager.colorTextGray, fontWeight: FontWeight.w400),
-        ),
+        // Text(
+        //   'Justin Fields Throws 20 yards td pass to put bears up at half...',
+        //   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+        // ),
+        // Text(
+        //   '2d',
+        //   style: TextStyle(color: ColorManager.colorTextGray, fontWeight: FontWeight.w400),
+        // ),
         Padding(
           padding: const EdgeInsets.only(top: 30.0),
           child: Row(
@@ -363,7 +364,7 @@ class _CpoDetailFromDiscoveryState extends State<CpoDetailFromDiscovery> {
                 child: Column(
                   children: [
                     shareTitleAndValue(
-                        'Share Available', '\$' + widget.cpoModel.sharesAvailable.toString()),
+                        'Share Available',  widget.cpoModel.sharesAvailable.toString()),
                   ],
                 ),
               ),

@@ -139,6 +139,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       Flexible(
                           flex: 1,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               RichText(

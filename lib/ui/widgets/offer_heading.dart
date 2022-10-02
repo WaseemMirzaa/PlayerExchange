@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/utils/color_manager.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OfferHeading extends StatelessWidget {
   String? title;
@@ -32,7 +31,10 @@ class OfferHeading extends StatelessWidget {
         child: Center(
             child: Text(
           title!.tr,
-          style: TextStyle(
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
               color: isEnable!

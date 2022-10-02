@@ -63,7 +63,7 @@ class _ExchangePlayerOfferScreenState extends State<ExchangePlayerOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon,title: 'eXchange'),
+    return Scaffold(appBar: customAppBar(context, leadingIcon: AssetsString().BackArrowIcon,title: 'Xchange'),
     body: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(children: [

@@ -91,6 +91,7 @@ class CommentProfileWidget extends StatelessWidget {
           ),
           Expanded(
             child: TextField(
+              smartQuotesType: SmartQuotesType.disabled,
               controller: msgController,
               style: TextStyle(color: Colors.black54),
               decoration: const InputDecoration(
@@ -147,59 +148,61 @@ class CommentProfileWidget extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  commentModel.senderName ?? "",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: StyleManager().smallFontSize),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  // 'Just Now',
-                  DateUtilsCustom.getElapsedTime(commentModel.createdAt ?? ""),
-                  style: TextStyle(color: ColorManager.colorTextGray, fontSize: 12),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                Text(
-                  commentModel.text ?? "",
-                  style: TextStyle(color: Colors.black, fontSize: StyleManager().smallFontSize),
-                ),
-                SizedBox(
-                  height: 7,
-                ),
-                // Row(
-                //   children: [
-                //     SvgPicture.asset(AssetsString().ThumbsUpIcon),
-                //     SizedBox(
-                //       height: 3,
-                //     ),
-                //     Text(
-                //       commentModel.likesCount?.toString() ?? "0",
-                //       style: TextStyle(color: Colors.grey),
-                //     ),
-                //     SizedBox(
-                //       width: 7,
-                //     ),
-                //     SvgPicture.asset(AssetsString().ThumbsDownIcon),
-                //     SizedBox(
-                //       height: 3,
-                //     ),
-                //     Text(
-                //       commentModel.dislikesCount?.toString() ?? "0",
-                //       style: TextStyle(color: Colors.grey),
-                //     )
-                //   ],
-                // )
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    commentModel.senderName ?? "",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: StyleManager().smallFontSize),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    // 'Just Now',
+                    DateUtilsCustom.getElapsedTime(commentModel.createdAt ?? ""),
+                    style: TextStyle(color: ColorManager.colorTextGray, fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  Text(
+                    commentModel.text ?? "",
+                    style: TextStyle(color: Colors.black, fontSize: StyleManager().smallFontSize),
+                  ),
+                  SizedBox(
+                    height: 7,
+                  ),
+                  // Row(
+                  //   children: [
+                  //     SvgPicture.asset(AssetsString().ThumbsUpIcon),
+                  //     SizedBox(
+                  //       height: 3,
+                  //     ),
+                  //     Text(
+                  //       commentModel.likesCount?.toString() ?? "0",
+                  //       style: TextStyle(color: Colors.grey),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 7,
+                  //     ),
+                  //     SvgPicture.asset(AssetsString().ThumbsDownIcon),
+                  //     SizedBox(
+                  //       height: 3,
+                  //     ),
+                  //     Text(
+                  //       commentModel.dislikesCount?.toString() ?? "0",
+                  //       style: TextStyle(color: Colors.grey),
+                  //     )
+                  //   ],
+                  // )
+                ],
+              ),
             )
           ],
         ),
