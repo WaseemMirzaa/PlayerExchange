@@ -14,7 +14,7 @@ import '../utils/constants.dart';
 class StripePayment {
   //Renovision Test key
   // static final String primaryKey = 'pk_test_51KehMQGOzjebkLdAlkU4aJTvqoPkBfexDTDNjlzIiSdAFlXdbytudxQiZPUI0NbXChO3KHOuV1me1BhtWNcgoXRm000Rw07IIS';
-  //Player exchange TEST KEY
+  //Playr Xchange TEST KEY
 
   static final String merchantName = "JayHawk";
   static final String merchantCountry = "US";
