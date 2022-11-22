@@ -155,7 +155,7 @@ class _RosterScreenState extends State<RosterScreen> {
                     style: TextStyle(
                         color: ColorManager.greenColor,
                         fontWeight: FontWeight.w700),
-                    text: '\$' + '5 to invest'),
+                    text: '\$' + '1 to invest'),
               ])),
             ),
             SizedBox(height: 20),
