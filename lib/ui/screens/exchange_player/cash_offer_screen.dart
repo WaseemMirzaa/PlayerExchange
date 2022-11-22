@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:player_exchange/networking/api_requests.dart';
-import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
@@ -18,14 +17,14 @@ import 'package:player_exchange/utils/style_manager.dart';
 
 import '../../../chat/chat_page.dart';
 import '../../../controllers/app_drawer_controller.dart';
+import '../../../models/auth/user_model.dart';
 import '../../../models/exchange/exchange_player_model.dart';
 import '../../../models/exchange/offer.dart';
-import '../../../models/auth/user_model.dart';
+import '../../../utils/number_utils.dart';
 import '../../../utils/session_manager.dart';
 
 class CashOfferScreen extends StatefulWidget {
   final ExchangePlayerModel exchangePlayerModel;
-
 
   const CashOfferScreen({Key? key, required this.exchangePlayerModel}) : super(key: key);
 
@@ -42,13 +41,13 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
   DateTime selectedDate = DateTime.now();
   String validTill = "";
   String validTillShowFormat = "";
-  String? userId= "";
-  String? userName= "";
+  String? userId = "";
+  String? userName = "";
   User? exchangeUser;
-
 
   List<String> list = <String>["No", "Yes"];
   String dropdownValue = "";
+  num offerAmount = 0.0;
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked;
@@ -68,6 +67,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
       }
     }, currentTime: DateTime.now(), locale: LocaleType.en);
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -77,14 +77,12 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
 
   Future<void> init() async {
     Future<User?> user = SessionManager.getUserData();
-    await user.then((value) => {userId = value?.id?? "" , userName = value?.name ?? "" });
+    await user.then((value) => {userId = value?.id ?? "", userName = value?.name ?? ""});
 
     exchangeUser = await APIRequests.doApi_getUserProfile(widget.exchangePlayerModel.userId ?? "");
     debugPrint(exchangeUser?.name ?? "" + "ASDA");
 
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
@@ -119,9 +117,8 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                   children: [
                     Expanded(
                         child: TextFormField(
-                          readOnly: true,
-
-                          style: const TextStyle(color: Colors.black),
+                      readOnly: true,
+                      style: const TextStyle(color: Colors.black),
                       controller: shareController,
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
@@ -141,10 +138,12 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                         child: TextFormField(
                       style: const TextStyle(color: Colors.black),
                       controller: offerAmountController,
-                          maxLength: 8,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
+                      maxLength: 9,
+                      keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
+                      inputFormatters: <TextInputFormatter>[
+                        // FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+                      ],
                       decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                           borderSide: const BorderSide(color: Colors.grey, width: 1.0),
@@ -155,6 +154,17 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                         // hintText: "\0",
                         label: Text('Offer Amount (USD)'),
                       ),
+                      onChanged: (String? value) {
+                        if (NumberUtils.isNumeric(value)) {
+                          offerAmount = double.parse(value!);
+
+                          // value = '\$$value';
+                          // offerAmountController.value = TextEditingValue(text: value,selection: TextSelection.collapsed(offset: value.length),);
+
+                        } else {
+                          offerAmount = 0.0;
+                        }
+                      },
                     )),
                     // Expanded(child: CustomTextField(textEditingController: shareController,hint: '2',title: 'Total Shares',)),
                     // Expanded( child: CustomTextField(textEditingController: shareController,hint: '\$40',title: 'Offer Amount',)),
@@ -178,7 +188,10 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                           height: 10.h,
                         ),
                         Text(
-                          "\$" + (widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare.toString() ?? ""),
+                          "\$" +
+                              (widget.exchangePlayerModel.roster?.cpoAthletes?.currentPricePerShare
+                                      .toString() ??
+                                  ""),
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -290,7 +303,6 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                           ),
                         ],
                       ),
-
                     ),
                   ],
                 ),
@@ -306,47 +318,48 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                       onTap: () async {
                         // int count = 2;
                         // Navigator.of(context).popUntil((_) => count-- <= 0);
-                        if(offerAmountController.text.isEmpty){
+                        // if (offerAmountController.text.isEmpty) {
+                        if (offerAmount <= 0) {
                           Fluttertoast.showToast(msg: "Offer Amount cannot be empty.");
                           return;
                         }
-                        if(validTill.isEmpty){
+                        if (validTill.isEmpty) {
                           Fluttertoast.showToast(msg: "Please select Valid For.");
                           return;
                         }
 
-                        LoadingIndicatorDialog().show(context, text: "Sending Offer...", dismissable: true);
+                        LoadingIndicatorDialog()
+                            .show(context, text: "Sending Offer...", dismissable: true);
                         Offer offer = Offer(
-                          senderId: appDrawerController.user.value.id,
-                          receiverId: widget.exchangePlayerModel.userId,
-                          exchangePlayerModelId: widget.exchangePlayerModel.id,
-                          totalShares: widget.exchangePlayerModel.shares!,
-                          offerAmount: double.parse(offerAmountController.text),
-                          validFor: DateUtilsCustom.convertDateTime_ToISO_8601(validTill),
-                          isNegotiable: dropdownValue == "Yes",
-                          status: OfferStatusConstants.PENDING,
-                          offerType: OfferTypeConstants.CASH_OFFER
-                        );
+                            senderId: appDrawerController.user.value.id,
+                            receiverId: widget.exchangePlayerModel.userId,
+                            exchangePlayerModelId: widget.exchangePlayerModel.id,
+                            totalShares: widget.exchangePlayerModel.shares!,
+                            offerAmount: offerAmount,
+                            validFor: DateUtilsCustom.convertDateTime_ToISO_8601(validTill),
+                            isNegotiable: dropdownValue == "Yes",
+                            status: OfferStatusConstants.PENDING,
+                            offerType: OfferTypeConstants.CASH_OFFER);
                         var response = await APIRequests.doApi_postOffer(offer);
                         LoadingIndicatorDialog().dismiss();
 
-                        if(response != null){
+                        if (response != null) {
                           // Get.back();
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatPage(
-                                    peerId: exchangeUser?.id ?? "",
-                                    currentUserId: userId ?? "",
-                                    currentUserName: userName ?? "",
-                                    peerAvatar: "",
-                                    peerNickname: exchangeUser?.name ?? "",
-                                    userAvatar: "",
-                                    offerText: "Hi, i offer you \$${offer.offerAmount} for ${offer.totalShares} shares of ${widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? ""}",
-                                    offer: response,
-                                  )));
+                                        peerId: exchangeUser?.id ?? "",
+                                        currentUserId: userId ?? "",
+                                        currentUserName: userName ?? "",
+                                        peerAvatar: "",
+                                        peerNickname: exchangeUser?.name ?? "",
+                                        userAvatar: "",
+                                        offerText:
+                                            "Hi, i offer you \$${offer.offerAmount} for ${offer.totalShares} shares of ${widget.exchangePlayerModel.roster?.cpoAthletes?.playerName ?? ""}",
+                                        offer: response,
+                                      )));
                         }
-
                       },
                       text: "Send Offer",
                       reverseColor: true,
@@ -365,15 +378,14 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ChatPage(
-                                  peerId: exchangeUser?.id ?? "",
-                                  currentUserId: userId ?? "",
-                                  currentUserName: userName ?? "",
-                                  peerAvatar: "",
-                                  peerNickname: exchangeUser?.name ?? "",
-                                  userAvatar: "",
-                                  offerText: "",
-                                )));
-
+                                      peerId: exchangeUser?.id ?? "",
+                                      currentUserId: userId ?? "",
+                                      currentUserName: userName ?? "",
+                                      peerAvatar: "",
+                                      peerNickname: exchangeUser?.name ?? "",
+                                      userAvatar: "",
+                                      offerText: "",
+                                    )));
                       },
                       text: "Contact Seller",
                       reverseColor: true,
