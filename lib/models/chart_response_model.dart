@@ -5,8 +5,8 @@ import 'dart:convert';
 ChartResponseModel chartResponseModelFromJson(String str) => ChartResponseModel.fromJson(json.decode(str));
 String chartResponseModelToJson(ChartResponseModel data) => json.encode(data.toJson());
 
-List<ChartResponseModel> chartModelListFromJson(List<dynamic> str) =>
-    List<ChartResponseModel>.from(str.map((x) => ChartResponseModel.fromJson(x)));
+List<ChartResponseModel> chartModelListFromJson(String str) =>
+    List<ChartResponseModel>.from(json.decode(str).map((x) => ChartResponseModel.fromJson(x)));
 
 class ChartResponseModel {
   ChartResponseModel({

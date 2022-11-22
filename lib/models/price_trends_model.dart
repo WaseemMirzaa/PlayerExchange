@@ -5,10 +5,11 @@ import 'dart:convert';
 // "date": "2022-09-01T20:01:20.000Z"
 
 PriceTrendsModel priceResponseModelFromJson(String str) => PriceTrendsModel.fromJson(json.decode(str));
+
 String priceResponseModelToJson(PriceTrendsModel data) => json.encode(data.toJson());
 
-List<PriceTrendsModel> priceModelListFromJson(List<dynamic> str) =>
-    List<PriceTrendsModel>.from(str.map((x) => PriceTrendsModel.fromJson(x)));
+List<PriceTrendsModel> priceModelListFromJson(String str) =>
+    List<PriceTrendsModel>.from(json.decode(str).map((x) => PriceTrendsModel.fromJson(x)));
 
 class PriceTrendsModel {
   PriceTrendsModel({

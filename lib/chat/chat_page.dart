@@ -570,7 +570,7 @@ class _ChatPageState extends State<ChatPage> {
             chatContent +
                 "\n\n" +
                 "Valid till: " +
-                DateUtilsCustom.convertISO_8601_ToDateTime(offer.validFor ?? "")
+                DateUtilsCustom.convertDateTimeTo_AmPm_FromString(offer.validFor ?? "")
                     .replaceFirst("\n", " ") +
                 "\n" +
                 "Negotiable: " +
@@ -810,6 +810,12 @@ class _ChatPageState extends State<ChatPage> {
           Fluttertoast.showToast(msg: "Unable to get Player");
           return;
         }
+        if (exchangePlayerModel.isPurchased ?? true) {
+          stripePayInProgress = false;
+          LoadingIndicatorDialog().dismiss();
+          Fluttertoast.showToast(msg: "Player has been sold.");
+          return;
+        }
 
         //    check if the person who added exchange player still have enough shares in his roster
         RosterModel rosterModel =
@@ -824,6 +830,7 @@ class _ChatPageState extends State<ChatPage> {
         //Add transaction record in database
         transactionModel = await APIRequests.doApi_addTransaction(TransactionModel(
           userId: appDrawerController.user.value.id,
+          userEmail: appDrawerController.user.value.email,
           amount: amount,
           playerName: exchangePlayerModel.roster?.cpoAthletes?.playerName ?? "",
           playerId: exchangePlayerModel.roster?.cpoAthletes?.playerId ?? "",
@@ -915,6 +922,12 @@ class _ChatPageState extends State<ChatPage> {
       stripePayInProgress = false;
       LoadingIndicatorDialog().dismiss();
       Fluttertoast.showToast(msg: "Unable to get Player");
+      return;
+    }
+    if (exchangePlayerModel.isPurchased ?? true) {
+      stripePayInProgress = false;
+      LoadingIndicatorDialog().dismiss();
+      Fluttertoast.showToast(msg: "Player has been sold.");
       return;
     }
 

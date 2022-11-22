@@ -39,7 +39,7 @@ class ExchangePlayerScreen extends StatefulWidget {
 class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
   var shareController = TextEditingController();
   var offerAmountController = TextEditingController();
-  int asking = 0;
+  num asking = 0.0;
   int shares = 0;
 
   int activeIndex = 0;
@@ -107,8 +107,10 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                                 '\$ ' +
                                     (widget.rosterModel.cpoAthletes?.currentPricePerShare ?? 0)
                                         .toString(),
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-                              ),
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 19),                              ),
                               Row(
                                 children: [
                                   // Text(
@@ -145,6 +147,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                   Flexible(
                       flex: 1,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           RichText(
@@ -215,7 +218,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                       child: Column(
                         children: [
                           Text(
-                            'Asking',
+                            'Asking (\$)',
                             style: TextStyle(fontWeight: FontWeight.w400, color: Colors.black),
                           ),
                           Container(
@@ -223,18 +226,19 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           ),
                           TextFormField(
                             style: TextStyle(color: Colors.green),
-                            controller: shareController,
+                            controller: offerAmountController,
                             textAlign: TextAlign.center,
                             // autovalidateMode: AutovalidateMode.always,
                             keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-                            maxLength: 8,
+                            maxLength: 9,
                             inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                              // FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                              FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
                             ],
 
                             cursorColor: Colors.black,
                             decoration: const InputDecoration(
-                              hintText: "\$0",
+                              hintText: "\$",
                               fillColor: Colors.black,
                               focusColor: Colors.black,
                               hoverColor: Colors.black,
@@ -253,9 +257,13 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                             ),
                             onChanged: (String? value) {
                               if (NumberUtils.isNumeric(value)) {
-                                asking = int.parse(value!);
+                                asking = double.parse(value!);
+
+                                // value = '\$$value';
+                                // offerAmountController.value = TextEditingValue(text: value,selection: TextSelection.collapsed(offset: value.length),);
+
                               } else {
-                                asking = 0;
+                                asking = 0.0;
                               }
                             },
                           ),
@@ -276,7 +284,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
                           ),
                           TextFormField(
                             style: TextStyle(color: Colors.green),
-                            controller: offerAmountController,
+                            controller: shareController,
                             textAlign: TextAlign.center,
                             // autovalidateMode: AutovalidateMode.always,
                             keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
@@ -363,7 +371,7 @@ class ExchangePlayerScreenState extends State<ExchangePlayerScreen> {
 
                   // Navigator.of(context).pushNamed('')
                 },
-                text: 'Send to exchange Market'.tr,
+                text: 'Send to Xchange Market'.tr,
               ),
             ])),
           ],

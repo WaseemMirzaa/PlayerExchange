@@ -18,6 +18,9 @@ class RosterController extends GetxController {
   RxInt countTEs = 0.obs;
   RxInt countWRs = 0.obs;
   Rx<User?> user = User().obs;
+
+  RxMap<String, double> dataMap = RxMap();
+
   // HomeScreenController homeScreenController = Get.find();
 
   void getRoster() async {
@@ -56,6 +59,11 @@ class RosterController extends GetxController {
       rosterModel.cpoAthletes?.position == "TE" ? countTEs.value++ : countTEs;
       rosterModel.cpoAthletes?.position == "WR" ? countWRs.value++ : countWRs;
     }
+
+    dataMap["QB"] = countQBs.value.toDouble();
+    dataMap["RB"] = countRBs.value.toDouble();
+    dataMap["TE"] = countTEs.value.toDouble();
+    dataMap["WR"] = countWRs.value.toDouble();
   }
 
   Future<void> setTotalValueInUser() async {

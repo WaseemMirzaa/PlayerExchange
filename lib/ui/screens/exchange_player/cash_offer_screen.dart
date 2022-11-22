@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/networking/api_requests.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
@@ -40,6 +41,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
 
   DateTime selectedDate = DateTime.now();
   String validTill = "";
+  String validTillShowFormat = "";
   String? userId= "";
   String? userName= "";
   User? exchangeUser;
@@ -54,11 +56,13 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
       print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
     }, onConfirm: (date) {
       print('confirm $date');
+      print(DateFormat('yyyy-MMMM-dd hh:mm a').format(date));
       picked = date;
       if (picked != null && picked != selectedDate) {
         setState(() {
           selectedDate = picked!;
           validTill = date.toString();
+          validTillShowFormat = DateUtilsCustom.convertDateTimeTo_AmPm(date);
           // validTill = selectedDate.day.toString() +"-"+ selectedDate.month.toString() +"-"+ selectedDate.year.toString()  ;
         });
       }
@@ -104,10 +108,14 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                     fontSize: StyleManager().largeFontSize,
                     fontWeight: FontWeight.bold),
               ),
+              SizedBox(
+                height: 25.h,
+              ),
               Container(
                 height: 100,
                 // color: Colors.red,
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                         child: TextFormField(
@@ -218,7 +226,7 @@ class _CashOfferScreenState extends State<CashOfferScreen> {
                                     child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          validTill,
+                                          validTillShowFormat,
                                           // "",
                                           style: TextStyle(fontSize: 15, color: Colors.black),
                                         )),

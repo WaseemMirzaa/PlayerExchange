@@ -22,7 +22,8 @@ class TransactionModel {
   TransactionModel({
       String? id, 
       String? userId, 
-      String? type, 
+      String? userEmail,
+      String? type,
       String? paymentType, 
       num? amount,
       num? shares,
@@ -31,6 +32,7 @@ class TransactionModel {
       String? createdAt,}){
     _id = id;
     _userId = userId;
+    _userEmail = userEmail;
     _type = type;
     _paymentType = paymentType;
     _amount = amount;
@@ -43,6 +45,7 @@ class TransactionModel {
   TransactionModel.fromJson(dynamic json) {
     _id = json['id'];
     _userId = json['userId'];
+    _userEmail = json['userEmail'];
     _type = json['type'];
     _paymentType = json['paymentType'];
     _amount = json['amount'];
@@ -53,6 +56,7 @@ class TransactionModel {
   }
   String? _id;
   String? _userId;
+  String? _userEmail;
   String? _type;
   String? _paymentType;
   num? _amount;
@@ -62,6 +66,7 @@ class TransactionModel {
   String? _createdAt;
 TransactionModel copyWith({  String? id,
   String? userId,
+  String? userEmail,
   String? type,
   String? paymentType,
   num? amount,
@@ -71,6 +76,7 @@ TransactionModel copyWith({  String? id,
   String? createdAt,
 }) => TransactionModel(  id: id ?? _id,
   userId: userId ?? _userId,
+  userEmail: userEmail ?? _userEmail,
   type: type ?? _type,
   paymentType: paymentType ?? _paymentType,
   amount: amount ?? _amount,
@@ -81,6 +87,7 @@ TransactionModel copyWith({  String? id,
 );
   String? get id => _id;
   String? get userId => _userId;
+  String? get userEmail => _userEmail;
   String? get type => _type;
   String? get paymentType => _paymentType;
   num? get amount => _amount;
@@ -93,6 +100,7 @@ TransactionModel copyWith({  String? id,
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['userId'] = _userId;
+    map['userEmail'] = _userEmail;
     map['type'] = _type;
     map['paymentType'] = _paymentType;
     map['amount'] = _amount;

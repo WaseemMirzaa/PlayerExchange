@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
@@ -28,8 +29,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
   String _textSearch = "";
   bool isLoading = false;
 
-  String? userId= "";
-  String? userName= "";
+  String? userId = "";
+  String? userName = "";
 
   //late String currentUserId;
 
@@ -62,21 +63,21 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
     scrollController.addListener(scrollListener);
   }
+
   init() async {
     Future<User?> user = SessionManager.getUserData();
-    await user.then((value) => {userId = value?.id?? "" , userName = value?.name ?? "" });
+    await user.then((value) => {userId = value?.id ?? "", userName = value?.name ?? ""});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBarGreen(context, title: 'Message', trailing: [
-
       ], isTransparent: false),
       body: Container(
         // width: double.infinity,
         // height: double.infinity,
-        padding:const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -89,22 +90,22 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData && snapshot.data!.docs.length > 0) {
                     if ((snapshot.data?.docs.length ?? 0) > 0) {
-                      return ListView.separated(
+                      return ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) =>
-                        snapshot.data?.docs[index] == null ? Container():
-                            buildItem(context, snapshot.data?.docs[index]),
+                        snapshot.data?.docs[index] == null ? Container() :
+                        buildItem(context, snapshot.data?.docs[index]),
                         controller: scrollController,
-                        separatorBuilder: (BuildContext context, int index) =>
-                        (index == 0) ? Container() : const Divider(),
+                        // separatorBuilder: (BuildContext context, int index) =>
+                        // (index == 0) ? Container() : const Divider(),
                       );
                     } else {
                       return const Center(
                         child: Text('No user found...'),
                       );
                     }
-                  } else if (snapshot.connectionState  == ConnectionState.waiting) {
+                  } else if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: const SizedBox(
                         height: 100,
@@ -139,24 +140,73 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Stream<QuerySnapshot> getFirestoreData(
       String collectionPath, int limit, String? textSearch) {
     if (textSearch?.isNotEmpty == true) {
-      return fireStore
-          .collection(collectionPath)
-          .limit(limit)
-          .where(FirestoreCollections.displayName, isEqualTo: textSearch)
-          .snapshots();
+    final messagesRef = fireStore.collection(FirestoreCollections.pathMessageCollection);
+
+    return fireStore
+        .collection(collectionPath)
+        .limit(limit)
+    .where(FirestoreCollections.displayName, isEqualTo: textSearch)
+        // .where("participants.receiverId", isEqualTo: appDrawerController.user.value.id)
+        // .where("participants.senderId", isEqualTo: appDrawerController.user.value.id)
+        .snapshots();
     } else {
-      return fireStore.collection(collectionPath).limit(limit).snapshots();
+      return fireStore.collection(collectionPath)
+          .limit(limit)
+          // .where("participants.receiverId", isEqualTo: appDrawerController.user.value.id)
+          // .where("participants.senderId", isEqualTo: appDrawerController.user.value.id)
+          .snapshots();
     }
   }
+  // Stream<QuerySnapshot> getFirestoreData(String collectionPath, int limit, String? textSearch) {
+  //   // if (textSearch?.isNotEmpty == true) {
+  //   final messagesRef = fireStore.collection(FirestoreCollections.pathMessageCollection);
+  //   // final messagesRef = messagesRef.where(FirestoreCollections.pathMessageCollection);
+  //
+  //   return fireStore
+  //       .collection(collectionPath)
+  //       .limit(limit)
+  //   // .where(FirestoreCollections.displayName, isEqualTo: textSearch)
+  //       .where("participants.receiverId", isEqualTo: appDrawerController.user.value.id)
+  //       .where("participants.senderId", isEqualTo: appDrawerController.user.value.id)
+  //       .snapshots();
+  //   // } else {
+  //   //   return fireStore.collection(collectionPath).limit(limit).snapshots();
+  //   // }
+  //
+  //
+  //
+  //
+  // }
+
+  // Stream<QuerySnapshot> getFirestoreData(String collectionPath, int limit, String? textSearch)  {
+  //   List<Stream<QuerySnapshot>> streams = [];
+  //   final messagesRef = fireStore.collection(FirestoreCollections.pathMessageCollection);
+  //
+  //   Stream<QuerySnapshot>  receiverChatsQuery = messagesRef.where("participants.receiverId", isEqualTo: appDrawerController.user.value.id).snapshots();
+  //   Stream<QuerySnapshot>  senderChatsQuery = messagesRef.where("participants.senderId", isEqualTo: appDrawerController.user.value.id).snapshots();
+  //
+  //   //
+  //   streams.add(senderChatsQuery);
+  //   streams.add(receiverChatsQuery);
+  //
+  //
+  //
+  //   Stream<QuerySnapshot> results = StreamGroup.merge(streams);
+  //   // await for (var res in results) {
+  //   //   res.documents.forEach((docResults) {
+  //   //     print(docResults.data);
+  //   //   });
+  //   // }
+  //   // StreamZip<QuerySnapshot> results = StreamZip(streams);
+  //   return results;
+  // }
 
   Widget buildItem(BuildContext context, DocumentSnapshot? documentSnapshot) {
-
     Map<String, dynamic> data =
     documentSnapshot?.data() as Map<String, dynamic>;
     Map<String, dynamic> participents =
     data['participants'] as Map<String, dynamic>;
-    if (participents["senderId"] == userId ||  participents["receiverId"] == userId) {
-
+    if (participents["senderId"] == userId || participents["receiverId"] == userId) {
       Map<String, dynamic> lastMessageMap =
       data['lastMessage'] as Map<String, dynamic>;
       String? senderId;
@@ -174,78 +224,83 @@ class _MessagesScreenState extends State<MessagesScreen> {
         senderId = userId;
         receiverName = senderName;
         senderName = userName;
-
       }
 
 
-        return TextButton(
-          onPressed: () {
-            // onPressed if (KeyboardUtils.isKeyboardShowing()) {
-            //    KeyboardUtils.closeKeyboard(context);
-            //  }
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChatPage(
-                          peerId: receiverId ?? "",
-                          currentUserId: senderId ?? "",
-                          currentUserName:senderName ?? "",
-                          peerAvatar: "",
-                          peerNickname: receiverName ?? "",
-                          userAvatar: "",
-                      offerText: "",
-                      offer: null,
-                        )));
-          },
-          child: ListTile(
-            leading: "".isNotEmpty
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(Sizes.dimen_30),
-                    child: Image.network(
-                      "",
-                      fit: BoxFit.cover,
-                      width: 50,
-                      height: 50,
-                      loadingBuilder: (BuildContext ctx, Widget child,
-                          ImageChunkEvent? loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return SizedBox(
-                            width: 50,
-                            height: 50,
-                            child: CircularProgressIndicator(
-                                color: Colors.grey,
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null),
-                          );
-                        }
-                      },
-                      errorBuilder: (context, object, stackTrace) {
-                        return const Icon(Icons.account_circle, size: 50);
-                      },
-                    ),
-                  )
-                : const Icon(
-                    Icons.account_circle,
-                    size: 50,
-                  ),
-            title: Text(
-              receiverName.toString(),
-              style: const TextStyle(color: Colors.black),
+      return Column(
+        children: [
+          Divider(),
+          TextButton(
+            onPressed: () {
+              // onPressed if (KeyboardUtils.isKeyboardShowing()) {
+              //    KeyboardUtils.closeKeyboard(context);
+              //  }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ChatPage(
+                            peerId: receiverId ?? "",
+                            currentUserId: senderId ?? "",
+                            currentUserName: senderName ?? "",
+                            peerAvatar: "",
+                            peerNickname: receiverName ?? "",
+                            userAvatar: "",
+                            offerText: "",
+                            offer: null,
+                          )));
+            },
+            child: ListTile(
+              leading: "".isNotEmpty
+                  ? ClipRRect(
+                borderRadius: BorderRadius.circular(Sizes.dimen_30),
+                child: Image.network(
+                  "",
+                  fit: BoxFit.cover,
+                  width: 50,
+                  height: 50,
+                  loadingBuilder: (BuildContext ctx, Widget child,
+                      ImageChunkEvent? loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    } else {
+                      return SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                            color: Colors.grey,
+                            value: loadingProgress.expectedTotalBytes !=
+                                null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                                : null),
+                      );
+                    }
+                  },
+                  errorBuilder: (context, object, stackTrace) {
+                    return const Icon(Icons.account_circle, size: 50);
+                  },
+                ),
+              )
+                  : const Icon(
+                Icons.account_circle,
+                size: 50,
+              ),
+              title: Text(
+                receiverName.toString(),
+                style: const TextStyle(color: Colors.black),
+              ),
+              subtitle: Text(
+                lastMessageMap["messageContent"] ?? "",
+                style: const TextStyle(color: Colors.black),
+              ),
             ),
-            subtitle:Text(
-              lastMessageMap["messageContent"] ?? "",
-              style: const TextStyle(color: Colors.black),
-            ) ,
           ),
-        );
-
+        ],
+      );
     } else {
-      return const SizedBox.shrink();
+      return Container();
+      // return const SizedBox.shrink();
     }
   }
 }

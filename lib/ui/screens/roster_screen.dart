@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:player_exchange/controllers/roster_controller.dart';
 import 'package:player_exchange/models/exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
@@ -9,6 +10,7 @@ import 'package:player_exchange/ui/screens/home_tabs/exchange_player_offer_scree
 import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/offer_heading.dart';
+import 'package:player_exchange/ui/widgets/pie_chart_roster.dart';
 import 'package:player_exchange/ui/widgets/roster_list_item.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
@@ -45,10 +47,55 @@ class _RosterScreenState extends State<RosterScreen> {
                 child: RoasterListItem(isRoster: true, rosterModel: widget.rosterController.rosterList[index],
                 cpoModel: widget.rosterController.rosterList[index].cpoAthletes ?? CpoModel(),));
           }, childCount: widget.rosterController.rosterList.length)),
+
+          SliverList(delegate: SliverChildListDelegate([
+            SizedBox(height: 40,),
+            Container(
+              // color: Colors.red,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Obx(() =>
+                  PieChart(
+                    dataMap: widget.rosterController.dataMap.value,
+                    animationDuration: Duration(milliseconds: 800),
+                    chartLegendSpacing: 32,
+                    chartRadius: MediaQuery.of(context).size.width / 2,
+                    colorList: [ColorManager.green_piechart, ColorManager.grey_piechart, ColorManager.blue_piechart, ColorManager.yellow_piechart],
+                    initialAngleInDegree: 0,
+                    chartType: ChartType.disc,
+                    ringStrokeWidth: 32,
+                    centerText: "",
+                    legendOptions: LegendOptions(
+                      showLegendsInRow: true,
+                      legendPosition: LegendPosition.bottom,
+                      showLegends: true,
+                      // legendShape: _BoxShape.circle,
+                      legendTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                      ),
+                    ),
+                    chartValuesOptions: ChartValuesOptions(
+                      showChartValueBackground: true,
+                      showChartValues: true,
+                      showChartValuesInPercentage: false,
+                      showChartValuesOutside: false,
+                      decimalPlaces: 1,
+                    ),
+                    // gradientList: ---To add gradient colors---
+                    // emptyColorGradient: ---Empty Color gradient---
+                  ),
+                  ),
+                ],
+              ),
+            ),
+            // PieChartRoster(),
+          ])),
           SliverList(
               delegate: SliverChildListDelegate([
             // SvgPicture.asset(AssetsString().WheelImage),
-                SizedBox(height: 300),
+                SizedBox(height: 50),
 
                 Align(
                 alignment: Alignment.center,

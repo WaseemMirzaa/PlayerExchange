@@ -66,7 +66,7 @@ class _WatchScreenState extends State<WatchScreen> {
                 horizontal: 20,
               ),
               child: Text(
-                "Invite friends to Player eXchange.\n Once they sign up and link their bank account you both will get a free stock.",
+                "Invite friends to Player Xchange.\n Once they sign up and link their bank account you both will get a free stock.",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black45, fontSize: 14),
               ),
