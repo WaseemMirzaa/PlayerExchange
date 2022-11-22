@@ -135,7 +135,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
                       child: FilledButton(
-                          text: "Send Otp",
+                          text: "Send Email",
                           onTap: () {
                             callForgotApi();
                           }),

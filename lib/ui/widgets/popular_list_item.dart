@@ -10,20 +10,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'circle_avatar_named_widget.dart';
 
-class AscendingListItem extends StatefulWidget {
-  final RosterModel rosterModel;
-  const AscendingListItem({Key? key, required this.rosterModel}) : super(key: key);
+class PopularListItem extends StatefulWidget {
+  final CpoModel cpoModel;
+  const PopularListItem({Key? key, required this.cpoModel}) : super(key: key);
 
   @override
-  _AscendingListItemState createState() => _AscendingListItemState();
+  _PopularListItemState createState() => _PopularListItemState();
 }
 
-class _AscendingListItemState extends State<AscendingListItem> {
+class _PopularListItemState extends State<PopularListItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          Get.to(() => CpoDetailFromDiscovery(cpoModel: widget.rosterModel.cpoAthletes ?? CpoModel()));
+          Get.to(() => CpoDetailFromDiscovery(cpoModel: widget.cpoModel ?? CpoModel()));
         },
         child: Container(
           height: 190,
@@ -40,12 +40,12 @@ class _AscendingListItemState extends State<AscendingListItem> {
                 Container(
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
-                    child: CircleAvatarNamedWidget(url: widget.rosterModel.cpoAthletes?.profilePicture ?? "", name: widget.rosterModel.cpoAthletes?.playerName ?? "", radius: 27,)
+                    child: CircleAvatarNamedWidget(url: widget.cpoModel?.profilePicture ?? "", name: widget.cpoModel?.playerName ?? "", radius: 27,)
 
                   ),
                 ),
                 Text(
-                  widget.rosterModel.cpoAthletes!.playerName ?? "",
+                  widget.cpoModel!.playerName ?? "",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.black,
@@ -53,7 +53,7 @@ class _AscendingListItemState extends State<AscendingListItem> {
                       fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  widget.rosterModel.cpoAthletes!.position.toString(),
+                  widget.cpoModel!.position.toString(),
                   style: TextStyle(color: ColorManager.colorTextGray),
                 ),
                 Row(
@@ -67,7 +67,7 @@ class _AscendingListItemState extends State<AscendingListItem> {
                     Padding(
                       padding: const EdgeInsets.only(right: 25),
                       child: Text(
-                        '\$' + widget.rosterModel.currentValue.toString(),
+                        '\$' + widget.cpoModel.currentPricePerShare.toString(),
                         style: TextStyle(
                             fontSize: StyleManager().smallFontSize,
                             fontWeight: FontWeight.w600,

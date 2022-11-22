@@ -11,7 +11,7 @@ import 'package:player_exchange/ui/screens/current_public_offering_screen.dart';
 
 class CPOController extends GetxController {
   var isLoading = true.obs;
-  var userList = <CpoModel>[].obs;
+  var cpoModelList = <CpoModel>[].obs;
   RxMap tierAthletesMap = new Map().obs;
   RxList<CpoListItem> cpoItemList = <CpoListItem>[].obs;
 
@@ -24,9 +24,9 @@ class CPOController extends GetxController {
   void getCpoAthletes(String positionName) async {
     try {
       isLoading(true);
-      var users = await APIRequests.doApi_getCpoAthletes(position: positionName);
-      if (users != null) {
-        userList.value = users;
+      var atheletes = await APIRequests.doApi_getCpoAthletes(position: positionName);
+      if (atheletes != null) {
+        cpoModelList.value = atheletes;
       }
     } finally {
       isLoading(false);
@@ -40,7 +40,7 @@ class CPOController extends GetxController {
   populateMapAndCpoItemsList() async{
     tierAthletesMap.clear();
     cpoItemList.clear();
-    for(CpoModel cpoModel in userList.value){
+    for(CpoModel cpoModel in cpoModelList.value){
       //If tier already exists
       if(tierAthletesMap.keys.contains(cpoModel.tiers?.name)){
         if(tierAthletesMap[cpoModel.tiers?.name] != null) {
