@@ -6,7 +6,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/buy_and_watch/buy_screen.dart';
 import 'package:player_exchange/ui/screens/home_tabs/tabs_screen.dart';
-import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
+import 'package:player_exchange/ui/widgets/popular_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/comment_profile_widget.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';

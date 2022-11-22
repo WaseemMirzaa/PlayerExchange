@@ -67,7 +67,7 @@ dev_dependencies:
   flutter_lints: ^1.0.0
 
 #flutter_launcher_name:
-#  name: "Player Exchange"
+#  name: "Playr Xchange"
 #  Commands to run after adding dependency
 #  flutter pub get
 #  flutter pub run flutter_launcher_name:main

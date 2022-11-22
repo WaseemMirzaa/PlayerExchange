@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_utils/src/extensions/dynamic_extensions.dart';
 import 'package:http/http.dart' as http;
+import 'package:player_exchange/models/count_model.dart';
 import 'package:player_exchange/models/exchange/exchange_player_model.dart';
 import 'package:player_exchange/models/exchange/offer.dart';
 import 'package:player_exchange/models/auth/error_response.dart';
@@ -43,6 +44,36 @@ class APIRequests {
     }
   }
 
+  static Future<CountModel> doApi_getCpoAthletes_Count() async {
+    var completeUrl = Api.baseURL + 'cpo-athletes/count';
+
+    ApiResponse response = await Api.get(completeUrl);
+
+    if (response.isSuccess) {
+      return countModelFromJson(response.body ?? "");
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return CountModel(count: 0);
+    }
+  }
+
+
+  static Future<List<CpoModel>> doApi_getCpoAthletes_Popular(int limit, int skip) async {
+    String jsonStringFilter =
+        '?filter={ "limit": $limit,"skip": $skip,"include": [{"relation": "tiers"}]}';
+    var completeUrl = Api.baseURL + 'cpo-athletes' + jsonStringFilter;
+
+    ApiResponse response = await Api.get(completeUrl);
+
+    if (response.isSuccess) {
+      return cpoModelListFromJson(response.body ?? "");
+    } else {
+      //show error message
+      Fluttertoast.showToast(msg: Api.apiErrorResponse);
+      return <CpoModel>[];
+    }
+  }
   static Future<List<CpoModel>> doApi_getCpoAthletesWithNames({String playerName = ""}) async {
     // String jsonStringFilter =
     //     '?filter={"where": {"playerName": "$playerName"},"include": [{"relation": "tiers"}]}';

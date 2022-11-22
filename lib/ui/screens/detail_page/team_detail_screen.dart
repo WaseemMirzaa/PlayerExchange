@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:player_exchange/controllers/team_detail_screen_controller.dart';
 import 'package:player_exchange/models/teams/teams_response.dart';
-import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
+import 'package:player_exchange/ui/widgets/popular_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';

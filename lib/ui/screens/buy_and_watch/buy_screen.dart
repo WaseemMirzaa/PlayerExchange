@@ -46,7 +46,7 @@ class _BuyScreenState extends State<BuyScreen> {
           child: Column(
             children: [
               Text(
-                "Buy Fields Stock",
+                "Buy Shares",
                 style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -104,7 +104,7 @@ class _BuyScreenState extends State<BuyScreen> {
                         TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$" + estShare.value.toString(),
+                    estShare.value.toString(),
                     style:
                         TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                   )

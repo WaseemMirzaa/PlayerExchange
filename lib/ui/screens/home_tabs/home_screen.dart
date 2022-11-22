@@ -11,7 +11,7 @@ import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
 import 'package:player_exchange/ui/screens/current_public_offering_screen.dart';
 import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
 import 'package:player_exchange/ui/screens/roster_screen.dart';
-import 'package:player_exchange/ui/widgets/ascending_list_item.dart';
+import 'package:player_exchange/ui/widgets/popular_list_item.dart';
 import 'package:player_exchange/ui/widgets/chart.dart';
 import 'package:player_exchange/ui/widgets/custom_divider.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
@@ -316,14 +316,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 210,
                         child: ListView.builder(
                           itemBuilder: (_, index) {
-                            return AscendingListItem(
-                                rosterModel: homeScreenController
-                                    .rosterController.ascendingRosterList[index]);
+                            return PopularListItem(
+                                cpoModel: homeScreenController
+                                    .cpoModelList_Popular[index]);
                           },
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
                           itemCount:
-                              homeScreenController.rosterController.ascendingRosterList.length,
+                              homeScreenController.cpoModelList_Popular.length,
                         ),
                       )
                     ],
