@@ -693,10 +693,11 @@ class _ChatPageState extends State<ChatPage> {
                                           chatMessages.offer?.totalShares ?? 0,
                                           chatMessages);
                                     } else if (chatMessages.offer?.offerType ==
-                                        OfferTypeConstants.EXCHANGE) {}
-
-                                    payWithExchange(baseWidgetContext,
-                                        chatMessages.offer?.totalShares ?? 0, chatMessages);
+                                        OfferTypeConstants.EXCHANGE) {
+                                      payWithExchange(baseWidgetContext,
+                                          chatMessages.offer?.totalShares ?? 0,
+                                          chatMessages);
+                                    }
 
                                     print('Pay Pressed');
                                   },
