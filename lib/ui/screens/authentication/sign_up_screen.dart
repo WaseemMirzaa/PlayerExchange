@@ -22,6 +22,7 @@ import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/default_style_config.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/ui/widgets/loading_indicator_dialog.dart';
+import 'package:player_exchange/utils/code_generator.dart';
 import 'package:player_exchange/utils/constants.dart';
 import 'package:player_exchange/utils/session_manager.dart';
 import 'package:player_exchange/utils/assets_string.dart';
@@ -50,6 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
   TextEditingController confirmPasswordController = new TextEditingController();
+  TextEditingController referCodeUsedController = new TextEditingController();
 
   bool checBox = false;
 
@@ -103,96 +105,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Column(
                   children: [
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(
-                    //       horizontal: ScreenUtil().setWidth(25)),
-                    //   child: Theme(
-                    //     data: DefaultStyleConfigs().textFieldTheme(),
-                    //     child: TextFormField(
-                    //       onChanged: (value) {
-                    //         setState(() {});
-                    //       },
-                    //       keyboardType: TextInputType.emailAddress,
-                    //       controller: loginController.nameEditingController,
-                    //       style: TextStyle(
-                    //           color: AppColors.greenColor,
-                    //           fontSize: SizeConfigs().subHeadingTextSize()),
-                    //       decoration: InputDecoration(
-                    //         focusedBorder: UnderlineInputBorder(
-                    //           borderSide: BorderSide(color: AppColors.greenColor),
-                    //         ),
-                    //         prefixIcon: Padding(
-                    //           padding: EdgeInsets.only(
-                    //               right: ScreenUtil().setWidth(10),
-                    //               left: ScreenUtil().setWidth(10)),
-                    //           child: SvgPicture.asset(
-                    //             AppAssets.userName,
-                    //             color: AppColors.greenColor,
-                    //             height: ScreenUtil().setHeight(23),
-                    //           ),
-                    //         ),
-                    //         prefixIconConstraints: BoxConstraints(
-                    //             maxHeight: ScreenUtil().setHeight(23)),
-                    //         labelText: 'First Name',
-                    //         labelStyle: TextStyle(
-                    //             color: AppColors.greenColor,
-                    //             fontSize: SizeConfigs().subHeadingTextSize()),
-                    //       ),
-                    //       validator: (txt) {
-                    //         if (EmailValidator.validate(
-                    //             loginController.nameEditingController.text))
-                    //           return null;
-                    //         return 'Enter Valid Email';
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: ScreenUtil().setHeight(10)),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(
-                    //       horizontal: ScreenUtil().setWidth(25)),
-                    //   child: Theme(
-                    //     data: DefaultStyleConfigs().textFieldTheme(),
-                    //     child: TextFormField(
-                    //       onChanged: (value) {
-                    //         setState(() {});
-                    //       },
-                    //       keyboardType: TextInputType.emailAddress,
-                    //       controller: loginController.nameEditingController,
-                    //       style: TextStyle(
-                    //           color: AppColors.greenColor,
-                    //           fontSize: SizeConfigs().subHeadingTextSize()),
-                    //       decoration: InputDecoration(
-                    //         focusedBorder: UnderlineInputBorder(
-                    //           borderSide: BorderSide(color: AppColors.greenColor),
-                    //         ),
-                    //         prefixIcon: Padding(
-                    //           padding: EdgeInsets.only(
-                    //               right: ScreenUtil().setWidth(10),
-                    //               left: ScreenUtil().setWidth(10)),
-                    //           child: SvgPicture.asset(
-                    //             AppAssets.userName,
-                    //             color: AppColors.greenColor,
-                    //             height: ScreenUtil().setHeight(23),
-                    //           ),
-                    //         ),
-                    //         prefixIconConstraints: BoxConstraints(
-                    //             maxHeight: ScreenUtil().setHeight(23)),
-                    //         labelText: 'Last Name',
-                    //         labelStyle: TextStyle(
-                    //             color: AppColors.greenColor,
-                    //             fontSize: SizeConfigs().subHeadingTextSize()),
-                    //       ),
-                    //       validator: (txt) {
-                    //         if (EmailValidator.validate(
-                    //             loginController.nameEditingController.text))
-                    //           return null;
-                    //         return 'Enter Valid Email';
-                    //       },
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: ScreenUtil().setHeight(10)),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
@@ -201,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: TextFormField(
                           //   FilteringTextInputFormatter.allow(RegExp("[0-9._a-zA-Z]")),
                           // ],
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.name,
                           // controller: signUpController.nameEditingController,
                           style: TextStyle(
                               color: ColorManager.greenColor,
@@ -364,7 +276,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: ScreenUtil().setHeight(15)), //Refer Code
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(25)),
+                      child: Theme(
+                        data: DefaultStyleConfigs().textFieldTheme(),
+                        child: TextFormField(
+                          //   FilteringTextInputFormatter.allow(RegExp("[0-9._a-zA-Z]")),
+                          // ],
+                          keyboardType: TextInputType.text,
+                          // controller: signUpController.nameEditingController,
+                          style: TextStyle(
+                              color: ColorManager.greenColor,
+                              fontSize: StyleManager().mediumFontSize),
+                          decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide:
+                              BorderSide(color: ColorManager.greenColor),
+                            ),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(
+                                  right: ScreenUtil().setWidth(10),
+                                  left: ScreenUtil().setWidth(10)),
+                              child:Icon(Icons.add_link, color: ColorManager.greenColor,)
+                              // child: SvgPicture.asset(
+                              //   AssetsString().UserNameIcon,
+                              //   color: ColorManager.greenColor,
+                              //   height: ScreenUtil().setHeight(23),
+                              // ),
+                            ),
+                            prefixIconConstraints: BoxConstraints(
+                                maxHeight: ScreenUtil().setHeight(23)),
+                            labelText: 'Refer Code',
+                            labelStyle: TextStyle(
+                                color: ColorManager.greenColor,
+                                fontSize: StyleManager().mediumFontSize),
+                          ),
+                          controller: referCodeUsedController,
+
+                        ),
+                      ),
+                    ),
                     SizedBox(height: ScreenUtil().setHeight(15)),
+
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(25)),
@@ -419,6 +374,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
+
                     Align(
                       alignment: Alignment.centerRight,
                       child: Padding(
@@ -551,6 +507,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       signUpRequest.fcmToken = '';
       signUpRequest.password = passwordController.text;
       signUpRequest.stripeCustomerId = user.customer;
+      signUpRequest.referCode_My = CodeGenerator.generateCode("");
+      signUpRequest.referCode_Used = referCodeUsedController.text;
 
       LoadingIndicatorDialog().show(context, text: "Creating new user...");
 
@@ -571,8 +529,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           if(userResponse.user != null && userResponse.user?.id != null) {
 
 
-
-
             await fireStore.collection(FirestoreCollections.users)
                 .doc(userResponse.user?.id ?? "")
                 .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
@@ -580,6 +536,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
             SessionManager.setUserData(userResponse.user!);
 
+            //TODO: Send notification to the referer if refer code is used
             TabsScreen.currentIndex = 0;
 
             Get.off(() => TabsScreen(selectedIndex: 0,));

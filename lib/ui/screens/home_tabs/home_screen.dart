@@ -6,7 +6,7 @@ import 'package:player_exchange/controllers/graph_controller.dart';
 import 'package:player_exchange/controllers/home_screen_controller.dart';
 import 'package:player_exchange/models/current_public_offerings/cpo_model.dart';
 import 'package:player_exchange/ui/screens/app_drawer.dart';
-import 'package:player_exchange/ui/screens/buy_and_watch/watch_screen.dart';
+import 'package:player_exchange/ui/screens/buy_and_watch/reward_screen.dart';
 import 'package:player_exchange/ui/screens/Transactions/cash_screen.dart';
 import 'package:player_exchange/ui/screens/current_public_offering_screen.dart';
 import 'package:player_exchange/ui/screens/roster_detail_screen.dart';
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: 'rewards'.tr,
                         icon: AssetsString().RewadIcon,
                         onTap: () {
-                          Get.to(() => WatchScreen());
+                          Get.to(() => RewardScreen());
                         },
                       )
                     ],

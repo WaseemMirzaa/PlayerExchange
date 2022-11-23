@@ -55,6 +55,7 @@ dependencies:
   async: ^2.9.0
   expandable: ^5.0.1
   pie_chart: ^5.3.2
+  share_plus: ^5.0.0
 
 dev_dependencies:
   flutter_test:

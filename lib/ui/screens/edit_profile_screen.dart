@@ -120,6 +120,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   height: 10.h,
                 ),
                 TextFormField(
+                  enabled: false,
                   controller: nameController
                     ..text = editProfileScreenController.user.value.name!
                     ..selection = TextSelection.fromPosition(
@@ -173,11 +174,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 //   height: 30.h,
                 // ),
 
-                FilledButton(
-                  onTap: () {},
-                  text: 'Earn Reward',
-                  color: ColorManager.greenColor,
-                ),
+                // FilledButton(
+                //   onTap: () {},
+                //   text: 'Earn Reward',
+                //   color: ColorManager.greenColor,
+                // ),
                 if (showDeleteButton)
                   FilledButton(
                     onTap: () async {

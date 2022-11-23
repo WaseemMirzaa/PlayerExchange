@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:player_exchange/ui/widgets/custom_appbar.dart';
 import 'package:player_exchange/ui/widgets/filled_button.dart';
 import 'package:player_exchange/utils/assets_string.dart';
 import 'package:player_exchange/utils/color_manager.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 
-class WatchScreen extends StatefulWidget {
-  const WatchScreen({Key? key}) : super(key: key);
+import '../../../controllers/app_drawer_controller.dart';
+
+class RewardScreen extends StatefulWidget {
+  const RewardScreen({Key? key}) : super(key: key);
 
   @override
-  _WatchScreenState createState() => _WatchScreenState();
+  _RewardScreenState createState() => _RewardScreenState();
 }
 
-class _WatchScreenState extends State<WatchScreen> {
+class _RewardScreenState extends State<RewardScreen> {
+  AppDrawerController appDrawerController = Get.find<AppDrawerController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +36,8 @@ class _WatchScreenState extends State<WatchScreen> {
                   ),
                   child: Text(
                     "Rewards",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 )),
             SizedBox(
@@ -52,10 +53,7 @@ class _WatchScreenState extends State<WatchScreen> {
               child: Text(
                 "Invite friends & Get a Free Stock",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
@@ -86,44 +84,67 @@ class _WatchScreenState extends State<WatchScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "playerexchange/ref=112233",
+                      "ref=${appDrawerController.user.value.referCode_My}",
                       style: TextStyle(color: Colors.black87),
                     ),
-                    Icon(
-                      Icons.copy,
-                      color: Colors.black87,
+                    InkWell(
+                      onTap: () async {
+                        await Clipboard.setData(
+                            ClipboardData(text: appDrawerController.user.value.referCode_My));
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Copied to clipboard'),
+                        ));
+                      },
+                      child: Icon(
+                        Icons.copy,
+                        color: Colors.black87,
+                      ),
                     )
                   ],
                 ),
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.only(top: 15, bottom: 30, left: 20, right: 20),
+              padding: EdgeInsets.only(top: 15, bottom: 30, left: 20, right: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Expanded(
+                  //   child: FilledButton(
+                  //     onTap: () {
+                  //       Fluttertoast.showToast(msg: "Will be available soon");
+                  //     },
+                  //     text: "Invite Contacts",
+                  //     reverseColor: true,
+                  //     isFullWidth: false,
+                  //     color: ColorManager.buttonGreyColor,
+                  //     padding: 15,
+                  //   ),
+                  // ),
+                  // SizedBox(
+                  //   width: 10,
+                  // ),
                   Expanded(
                     child: FilledButton(
-                      onTap: () {
-                        Fluttertoast.showToast(msg: "Will be available soon");
-                      },
-                      text: "Invite Contacts",
-                      reverseColor: true,
-                      isFullWidth: false,
-                      color: ColorManager.buttonGreyColor,
-                      padding: 15,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: FilledButton(
-                      onTap: () {
-                        Fluttertoast.showToast(msg: "Will be available soon");
-                      },
-                      text: "Share a Link",
+                      onTap: () async {
+                        // Share.share('Check out this awesome app \n'
+                        //     '<IOS app url>\n'
+                        //     '<Android app Url>\n'
+                        //     'Use my refer code and start earning\n'
+                        //     '${appDrawerController.user.value.referCode_My}');
+
+                        final box = context.findRenderObject() as RenderBox?;
+
+                        await Share.share(
+                          'Check out this awesome app \n'
+                              '<IOS app url>\n'
+                              '<Android app Url>\n'
+                              'Use my refer code and start earning\n'
+                              '${appDrawerController.user.value.referCode_My}',
+                          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                        );
+                        },
+                      text: "Invite a friend",
                       reverseColor: true,
                       isFullWidth: false,
                       color: ColorManager.buttonGreyColor,

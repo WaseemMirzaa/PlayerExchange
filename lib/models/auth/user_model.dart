@@ -98,6 +98,10 @@ class User {
     num? walletAmount,
     String? accountId,
 
+    String? referCode_My,
+    String? referCode_Used,
+    num? referCount,
+    bool? isBankAccountLinked,
 
   }){
     _id = id;
@@ -119,6 +123,10 @@ class User {
     stripeCustomerId = stripeCustomerId;
     walletAmount = walletAmount;
     accountId = accountId;
+    referCode_My = referCode_My;
+    referCode_Used = referCode_Used;
+    referCount = referCount;
+    isBankAccountLinked = isBankAccountLinked;
   }
 
   User.fromJson(dynamic json) {
@@ -141,6 +149,10 @@ class User {
     stripeCustomerId = json['stripeCustomerId'] ?? "";
     walletAmount = json['walletAmount'] ?? 0.0;
     accountId = json['accountId'] ?? "";
+    referCode_My = json['referCode_My'] ?? "";
+    referCode_Used = json['referCode_Used'] ?? "";
+    referCount = json['referCount'] ?? 0;
+    isBankAccountLinked = json['isBankAccountLinked'] ?? false;
 
   }
   String? _id;
@@ -162,6 +174,10 @@ class User {
   String? stripeCustomerId;
   num? walletAmount;
   String? accountId;
+  String? referCode_My;
+  String? referCode_Used;
+  num? referCount;
+  bool? isBankAccountLinked;
 
   String? get id => _id;
   String? get email => _email;
@@ -185,6 +201,10 @@ class User {
     String? stripeCustomerId,
     num? walletAmount,
     String? accountId,
+    String? referCode_My,
+    String? referCode_Used,
+    num? referCount,
+    bool? isBankAccountLinked,
   }) => User(  id: id ?? _id,
     name: name ?? name,
     email: email ?? _email,
@@ -204,6 +224,10 @@ class User {
     stripeCustomerId: stripeCustomerId ?? stripeCustomerId,
     walletAmount: walletAmount ?? walletAmount,
     accountId: accountId ?? accountId,
+    referCode_My: referCode_My ?? referCode_My,
+    referCode_Used: referCode_Used ?? referCode_Used,
+    referCount: referCount ?? referCount,
+    isBankAccountLinked: isBankAccountLinked ?? isBankAccountLinked,
 
   );
   // String? get name => name;
@@ -222,6 +246,10 @@ class User {
   // String? get stripeCustomerId => stripeCustomerId;
   // String? get walletAmount => walletAmount;
   // String? get accountId => accountId;
+  // String? get referCode_My => referCode_My;
+  // String? get referCode_Used => referCode_Used;
+  // String? get referCount => referCount;
+  // String? get isBankAccountLinked => isBankAccountLinked;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -244,6 +272,10 @@ class User {
     map['stripeCustomerId'] = stripeCustomerId;
     map['walletAmount'] = walletAmount;
     map['accountId'] = accountId;
+    map['referCode_My'] = referCode_My;
+    map['referCode_Used'] = referCode_Used;
+    map['referCount'] = referCount;
+    map['isBankAccountLinked'] = isBankAccountLinked;
     return map;
   }
 
