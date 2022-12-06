@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1099258160720-q7cs83te0k8dff715dhl1eevajeg2apk.apps.googleusercontent.com</string>
+	<string>761797681586-9bqkhogu3s10d3c0s01su7e3eg25p2hn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1099258160720-q7cs83te0k8dff715dhl1eevajeg2apk</string>
+	<string>com.googleusercontent.apps.761797681586-9bqkhogu3s10d3c0s01su7e3eg25p2hn</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDgcarTCNFo4dK50Izc8MpUrtJ-mgoJa2Q</string>
+	<string>AIzaSyAR_ofRzSAvqJSTMHUsCir5SUIwg8hk_dA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1099258160720</string>
+	<string>761797681586</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.developlogix.cockermodulehauling</string>
+	<string>com.app.playrXchange</string>
 	<key>PROJECT_ID</key>
-	<string>cokermodulehauling</string>
+	<string>player-exchange-ad78f</string>
 	<key>STORAGE_BUCKET</key>
-	<string>cokermodulehauling.appspot.com</string>
+	<string>player-exchange-ad78f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1099258160720:ios:be19f429b6694b53b85355</string>
+	<string>1:761797681586:ios:95e611714e1acfc97404ab</string>
 </dict>
 </plist>
