@@ -311,6 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
               userResponse.message == 'Successfully logged in') {
 
             if(userResponse.user != null) {
+              userResponse.user?.token = userResponse.token ?? "";
               SessionManager.setUserData(userResponse.user!);
 
               try {

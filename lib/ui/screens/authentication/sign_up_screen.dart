@@ -534,6 +534,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 .set(userResponse.toJson()).onError((error, stackTrace) => debugPrint("Error writing document: $error"));
             await FirebaseCloudMessaging.startNotificationService(userId: userResponse.user?.id ?? "");
 
+            userResponse.user?.token = userResponse.token ?? "";
             SessionManager.setUserData(userResponse.user!);
 
             //TODO: Send notification to the referer if refer code is used

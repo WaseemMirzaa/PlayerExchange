@@ -103,6 +103,8 @@ class User {
     num? referCount,
     bool? isBankAccountLinked,
 
+    String? token,
+
   }){
     _id = id;
     name = name;
@@ -127,6 +129,7 @@ class User {
     referCode_Used = referCode_Used;
     referCount = referCount;
     isBankAccountLinked = isBankAccountLinked;
+    token = token;
   }
 
   User.fromJson(dynamic json) {
@@ -153,6 +156,7 @@ class User {
     referCode_Used = json['referCode_Used'] ?? "";
     referCount = json['referCount'] ?? 0;
     isBankAccountLinked = json['isBankAccountLinked'] ?? false;
+    token = json['token'] ?? "";
 
   }
   String? _id;
@@ -178,6 +182,7 @@ class User {
   String? referCode_Used;
   num? referCount;
   bool? isBankAccountLinked;
+  String? token;
 
   String? get id => _id;
   String? get email => _email;
@@ -205,6 +210,7 @@ class User {
     String? referCode_Used,
     num? referCount,
     bool? isBankAccountLinked,
+    String? token,
   }) => User(  id: id ?? _id,
     name: name ?? name,
     email: email ?? _email,
@@ -228,6 +234,7 @@ class User {
     referCode_Used: referCode_Used ?? referCode_Used,
     referCount: referCount ?? referCount,
     isBankAccountLinked: isBankAccountLinked ?? isBankAccountLinked,
+    token: token ?? token,
 
   );
   // String? get name => name;
@@ -250,6 +257,7 @@ class User {
   // String? get referCode_Used => referCode_Used;
   // String? get referCount => referCount;
   // String? get isBankAccountLinked => isBankAccountLinked;
+  // String? get token => token;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -276,6 +284,8 @@ class User {
     map['referCode_Used'] = referCode_Used;
     map['referCount'] = referCount;
     map['isBankAccountLinked'] = isBankAccountLinked;
+    // map['token'] = token;// We are not storing token on server due to security reason
+
     return map;
   }
 
